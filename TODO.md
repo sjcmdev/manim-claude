@@ -19,9 +19,10 @@ main          tylko stan gotowy do wydania; jeden merge na skończony etap, tago
   `task/xx-krotki-tytul`, gdzie `xx` to numer zadania z listy poniżej.
 - `dev` wchodzi do `main` dopiero wtedy, gdy etap jest skończony i daje spójną
   całość funkcjonalną. Ten merge jest tagowany.
-- Tory A i B (patrz `roadmap.md`) są niezależne, ale dzielą jedną gałąź `dev`
-  i jedną numerację zadań. Numer mówi, kiedy zadanie powstało, nie w jakiej
-  kolejności ma być zrobione.
+- Numer zadania to kolejność wykonania **w obrębie toru**. Tory A i B (patrz
+  `roadmap.md`) są z założenia niezależne i idą równolegle, więc numery nie ustawiają
+  kolejności między torami: zadanie 09 może być robione przed 04. Wyjątek: etap 0
+  wyprzedza wszystko, bo zadanie 02 blokuje pobranie czegokolwiek.
 - Zadanie wchodzi do `dev` dopiero, gdy przechodzą wszystkie bramki techniczne
   obowiązujące w danym momencie (lint, typy, testy — zestaw ustala zadanie 09).
 - Wyjątek od reguły gałęzi: poprawka literówki w dokumencie może iść prosto do `dev`.
@@ -60,10 +61,13 @@ a `VERSION` wynosi 0.1.
 
 ### task/03-fetch-reference
 
-- [ ] `fetch_reference.py` — napisy z czasami (`yt-dlp --write-auto-sub --skip-download`)
-- [ ] Klatki kluczowe przez ffmpeg
-- [ ] Zapis do katalogu roboczego poza repozytorium
-- [ ] Lista źródeł z `3b1b-playlists.txt` jako wejście
+- [x] `fetch_reference.py` — wideo, napisy z czasami i metadane, katalog na film
+- [x] `extract_frames.py` — klatki kluczowe przez detekcję cięć w ffmpegu plus siatki
+- [x] `make_packet.py` — `packet.md` na film: metryczka, prompt, indeks klatek, transkrypcja
+- [x] Zapis do katalogu roboczego poza repozytorium, wymuszony maszynowo
+- [x] Lista źródeł z `3b1b-playlists.txt` jako wejście
+- [ ] Kalibracja `--threshold` na pierwszej serii; wartość domyślna 0.35 jest zgadywana
+- [ ] Decyzja, czy pobierać całe wideo (`design-spec.md` 9.3 mówi, że nie — patrz niżej)
 
 ### task/04-code-miner
 
@@ -74,9 +78,10 @@ a `VERSION` wynosi 0.1.
 
 ### task/05-analiza-narracji
 
-- [ ] Prompt wg szablonu z `design-spec.md`, rozdział 9.4
-- [ ] Transkrypcje plus siatki klatek jako wejście dla zewnętrznego czatu
-- [ ] Sztywny format odpowiedzi YAML
+- [x] Prompt wg szablonu z `design-spec.md`, rozdział 9.4 — `prompt_template.md`
+- [x] Transkrypcje plus siatki klatek jako wejście dla zewnętrznego czatu
+- [x] Sztywny format odpowiedzi YAML; odpowiedź ląduje jako `observations.yaml` przy filmie
+- [ ] Przejście pierwszego filmu przez czat i weryfikacja, czy prompt daje sprawdzalne reguły
 - [ ] Zakres obejmuje starsze klasyki, ale wyłącznie budowę wyjaśnienia
 
 ### task/06-merge-observations
@@ -229,6 +234,8 @@ Numeracja zadań rusza dalej, gdy etap 1B jest zamknięty. Zakres wg `roadmap.md
 Decyzje, które nie są zadaniami inżynierskimi. Pełny opis w `roadmap.md`, rozdział 7.
 
 - [ ] Nazwa produktu — przybija do Manima, a w planie jest Blender
+- [ ] `design-spec.md` 9.3 mówi, że pełne wideo nie jest pobierane; skrypty pobierają je,
+      bo wideo trafia ręcznie do zewnętrznego czatu. Do poprawienia w specyfikacji
 - [ ] Limit liczby idiomów rdzeniowych — wartość po pierwszej kuracji
 - [ ] Licencja produktu — rekomendacja: CC BY-NC-SA 4.0 na materiały, osobna na kod
 - [x] Gdzie mieszka repozytorium — `github.com/sjcmdev/manim-claude`
