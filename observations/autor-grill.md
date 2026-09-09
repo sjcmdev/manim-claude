@@ -160,6 +160,191 @@ kodu pomocniczego.
 Propozycja prowadzącego, żeby uczynić z tego twardą regułę, została **odrzucona**:
 zależy to od celu animacji i jest decyzją użytkownika.
 
+## Runda 2 — systematycznie po kategoriach
+
+### Czytelność
+
+**Grubość obrysu przy ruchomej kamerze.** Autor wskazuje testowanie `stroke_width`
+przy `ZoomedScene` i `MovingCameraScene` jako uciążliwe i czasochłonne, wymagające
+fine-tuningu. Pozostałe drogi do nieczytelności — zlewanie się kolorów po kompresji,
+za mały tekst, informacja niesiona wyłącznie kolorem — dotknęły go „po trochu każda",
+bez wyraźnego zwycięzcy.
+
+Reguła, potwierdzona niezależnie w dwóch źródłach społecznościowych:
+
+**Zadeklaruj, czym jest obrys — tuszem czy substancją.** Tusz jest konwencją rysunku
+(osie, strzałki, adnotacje, ramki) i ma wyglądać tak samo niezależnie od zoomu, więc
+wiąże się go updaterem z szerokością kadru. Substancja jest rzeczą, która naprawdę ma
+grubość (wiązka, przewód, ścianka), i skaluje się razem z obiektem. Stała liczba
+w scenie z ruchomą kamerą jest błędem, nie wyborem.
+
+Falsyfikowalne mechanicznie: w scenie dziedziczącej po `MovingCameraScene` lub
+`ZoomedScene` każdy `stroke_width` jest albo związany z kadrem, albo jawnie skalowany
+z obiektem; goły literał łamie regułę.
+
+Dowody: `MF_Tools/src/MF_Tools/rescaling.py` implementuje obie intencje jako osobne
+funkcje — `maintain_apparent_stroke_width` (tusz) i `scale_with_stroke_width`
+(substancja). `uwezi` znalazł to samo niezależnie (`scale-ze-stroke`) wraz z wariantem
+przy dużym zoomie, gdzie obrys ramki kamery wchodzi w powiększany obraz, a naiwną
+reakcją jest dobieranie coraz cieńszego `stroke_width` do konkretnego poziomu zoomu.
+
+**Uwaga metodologiczna:** korpus 3b1b nie zawiera o tym praktycznie nic. To pierwszy
+przypadek, w którym źródła społecznościowe (ManimCE) okazały się wyraźnie lepsze niż
+mielenie kodu 3b1b (ManimGL) — argument za utrzymaniem czwartego źródła.
+
+**Za mały tekst.** Potwierdzony przez autora jako problem występujący czasami.
+
+Reguła ma tę samą strukturę co obrys: mierzy się wynik, nie parametr. Deklarowany
+`font_size` przestaje cokolwiek znaczyć po `.scale()` i po ruchu kamery, więc
+sprawdzalna jest wysokość napisu w jednostkach kadru w chwili renderu. Kontrolę da
+się wykonać na etapie blockoutu, zanim powstanie treść.
+
+Otwarte: czy próg jest jeden, czy dwa — tekst pierwszoplanowy kontra referencyjny
+(podpisy osi, indeksy, numery przy krzywych), który bywa świadomie drobny.
+
+**Zlewanie się kolorów po kompresji — odrzucone jako bolączka.** Autorowi się to nie
+zdarzyło.
+
+Reguła „kolory niosące różne znaczenia różnią się jasnością, nie tylko barwą"
+pozostaje kandydatem, ale **bez poparcia w doświadczeniu autora**. Uzasadnienie jest
+wyłącznie dostępnościowe: różnica jasności utrzymuje rozróżnialność dla widza
+z zaburzeniem widzenia barw. Sprawdzalna mechanicznie z wartości RGB. Do rozstrzygnięcia
+przy kuracji, nie na podstawie tego grillu.
+
+### Stan i updatery
+
+**Updater jest właściwością obiektu, nie zachowaniem sceny.** Pisany pod konkretny
+obiekt i konkretną sytuację, więc jego czas życia jest czasem życia obiektu.
+
+Hipoteza prowadzącego o wyciekających updaterach — walka updatera z jawną animacją
+o ten sam mobject, updater dziedziczony po sekcji — została **odrzucona**: przy takim
+sposobie pisania ten problem nie ma jak powstać. Reguła „każde `add_updater` ma parę
+w `remove_updater`" jest więc niepotrzebna.
+
+Autor stosuje zasadę pojedynczej odpowiedzialności: jedna funkcja, jedno zadanie.
+Ogólniejsze updatery przy złożonych zestawach scen pozostają niewykluczone, ale autor
+się z tym nie zetknął.
+
+**Updater podpinaj jawnie i definiuj jako nazwaną funkcję, najlepiej zwracaną
+z funkcji zewnętrznej. `always_redraw` zarezerwuj dla obiektów tanich w budowie.**
+
+Autor zgłosił to jako czystą preferencję stylistyczną; pomiar pokazał, że jest to
+praktyka produkcyjna z uzasadnieniem wydajnościowym:
+
+```
+3b1b, roczniki 2022+          społeczność (gisty, MF_Tools)
+add_updater      1062         add_updater       93
+always_redraw     112         always_redraw    112
+f_always          144
+def update…       258
+```
+
+3b1b podpina jawnie w stosunku 9,5 : 1; społeczność woli `always_redraw` 1,2 : 1
+w drugą stronę. Rozjazd tłumaczy rodzaj materiału: `always_redraw` odbudowuje obiekt
+w każdej klatce, więc przy tanim obiekcie wygrywa zwięzłością i dominuje w gistach,
+a przy kosztownym jest pułapką wydajnościową. Łączy się to z bolączką z rundy 1 —
+render przy wielu updaterach trwający długie minuty.
+
+### Dane a obraz
+
+**Wewnątrz updatera nie ma solvera ani całkowania. Symulacja liczy się raz, wynik
+ląduje w tablicy lub w pliku, updater tylko odczytuje.** Przy symulacji sterowanej
+`ValueTracker`-em: tablica na siatce parametru plus interpolacja, nie liczenie na żywo.
+
+Autor uznaje to za dobrą praktykę, ale **jej nie stosuje** — koszt ręcznego zbudowania
+pipeline'u i abstrakcji przewyższa doraźny ból, a zwykle potrzebuje czegoś na szybko.
+
+Prowadzący wyciągnął z tego wniosek, że taki idiom nie zadziała bez wsparcia
+narzędziowego, bo `scene-coder` odziedziczy tę samą wymówkę. **Autor to odrzucił,
+i ma rację.** Koszt, który go powstrzymuje, to dzień lub dwa na obmyślenie
+architektury i przypadków brzegowych, zakodowanie, przetestowanie — z niepewnym
+wynikiem. Dowolny model wykonuje tę samą pracę w mniej niż godzinę.
+
+Stąd ustalenie odwrotne i ważniejsze: **ograniczenie, które powstrzymuje człowieka,
+nie wiąże agenta.** Biblioteka może więc zawierać idiomy, których człowiek świadomie
+nie stosuje, bo mu się nie opłacają — i to jest część wartości produktu, a nie jego
+niespójność. Nie oznaczamy takich reguł jako wymagających wsparcia; oznaczamy je co
+najwyżej jako kosztowne dla człowieka, tanie dla agenta.
+
+**Strojenie wartości przez proof-of-concept w matplotlibie**, zanim cokolwiek trafi
+do Manima. Praktyka autora, zgłoszona jako uzupełnienie.
+
+### Ponowne użycie
+
+Prowadzący postawił hipotezę, że przeżywa to, co „nie wie, że jest w filmie", a ginie
+to, co ma wbudowaną wiedzę o kadrze. Autor zgodził się z kierunkiem, ale wskazał
+kontrprzykład: w serii o jednym zagadnieniu (jego przypadek to centra NV) funkcja
+budująca strukturę elektronową i poziomy energetyczne jest uniwersalna i nie wymaga
+pisania od nowa, mimo że wygląda na związaną z konkretną sceną.
+
+Sformułowanie poprawione — hipoteza mieszała dwie niezależne osie:
+
+**Specjalizacja dziedzinowa nie ma związku ze zdolnością do ponownego użycia.**
+To, *co* funkcja buduje, nie przesądza o tym, *gdzie* to postawi.
+
+**Ponowne użycie zabija wyłącznie wiedza o kadrze i o narracji**: samodzielne
+pozycjonowanie, kolor dobrany pod jedną scenę, podpis dobrany pod jeden argument.
+Sprawdzalne: w funkcji przeznaczonej do ponownego użycia nie ma `to_edge`, `move_to`
+ze stałą, ani nazwy koloru wybranej pod konkretną scenę — pozycjonowanie, kolor
+i podpis nakłada wywołujący.
+
+**Specjalizacja wyznacza zasięg ponownego użycia, nie jego brak.** Trzy poziomy:
+jedna scena, jedna seria, dowolny projekt. Błędem nie jest napisanie czegoś wąsko,
+tylko umieszczenie tego na złym poziomie.
+
+Konsekwencja dla task/09: struktura `package/` plus `tooling/` nie przewiduje miejsca
+na bibliotekę współdzieloną w obrębie jednej serii — a według autora to jest poziom,
+na którym powstaje najwięcej wartościowego kodu. **Autor zatwierdził dodanie poziomu
+serii do struktury repozytorium.**
+
+### Dekompozycja
+
+**Podział na sceny jest aktem planowania, nie odkryciem po fakcie.** Autor decyduje,
+co idzie do której sceny, już na etapie myślenia o animacji; struktura czasowa z tego
+wynika, a nie odwrotnie. Czytelność pliku zapewnia zasada pojedynczej
+odpowiedzialności, koszt renderu jest oczywistym ograniczeniem, a reszta to intuicja
+i doświadczenie.
+
+Hipoteza prowadzącego — że scenę należy dzielić, gdy nie da się wyprowadzić wszystkich
+czasów z jednego zestawu pokręteł — jest prawdziwa, ale opisuje **skutek**, a nie
+przyczynę, i nie nadaje się jako procedura decyzyjna.
+
+To doprecyzowuje potwierdzoną wcześniej granicę: **`plan` decyduje, `idioms/`
+sprawdza.** Reguła mechaniczna nie jest sposobem podejmowania decyzji, tylko testem,
+czy podjęta decyzja się broni. Intuicji nie da się zakodować; jej wynik da się
+zweryfikować. Dotyczy to wszystkich reguł wyprowadzonych w tym grillu.
+
+## Zasada nadrzędna: oddziel pętlę drogą od taniej
+
+Wyszła trzykrotnie, niezależnie, z trzech różnych pytań grillu:
+
+- **blockout na prostokątach** — układ zatwierdzony, zanim wejdzie treść,
+- **symulacja policzona wcześniej** — fizyka rozstrzygnięta, zanim zacznie się
+  strojenie kadru,
+- **proof-of-concept w matplotlibie** — wartości dostrojone przed uruchomieniem Manima.
+
+Za każdym razem chodzi o to samo: rzecz kosztowna rozstrzyga się raz, a rzecz
+poprawiana dwadzieścia razy nie ciągnie jej za sobą. Kandydat na zasadę
+architektoniczną całego produktu, nie na trzy osobne wskazówki.
+
+## Progi liczbowe należą do konfiguracji, nie do reguły
+
+Ustalenie autora przy okazji progu wielkości tekstu, ale ogólne:
+
+**Reguła orzeka, że niezmiennik jest spełniony; liczba, z którą się porównuje, mieszka
+w konfiguracji pakietu.** Idiom brzmi „tekst nie jest mniejszy niż próg", nie „tekst
+ma co najmniej 0,2 jednostki". Inaczej biblioteka zaszywa założenie o widzu i o tym,
+na czym ogląda — a to zależy od materiału, nie od sztuki animacji.
+
+Konsekwencje:
+
+- `config.default.yaml` (task/10) dostaje klucze progowe.
+- Lint (task/19) czyta progi z konfiguracji, zamiast mieć je wpisane w regułę.
+
+Punkt odniesienia dla wartości domyślnej, gdyby był potrzebny: kadr Manima ma
+8 jednostek wysokości, co przy 1080p daje 135 pikseli na jednostkę; granica komfortu
+czytania na telefonie to około 24–30 pikseli, czyli mniej więcej 0,2 jednostki.
+
 ## Granica tego, co `idioms/` może zawierać
 
 Dwa razy w rundzie 1 proponowana reguła spadła do „decyduje użytkownik": przy
