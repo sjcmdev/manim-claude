@@ -1,0 +1,220 @@
+observations:
+  - id: dt-dla-zegara
+    topic: updatery
+    rule: "Dla ruchu o stałej prędkości przyjmuj `dt` i aktualizuj stan jako `prędkość * dt`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 94}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 158}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3443}
+    confidence: high
+    applies_to: "Obowiązuje dla fal, płaszczyzn i innych obiektów poruszających się niezależnie od animacji."
+
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Updater odczytujący `ValueTracker` nie powinien przyjmować `dt`; `dt` powinien obsługiwać osobny updater samego trackera."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3882}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3893}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 420-422}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt tylko odczytuje bieżącą wartość trackera."
+
+  - id: nazwany-przelicznik-geometrii
+    topic: updatery
+    rule: "Dla wieloetapowego przeliczania geometrii nazwij updater i ogranicz jego zapis do obiektu zależnego."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 396}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 2179}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3270}
+    confidence: high
+    applies_to: "Obowiązuje, gdy updater iteruje po wielu elementach albo wykonuje kilka operacji geometrycznych."
+
+  - id: bezposrednie-zaleznosci
+    topic: updatery
+    rule: "Dla pojedynczej bezpośredniej zależności końcówki, pozycji lub etykiety używaj `always` albo `f_always`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1845}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3152}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 4088}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wynik można wyrazić jednym wywołaniem metody zależnym od getterów."
+
+  - id: fabryka-dla-redraw
+    topic: updatery
+    rule: "Gdy zależność wymaga zbudowania nowego obiektu, zamknij konstrukcję w fabryce przekazanej do `always_redraw`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1508}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 2482}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 2740}
+    confidence: high
+    applies_to: "Obowiązuje dla dynamicznych etykiet, łuków i grup, których kształt zmienia się całościowo."
+
+  - id: stan-poprzedniej-klatki
+    topic: updatery
+    rule: "Dla kolejki poruszających się elementów odczytuj stan z bieżącego mobjecta, przesuwaj go przez `dt`, a po przekroczeniu progu przepinaj i sortuj elementy."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3443}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3446}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3452}
+    confidence: high
+    applies_to: "Obowiązuje dla powtarzalnych frontów fal i innych obiektów zawijanych po dojściu do granicy."
+
+  - id: kontrola-cyklu-updatera
+    topic: updatery
+    rule: "Czyść, zawieszaj i wznawiaj updatery dokładnie przy zmianie trybu pracy obiektu."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 2394}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 2609}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3243}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3335}
+    confidence: high
+    applies_to: "Obowiązuje przed ręcznym przestawianiem obiektu, transformacją lub jego ponownym użyciem."
+
+  - id: skladanie-ruchow
+    topic: klasy-animacji
+    rule: "Składaj ruch kilku obiektów z `AnimationGroup`, `LaggedStart` lub równoległych argumentów `play`, zamiast tworzyć podklasę `Animation`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "supplements.py", line: 209}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1254}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1334}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ruch jest kompozycją istniejących transformacji, wejść, wyjść lub ruchu kamery."
+
+  - id: ochrona-zegara-w-interpolate
+    topic: klasy-animacji
+    rule: "Własny mobject z aktywnym zegarem zachowuj w `interpolate` bieżący czas updatery i przywracaj go po interpolacji."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 173}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 180}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 183}
+    confidence: high
+    applies_to: "Obowiązuje, gdy animowany mobject ma stan czasu aktualizowany niezależnie od animacji."
+
+  - id: rate-func-wedlug-roli
+    topic: klasy-animacji
+    rule: "Ustawiaj `linear` dla przebiegów o stałej prędkości, a `there_and_back` lub jego odmianę dla chwilowego podkreślenia albo testowego wychylenia."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "supplements.py", line: 424}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 323}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1259}
+    confidence: high
+    applies_to: "Obowiązuje, gdy tempo ruchu ma komunikować fizyczne rozchodzenie się albo tymczasową uwagę."
+
+  - id: nie-zawieszaj-zegara-fali
+    topic: klasy-animacji
+    rule: "Przy animowaniu parametrów `LightWaveSlice` ustawiaj `suspend_mobject_updating=False`, jeśli fala ma nadal płynąć podczas zmiany parametru."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1833}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1977}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 2729}
+    confidence: high
+    applies_to: "Obowiązuje podczas animowania czasu, amplitudy, widoczności lub innych uniformów aktywnej fali."
+
+  - id: warstwowe-wejscie-adnotacji
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj element główny przez wzrost lub rysowanie, adnotację pomocniczą przez `FadeIn`, a tekst objaśniający dopiero przez `Write`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "supplements.py", line: 27}
+      - {source: "_2024/holograms", file: "supplements.py", line: 33}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1197}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt ma wizualny anchor oraz jedną lub więcej etykiet objaśniających."
+
+  - id: transformuj-ciaglosc
+    topic: wejscie-i-sprzatanie
+    rule: "Jeśli kolejny stan przedstawia ten sam element, przechodź do niego przez `Transform`, `ReplacementTransform` albo `TransformFromCopy`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "supplements.py", line: 599}
+      - {source: "_2024/holograms", file: "supplements.py", line: 1490}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1254}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt zmienia reprezentację, nazwę lub konfigurację, ale zachowuje ciągłość znaczeniową."
+
+  - id: przygaszaj-kontekst
+    topic: wejscie-i-sprzatanie
+    rule: "Kontekst potrzebny później przygaszaj zmianą opacity zamiast usuwać go ze sceny."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "supplements.py", line: 209}
+      - {source: "_2024/holograms", file: "supplements.py", line: 221}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1291}
+    confidence: high
+    applies_to: "Obowiązuje dla elementów pozostających w kadrze jako orientacja, ale chwilowo niebędących tematem."
+
+  - id: zsynchronizowane-sprzatanie
+    topic: wejscie-i-sprzatanie
+    rule: "Kończ fazę jednym zsynchronizowanym ruchem usuwającym powiązane etykiety, linie i diagramy przed pokazaniem następnego stanu."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1402}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 2451}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3243}
+    confidence: high
+    applies_to: "Obowiązuje, gdy pomocnicze elementy przestają być potrzebne razem, a główny obiekt ma pozostać."
+
+  - id: parametry-w-init
+    topic: custom-mobject
+    rule: "W `__init__` zapisuj źródła geometrii, kształt i domyślne parametry renderowania, a późniejsze zmiany kieruj przez metody mutujące."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 64}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 77}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 83}
+    confidence: high
+    applies_to: "Obowiązuje dla własnych mobjectów, których konstrukcja zależy od źródeł i parametrów fizycznych."
+
+  - id: geometria-kontra-uniformy
+    topic: custom-mobject
+    rule: "Oddziel punkty nośne mobjecta od parametrów obliczeń renderera i synchronizuj zmienną geometrię do stałego bufora uniformów."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 43}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 145}
+      - {source: "_2024/holograms", file: "diffraction.wgsl", line: 70}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów, których wygląd jest liczony z wielu źródeł lub próbek."
+
+  - id: settery-do-animacji
+    topic: custom-mobject
+    rule: "Udostępniaj parametry animowalne przez settery zwracające `self`, aby można było łączyć je w łańcuchu animacji."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 121}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 137}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 1833}
+    confidence: high
+    applies_to: "Obowiązuje dla parametrów zmienianych przez składnię `.animate`."
+
+  - id: cienka-specjalizacja
+    topic: custom-mobject
+    rule: "Twórz klasę specjalizującą przez przekazanie własnych domyślnych parametrów do konstruktora bazowego zamiast kopiować jego budowę."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 201}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 209}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wariant obiektu różni się tylko kolorem, trybem wyświetlania lub wartościami domyślnymi."
+
+  - id: grupowy-factory-obiektu
+    topic: custom-mobject
+    rule: "Zwracaj `Group` z częściami o stabilnym układzie dzieci, gdy obiekt składa się z niewidocznego źródła i widocznej reprezentacji."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3469}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3485}
+      - {source: "_2024/holograms", file: "diffraction.py", line: 3355}
+    confidence: high
+    applies_to: "Obowiązuje dla fabryk wiązek i podobnych obiektów złożonych, których części są później animowane osobno."

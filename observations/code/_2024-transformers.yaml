@@ -1,0 +1,237 @@
+observations:
+  - id: moduly-tematyczne
+    topic: dekompozycja
+    rule: "Rozdziel sceny według podsystemów filmu i importuj wspólne konstruktory z modułów pomocniczych."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: attention.py, line: 4}
+      - {source: _2024/transformers, file: chm.py, line: 2}
+      - {source: _2024/transformers, file: network_flow.py, line: 3}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka plików buduje te same typy obiektów lub korzysta z tych samych konwersji danych."
+
+  - id: bazowa-sekwencja-warianty
+    topic: dekompozycja
+    rule: "Umieszczaj wspólną sekwencję ujęć w klasie bazowej, a warianty definiuj przez atrybuty klasowe lub krótkie podklasy."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: network_flow.py, line: 49}
+      - {source: _2024/transformers, file: network_flow.py, line: 668}
+      - {source: _2024/transformers, file: generation.py, line: 112}
+      - {source: _2024/transformers, file: generation.py, line: 456}
+      - {source: _2024/transformers, file: attention.py, line: 1715}
+      - {source: _2024/transformers, file: attention.py, line: 1839}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen różni się tekstem, tempem, orientacją kamery lub parametrami, ale zachowuje tę samą dramaturgię."
+
+  - id: wspolny-setup
+    topic: dekompozycja
+    rule: "Przenoś wspólną inicjalizację danych, kamery i osi do `setup()` klasy bazowej."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: embedding.py, line: 627}
+      - {source: _2024/transformers, file: embedding.py, line: 631}
+      - {source: _2024/transformers, file: network_flow.py, line: 40}
+      - {source: _2024/transformers, file: network_flow.py, line: 45}
+    confidence: high
+    applies_to: "Obowiązuje, gdy seria scen używa tego samego modelu danych lub tej samej przestrzeni 3D."
+
+  - id: rejestr-stanu-sceny
+    topic: stan-i-updatery
+    rule: "Trzymaj stan przechodzący między ujęciami w nazwanych atrybutach sceny i aktualizuj te atrybuty po każdej zmianie aktywnego obiektu."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: generation.py, line: 139}
+      - {source: _2024/transformers, file: generation.py, line: 357}
+      - {source: _2024/transformers, file: network_flow.py, line: 45}
+      - {source: _2024/transformers, file: network_flow.py, line: 353}
+      - {source: _2024/transformers, file: chm.py, line: 561}
+      - {source: _2024/transformers, file: chm.py, line: 580}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejne animacje operują na tej samej warstwie, tekście, odpowiedzi lub maszynie."
+
+  - id: tracker-jako-zrodlo-prawdy
+    topic: stan-i-updatery
+    rule: "Dla interaktywnego parametru przechowuj jedną wartość w `ValueTracker`, a obiekty pochodne aktualizuj updaterami i animuj tracker."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: ml_basics.py, line: 1070}
+      - {source: _2024/transformers, file: ml_basics.py, line: 1083}
+      - {source: _2024/transformers, file: ml_basics.py, line: 1148}
+      - {source: _2024/transformers, file: ml_basics.py, line: 2211}
+      - {source: _2024/transformers, file: ml_basics.py, line: 2226}
+      - {source: _2024/transformers, file: ml_basics.py, line: 2323}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jednocześnie zmieniają się wykres, liczby, etykiety lub geometria zależna od jednego parametru."
+
+  - id: updatery-dla-zaleznej-geometrii
+    topic: stan-i-updatery
+    rule: "Używaj updaterów lub `always_redraw` dla geometrii, która musi stale podążać za poruszanym obiektem."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: mlp.py, line: 1816}
+      - {source: _2024/transformers, file: mlp.py, line: 1824}
+      - {source: _2024/transformers, file: mlp.py, line: 1830}
+      - {source: _2024/transformers, file: embedding.py, line: 2861}
+      - {source: _2024/transformers, file: embedding.py, line: 2878}
+      - {source: _2024/transformers, file: embedding.py, line: 2896}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, rzutów, linii pomocniczych i wyników liczbowych zależnych od aktualnego położenia wektora."
+
+  - id: wspolne-prymitywy-wizualne
+    topic: ponowne-uzycie
+    rule: "Wydziel parametryzowane prymitywy wizualne do `helpers.py` i używaj ich w wielu modułach scen."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: helpers.py, line: 471}
+      - {source: _2024/transformers, file: helpers.py, line: 524}
+      - {source: _2024/transformers, file: helpers.py, line: 761}
+      - {source: _2024/transformers, file: attention.py, line: 4}
+      - {source: _2024/transformers, file: chm.py, line: 3}
+      - {source: _2024/transformers, file: network_flow.py, line: 3}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam typ maszyny, macierzy, embeddingu lub tarczy pojawia się w więcej niż jednej scenie."
+
+  - id: hooki-danych
+    topic: dane-a-obraz
+    rule: "Oddziel przebieg animacji od źródła danych przez metody inicjalizujące dane i tworzące pojedynczy przykład wejścia-wyjścia."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: ml_basics.py, line: 398}
+      - {source: _2024/transformers, file: ml_basics.py, line: 415}
+      - {source: _2024/transformers, file: ml_basics.py, line: 932}
+      - {source: _2024/transformers, file: ml_basics.py, line: 935}
+      - {source: _2024/transformers, file: ml_basics.py, line: 975}
+      - {source: _2024/transformers, file: ml_basics.py, line: 984}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam układ sceny ma działać dla obrazów, tekstu lub innych reprezentacji danych."
+
+  - id: cache-modelu-przed-scena
+    topic: dane-a-obraz
+    rule: "Ładuj ciężkie modele i wyznaczaj wspólną projekcję w warstwie przygotowania danych, zanim sceny zaczną budować obiekty."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: embedding.py, line: 93}
+      - {source: _2024/transformers, file: embedding.py, line: 96}
+      - {source: _2024/transformers, file: embedding.py, line: 627}
+      - {source: _2024/transformers, file: embedding.py, line: 631}
+      - {source: _2024/transformers, file: embedding.py, line: 634}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wiele scen korzysta z tego samego modelu numerycznego lub kosztownego źródła danych."
+
+  - id: uklady-relacyjne
+    topic: kompozycja
+    rule: "Pozycjonuj elementy względem kotwic przez `next_to()`, `arrange()` i `to_edge()`, a ręczne współrzędne zostaw dla punktów danych i ustawień kamery."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: helpers.py, line: 587}
+      - {source: _2024/transformers, file: helpers.py, line: 604}
+      - {source: _2024/transformers, file: chm.py, line: 490}
+      - {source: _2024/transformers, file: chm.py, line: 504}
+      - {source: _2024/transformers, file: attention.py, line: 1797}
+      - {source: _2024/transformers, file: attention.py, line: 1800}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, tytułów, macierzy i grup, których układ powinien skalować się po zmianie rozmiaru zawartości."
+
+  - id: hierarchia-semantyczna
+    topic: kompozycja
+    rule: "Grupuj elementy tworzące jeden koncept wizualny i zachowuj nazwane podgrupy, aby późniejsze animacje operowały na znaczeniu zamiast na płaskich indeksach."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: helpers.py, line: 568}
+      - {source: _2024/transformers, file: helpers.py, line: 610}
+      - {source: _2024/transformers, file: helpers.py, line: 786}
+      - {source: _2024/transformers, file: network_flow.py, line: 154}
+      - {source: _2024/transformers, file: network_flow.py, line: 155}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt ma części, które są wspólnie przesuwane, kopiowane lub animowane."
+
+  - id: przeformatowanie-przez-target
+    topic: kompozycja
+    rule: "Przy zmianie układu zachowuj istniejącą grupę, przygotuj jej target lub stan zapisany i wykonuj przejście przez `MoveToTarget` albo `Restore`."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: embedding.py, line: 175}
+      - {source: _2024/transformers, file: embedding.py, line: 185}
+      - {source: _2024/transformers, file: network_flow.py, line: 292}
+      - {source: _2024/transformers, file: network_flow.py, line: 299}
+      - {source: _2024/transformers, file: chm.py, line: 1031}
+      - {source: _2024/transformers, file: chm.py, line: 1051}
+    confidence: high
+    applies_to: "Obowiązuje, gdy to samo przedstawienie przechodzi między widokiem szczegółowym, skróconym lub rozłożonym."
+
+  - id: parametry-tempa
+    topic: czas-i-tempo
+    rule: "Wystawiaj czas trwania i tempo jako parametry metod lub atrybuty klas, aby wariant sceny mógł je zmienić bez kopiowania sekwencji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: helpers.py, line: 396}
+      - {source: _2024/transformers, file: helpers.py, line: 408}
+      - {source: _2024/transformers, file: helpers.py, line: 800}
+      - {source: _2024/transformers, file: network_flow.py, line: 263}
+      - {source: _2024/transformers, file: network_flow.py, line: 670}
+      - {source: _2024/transformers, file: network_flow.py, line: 715}
+    confidence: high
+    applies_to: "Obowiązuje dla animacji powtarzanych w kilku scenach lub scenach pokazujących ten sam proces w różnym tempie."
+
+  - id: sciezki-wzgledne
+    topic: anty-wzorce
+    rule: "Nie zapisuj ścieżek zależnych od komputera autora; korzystaj ze wspólnego katalogu danych lub identyfikatorów zasobów."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: helpers.py, line: 9}
+      - {source: _2024/transformers, file: chm.py, line: 1260}
+      - {source: _2024/transformers, file: chm.py, line: 1881}
+      - {source: _2024/transformers, file: mlp.py, line: 119}
+    confidence: high
+    applies_to: "Obowiązuje dla obrazów i plików danych używanych przez sceny uruchamiane poza środowiskiem autora."
+
+  - id: duplikat-modulu
+    topic: anty-wzorce
+    rule: "Nie utrzymuj pełnej kopii aktywnego modułu sceny pod nazwą sugerującą starą wersję; zastąp ją importem albo usuń po zakończeniu eksperymentu."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: auto_regression.py, line: 1}
+      - {source: _2024/transformers, file: auto_regression.py, line: 68}
+      - {source: _2024/transformers, file: old_auto_regression.py, line: 1}
+      - {source: _2024/transformers, file: old_auto_regression.py, line: 68}
+    confidence: high
+    applies_to: "Obowiązuje, gdy dwa pliki mają tę samą strukturę scen i ten sam kod bazowy."
+
+  - id: usun-stuby
+    topic: anty-wzorce
+    rule: "Nie zostawiaj klas scen ani metod pomocniczych zakończonych samym `pass` w katalogu przeznaczonym do renderowania."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: embedding.py, line: 260}
+      - {source: _2024/transformers, file: embedding.py, line: 262}
+      - {source: _2024/transformers, file: attention.py, line: 2165}
+      - {source: _2024/transformers, file: attention.py, line: 2166}
+      - {source: _2024/transformers, file: mlp.py, line: 2512}
+      - {source: _2024/transformers, file: mlp.py, line: 2517}
+    confidence: high
+    applies_to: "Obowiązuje dla scen i metod, które mogą zostać omyłkowo wybrane przez system renderujący."
+
+  - id: niemutowalne-domyslne-animacje
+    topic: anty-wzorce
+    rule: "Nie używaj mutowalnych list jako wartości domyślnej dla opcjonalnych animacji; przyjmuj `None` i twórz listę wewnątrz metody."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: generation.py, line: 244}
+      - {source: _2024/transformers, file: attention.py, line: 2943}
+      - {source: _2024/transformers, file: chm.py, line: 1688}
+      - {source: _2024/transformers, file: network_flow.py, line: 356}
+    confidence: high
+    applies_to: "Obowiązuje dla metod przyjmujących dodatkowe animacje lub elementy dokładane do wspólnego `play()`."
+
+  - id: kosztowne-obliczenia-poza-importem
+    topic: anty-wzorce
+    rule: "Nie uruchamiaj kosztownego eksperymentu numerycznego ani interaktywnego wykresu na poziomie importu modułu scen."
+    falsifiable: true
+    evidence:
+      - {source: _2024/transformers, file: almost_orthogonal.py, line: 22}
+      - {source: _2024/transformers, file: almost_orthogonal.py, line: 33}
+      - {source: _2024/transformers, file: almost_orthogonal.py, line: 37}
+      - {source: _2024/transformers, file: almost_orthogonal.py, line: 51}
+    confidence: high
+    applies_to: "Obowiązuje dla pomocniczych skryptów numerycznych znajdujących się w katalogu ładowanym razem ze źródłami filmu."

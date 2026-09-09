@@ -1,0 +1,260 @@
+observations:
+  - id: named-vs-lambda-updater
+    topic: updatery
+    rule: "Używaj nazwanej funkcji updatera do wieloetapowej przebudowy geometrii, a lambdy ograniczaj do pojedynczego powiązania właściwości."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 248}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 269}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 919}
+    confidence: high
+    applies_to: "Gdy updater albo odtwarza kształt, albo wykonuje więcej niż jedną operację zależną od stanu."
+
+  - id: tracker-without-dt
+    topic: updatery
+    rule: "Steruj zależnością od trackera updaterem, który odczytuje jego wartość w każdej klatce i nie przyjmuje dt."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 269}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 374}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 1131}
+    confidence: high
+    applies_to: "Gdy animacja ustawia parametr przez ValueTracker.animate."
+
+  - id: dt-and-external-state
+    topic: updatery
+    rule: "Przy symulacji ruchu przyjmuj dt i przechowuj stan poprzednich kroków poza mobjectem, odwracając go przy przekroczeniu granicy."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 917}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 919}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 922}
+    confidence: high
+    applies_to: "Gdy ruch zależy od prędkości, czasu i reakcji na granice."
+
+  - id: rebuild-vs-mutate
+    topic: updatery
+    rule: "Używaj always_redraw do obiektu tworzonego od nowa z bieżących zależności, a zwykłego updatera do zachowania tożsamości istniejącego obiektu."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 248}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 271}
+    confidence: high
+    applies_to: "Gdy obiekt zależy od trackera, ale czasem wymaga pełnej rekonstrukcji, a czasem tylko mutacji."
+
+  - id: time-based-ambient-motion
+    topic: updatery
+    rule: "Dla ciągłego ruchu ambientowego zapisz czas początkowy tuż przed podpięciem updatera i wyznaczaj pozycję z self.time."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 888}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 890}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 1179}
+    confidence: high
+    applies_to: "Gdy kamera ma poruszać się niezależnie od głównej animacji sceny."
+
+  - id: separate-dependent-properties
+    topic: updatery
+    rule: "Rozdziel aktualizację niezależnych właściwości jednego obiektu na osobne updatery."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 440}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 443}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 1136}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 1137}
+    confidence: high
+    applies_to: "Gdy tracker wpływa jednocześnie na geometrię, tekst albo położenie elementu."
+
+  - id: compose-parallel-motion
+    topic: klasy-animacji
+    rule: "Umieszczaj równoległe ruchy geometrii, kamery i adnotacji w jednym wywołaniu self.play z jednym czasem trwania."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 501}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 505}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 507}
+    confidence: high
+    applies_to: "Gdy kilka elementów ma tworzyć jeden zsynchronizowany ruch."
+
+  - id: lagged-element-reveal
+    topic: klasy-animacji
+    rule: "Sekwencyjne pojawianie się elementów zapisuj przez LaggedStart albo LaggedStartMap z jawnym lag_ratio."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 104}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 201}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 151}
+    confidence: high
+    applies_to: "Gdy elementy należą do jednego zbioru, ale mają pojawić się falą zamiast jednocześnie."
+
+  - id: rate-function-by-purpose
+    topic: klasy-animacji
+    rule: "Używaj rate_func=linear do równomiernych przemiatań, a there_and_back do ruchów tymczasowych i podkreśleń."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 521}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 683}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 118}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 478}
+    confidence: high
+    applies_to: "Gdy dobór tempa ma rozróżniać zmianę stanu od chwilowego zaakcentowania."
+
+  - id: preserve-or-consume-source
+    topic: klasy-animacji
+    rule: "Używaj TransformFromCopy albo FadeTransform, gdy źródło ma pozostać użyteczne, a ReplacementTransform, gdy poprzedni obiekt ma zostać zużyty."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 48}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 52}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 68}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 203}
+    confidence: high
+    applies_to: "Gdy jeden motyw wizualny przechodzi w zapis pochodny albo ma zasilić kilka miejsc."
+
+  - id: empty-animation-subclass
+    topic: klasy-animacji
+    rule: "Jeśli wariant nie zmienia algorytmu animacji, pozostaw klasę potomną pustą zamiast nadpisywać interpolate_mobject, begin albo finish."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 11}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 12}
+    confidence: high
+    applies_to: "Gdy potrzebny jest tylko nazwany wariant odziedziczonej animacji."
+
+  - id: reveal-main-object-first
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj obiekt główny przez ujawnienie jego geometrii, a dopiero potem dopisuj etykietę lub siatkę."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 495}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 496}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 517}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 62}
+    confidence: high
+    applies_to: "Gdy obiekt ma być najpierw rozpoznawalny jako forma, a dopiero potem nazwany lub opisany."
+
+  - id: directional-annotation-entry
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotację z przesunięciem albo wzrostem skierowanym od obiektu, do którego się odnosi."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 560}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 567}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 540}
+    confidence: high
+    applies_to: "Gdy tekst, strzałka albo etykieta objaśnia właśnie pojawiający się element."
+
+  - id: transform-structural-upgrade
+    topic: wejscie-i-sprzatanie
+    rule: "Przekształcaj obiekt w jego dokładniejszy lub gęstszy odpowiednik, zamiast usuwać pierwszy i wstawiać drugi jako niezależny element."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 118}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 123}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 744}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 73}
+    confidence: high
+    applies_to: "Gdy kolejny etap ma być wizualnie odczytany jako rozwinięcie poprzedniego."
+
+  - id: coordinated-phase-cleanup
+    topic: wejscie-i-sprzatanie
+    rule: "Na granicy faz wygaszaj grupę adnotacji i warstw pomocniczych skoordynowanym ruchem, nakładając ich znikanie na wejście następnego stanu."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 824}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 854}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 876}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 742}
+    confidence: high
+    applies_to: "Gdy scena przechodzi do innego poziomu wyjaśnienia i stare elementy nie powinny zostać przypadkowo na ekranie."
+
+  - id: dim-context
+    topic: wejscie-i-sprzatanie
+    rule: "Przygaszaj kontekst, który nadal ma znaczenie, zamiast usuwać go, gdy uwagę ma przejąć jeden wyróżniony element."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 79}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 531}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 357}
+    confidence: high
+    applies_to: "Gdy wcześniejszy wykres, równanie albo zestaw porównań pozostaje referencją dla bieżącej fazy."
+
+  - id: ghost-successive-states
+    topic: wejscie-i-sprzatanie
+    rule: "Przy pokazywaniu kolejnych stanów zostawiaj kopie poprzednich stanów jako półprzezroczyste duchy, jeśli mają budować historię zmiany."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 1093}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 1100}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 1113}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 1120}
+    confidence: high
+    applies_to: "Gdy odbiorca ma widzieć nie tylko aktualny obiekt, lecz także ślad jego poprzednich wariantów."
+
+  - id: factory-and-mutator
+    topic: custom-mobject
+    rule: "Rozdziel budowę obiektu od zmiany jego parametrów, umieszczając konstrukcję w get_* i geometrię aktualizującą w osobnej metodzie mutującej."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 371}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 379}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 388}
+    confidence: high
+    applies_to: "Gdy ten sam typ obiektu ma być tworzony w wielu wariantach i później animowany parametrycznie."
+
+  - id: composite-with-stable-children
+    topic: custom-mobject
+    rule: "Zwracaj obiekt wieloczęściowy jako Group albo VGroup z dziećmi ułożonymi w stabilnej kolejności semantycznej."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 413}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 133}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 139}
+      - {source: "_2023/gauss_int", file: "supplements.py", line: 1216}
+    confidence: high
+    applies_to: "Gdy późniejsze animacje mają niezależnie sięgać do obrysu, bryły, etykiety albo siatki."
+
+  - id: return-new-vs-same
+    topic: custom-mobject
+    rule: "Niech fabryka zwraca nowy obiekt, a metoda zmieniająca geometrię w miejscu zwraca ten sam zmodyfikowany obiekt."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 384}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 396}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 413}
+    confidence: high
+    applies_to: "Gdy obiekt ma być zarówno tworzony jednorazowo, jak i odświeżany przez updater."
+
+  - id: attach-reusable-subparts
+    topic: custom-mobject
+    rule: "Przypinaj często używane części kompozytu jako atrybuty obiektu nadrzędnego, zamiast wymuszać późniejsze wyszukiwanie ich po indeksach."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 342}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 351}
+    confidence: high
+    applies_to: "Gdy złożony obiekt ma później wystawiać dodatkową płaszczyznę, etykiety albo inną nazwalną część."
+
+  - id: explicit-construction-parameters
+    topic: custom-mobject
+    rule: "Przekazuj parametry konstrukcji jawnie do helpera, a powtarzalne warianty sceny zapisuj jako atrybuty klasy."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 315}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 371}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 5}
+      - {source: "_2023/gauss_int", file: "herschel.py", line: 1092}
+    confidence: high
+    applies_to: "Gdy ten sam obiekt lub animacja ma mieć kilka kontrolowanych konfiguracji."
+
+  - id: clear-updaters-on-static-copies
+    topic: custom-mobject
+    rule: "Czyść updatery z kopii, które mają stać się historycznym albo docelowym śladem używanym w Transform."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/gauss_int", file: "integral.py", line: 413}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 736}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 1160}
+      - {source: "_2023/gauss_int", file: "integral.py", line: 1044}
+    confidence: high
+    applies_to: "Gdy kopia dynamicznego obiektu ma zostać zachowana niezależnie od dalszych zmian trackera."

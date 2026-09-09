@@ -1,0 +1,204 @@
+observations:
+  - id: krotkie-sceny
+    topic: dekompozycja
+    rule: "Dziel materiał na wiele klas scen, aby każda reprezentowała osobne ujęcie lub beat narracyjny."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "main_equations.py", line: 7}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 108}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 378}
+      - {source: "_2025/laplace", file: "derivatives.py", line: 722}
+      - {source: "_2025/laplace", file: "derivatives.py", line: 807}
+    confidence: high
+    applies_to: "Obowiązuje, gdy materiał zawiera wiele niezależnych ujęć, przejść lub wstawek."
+
+  - id: wspolne-konstrukcje
+    topic: ponowne-uzycie
+    rule: "Wydzielaj geometrię używaną przez wiele scen do helperów lub klas bazowych i importuj ją między modułami."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "integration.py", line: 10}
+      - {source: "_2025/laplace", file: "integration.py", line: 579}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 2}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 672}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 644}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 1722}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen korzysta z tego samego typu płaszczyzny, wykresu, strzałki lub układu obiektów."
+
+  - id: parametryzowany-model-sprezyny
+    topic: ponowne-uzycie
+    rule: "Modeluj wielokrotnie używany układ dynamiczny jako parametryzowany obiekt z metodami ustawiania i odczytu stanu."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "shm.py", line: 11}
+      - {source: "_2025/laplace", file: "shm.py", line: 12}
+      - {source: "_2025/laplace", file: "shm.py", line: 71}
+      - {source: "_2025/laplace", file: "shm.py", line: 105}
+      - {source: "_2025/laplace", file: "shm.py", line: 120}
+    confidence: high
+    applies_to: "Obowiązuje, gdy sceny wielokrotnie pokazują ten sam obiekt fizyczny z innymi parametrami."
+
+  - id: stan-symulacji-w-obiekcie
+    topic: stan-i-updatery
+    rule: "Trzymaj stan ciągłej symulacji wewnątrz obiektu z updaterem, a przed animacjami reżyserowanymi jawnie zatrzymuj i wznawiaj ten updater."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "shm.py", line: 46}
+      - {source: "_2025/laplace", file: "shm.py", line: 47}
+      - {source: "_2025/laplace", file: "shm.py", line: 82}
+      - {source: "_2025/laplace", file: "shm.py", line: 99}
+      - {source: "_2025/laplace", file: "shm.py", line: 102}
+      - {source: "_2025/laplace", file: "shm.py", line: 232}
+      - {source: "_2025/laplace", file: "shm.py", line: 243}
+    confidence: high
+    applies_to: "Obowiązuje, gdy scena łączy autonomiczną symulację z kontrolowanymi przez autora przejściami."
+
+  - id: tracker-jako-zrodlo-stanu
+    topic: stan-i-updatery
+    rule: "Używaj trackerów jako jedynego źródła zmiennego parametru i podpinaj do nich wszystkie zależne obiekty, etykiety oraz ślady."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "exponentials.py", line: 654}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 656}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 895}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 927}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 958}
+      - {source: "_2025/laplace", file: "integration.py", line: 592}
+      - {source: "_2025/laplace", file: "integration.py", line: 633}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedną wartość zmienia animacja, a jej zmiana ma równocześnie aktualizować kilka reprezentacji."
+
+  - id: relatywne-pozycjonowanie
+    topic: kompozycja
+    rule: "Buduj układ kadru przez relacje między obiektami i krawędziami kadru, zamiast wpisywać współrzędne każdego elementu niezależnie."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "supplements.py", line: 10}
+      - {source: "_2025/laplace", file: "supplements.py", line: 13}
+      - {source: "_2025/laplace", file: "supplements.py", line: 17}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 325}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 328}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 334}
+      - {source: "_2025/laplace", file: "integration.py", line: 1323}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, wykresów i grup, których położenie powinno pozostać spójne po zmianie rozmiaru lub zawartości."
+
+  - id: stale-elementy-w-kadrze
+    topic: kompozycja
+    rule: "Grupuj elementy kadru w zwracane kompozyty, aby scena mogła przesuwać lub animować cały układ jednym obiektem."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "derivative_supplements.py", line: 5}
+      - {source: "_2025/laplace", file: "derivative_supplements.py", line: 13}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 325}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 336}
+      - {source: "_2025/laplace", file: "integration.py", line: 1330}
+    confidence: high
+    applies_to: "Obowiązuje dla powtarzalnych układów złożonych z obiektu głównego, etykiet i elementów pomocniczych."
+
+  - id: nakladki-stale-w-kadrze
+    topic: kompozycja
+    rule: "Unieruchamiaj napisy i elementy interfejsowe względem kadru, gdy kamera reorientuje się względem obiektów świata sceny."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "main_equations.py", line: 218}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 219}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 303}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 306}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 337}
+    confidence: high
+    applies_to: "Obowiązuje w scenach z ruchem kamery, perspektywą 3D lub jednoczesnym pokazaniem świata i tekstowej nakładki."
+
+  - id: helper-czasu-symulacji
+    topic: czas-i-tempo
+    rule: "Steruj czasem symulacji przez wspólny helper, który zeruje tracker czasu i ustawia czas animacji równy długości symulowanego odcinka."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "exponentials.py", line: 1028}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 1029}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 1031}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 1033}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 690}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 711}
+    confidence: high
+    applies_to: "Obowiązuje, gdy tempo obrazu ma odpowiadać parametrowi czasu matematycznego lub fizycznego."
+
+  - id: obliczenia-w-czasie-renderu
+    topic: dane-a-obraz
+    rule: "Generuj wykresy, powierzchnie i ścieżki z funkcji oraz próbek numerycznych podczas budowy sceny zamiast ładować gotowe dane."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "integration.py", line: 35}
+      - {source: "_2025/laplace", file: "integration.py", line: 38}
+      - {source: "_2025/laplace", file: 1333}
+      - {source: "_2025/laplace", file: 1360}
+      - {source: "_2025/laplace", file: 1365}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 128}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 191}
+    confidence: high
+    applies_to: "Obowiązuje dla wizualizacji funkcji, pól zespolonych i śladów zależnych od parametrów sceny."
+
+  - id: jawne-parametry-probkowania
+    topic: dane-a-obraz
+    rule: "Wystawiaj rozdzielczość, gęstość siatki i horyzont czasu jako parametry helpera lub stałe klasy."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "integration.py", line: 18}
+      - {source: "_2025/laplace", file: "integration.py", line: 21}
+      - {source: "_2025/laplace", file: "integration.py", line: 581}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 109}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 1668}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 1669}
+    confidence: high
+    applies_to: "Obowiązuje dla kosztownych obliczeniowo wykresów, powierzchni i dynamicznych śladów."
+
+  - id: stare-wersje-w-metodach
+    topic: anty-wzorce
+    rule: "Usuwaj lub przenoś stare warianty ujęć poza aktywne klasy scen zamiast zachowywać je jako metody old_material."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "prequel_equations.py", line: 493}
+      - {source: "_2025/laplace", file: "shm.py", line: 653}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 1067}
+      - {source: "_2025/laplace", file: "supplements.py", line: 100}
+      - {source: "_2025/laplace", file: "supplements.py", line: 558}
+    confidence: high
+    applies_to: "Obowiązuje po zastąpieniu wcześniejszej wersji ujęcia nową wersją w tym samym module."
+
+  - id: duplikaty-klas-sceny
+    topic: anty-wzorce
+    rule: "Nie utrzymuj równoległych modułów z tymi samymi nazwami klas scen dla tego samego materiału bez jawnego rozróżnienia wersji."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "prequel_equations.py", line: 4}
+      - {source: "_2025/laplace", file: "prequel_equations.py", line: 84}
+      - {source: "_2025/laplace", file: "supplements.py", line: 4}
+      - {source: "_2025/laplace", file: "supplements.py", line: 150}
+    confidence: high
+    applies_to: "Obowiązuje, gdy dwa pliki zawierają alternatywne implementacje tych samych ujęć."
+
+  - id: lokalne-sciezki-zasobow
+    topic: anty-wzorce
+    rule: "Nie zaszywaj w scenach absolutnych ścieżek z prywatnego środowiska ani bezpośrednich URL-i do zasobów zewnętrznych."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "shm.py", line: 911}
+      - {source: "_2025/laplace", file: "prequel_equations.py", line: 375}
+      - {source: "_2025/laplace", file: "supplements.py", line: 440}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 118}
+    confidence: high
+    applies_to: "Obowiązuje dla obrazów, miniaturek i innych zasobów wymaganych podczas renderu."
+
+  - id: niedeterministyczna-losowosc
+    topic: anty-wzorce
+    rule: "Ustalaj ziarno lub przekazuj generator losowy jawnie, gdy losowość zmienia wynik renderowanego ujęcia."
+    falsifiable: true
+    evidence:
+      - {source: "_2025/laplace", file: "prequel_equations.py", line: 1040}
+      - {source: "_2025/laplace", file: "prequel_equations.py", line: 1246}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 998}
+      - {source: "_2025/laplace", file: "main_equations.py", line: 1237}
+      - {source: "_2025/laplace", file: "exponentials.py", line: 1189}
+    confidence: high
+    applies_to: "Obowiązuje, gdy losowe pozycje, współczynniki lub parametry są częścią finalnego obrazu."

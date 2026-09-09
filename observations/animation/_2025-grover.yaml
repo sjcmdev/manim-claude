@@ -1,0 +1,212 @@
+observations:
+  - id: dt-dla-ruchu-stanowego
+    topic: updatery
+    rule: "W updaterze ruchu ciągłego przyjmuj `dt` i inkrementuj stan przechowywany przy obiekcie, a tracker odczytuj tylko jako parametr prędkości lub promienia."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: qc_supplements.py, line: 104}
+      - {source: _2025/grover, file: qc_supplements.py, line: 110}
+      - {source: _2025/grover, file: state_vectors.py, line: 2073}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów obracających się, przesuwających lub zachowujących stan między klatkami."
+
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Dla geometrii będącej funkcją trackera używaj updatera bez `dt` i przeliczaj kształt z bieżącej wartości trackera w każdej klatce."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: state_vectors.py, line: 1489}
+      - {source: _2025/grover, file: polarization.py, line: 141}
+      - {source: _2025/grover, file: polarization.py, line: 174}
+    confidence: high
+    applies_to: "Obowiązuje, gdy położenie lub wymiar obiektu wynika bezpośrednio z aktualnego parametru."
+
+  - id: referencja-zrodla-w-updaterze
+    topic: updatery
+    rule: "Przechowuj źródłowy obiekt na mobjectcie zależnym i aktualizuj z niego jednocześnie wartość oraz pozycję etykiety."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: runtime.py, line: 132}
+      - {source: _2025/grover, file: runtime.py, line: 133}
+      - {source: _2025/grover, file: runtime.py, line: 134}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet i liczników opisujących zmienną geometrię."
+
+  - id: always-redraw-zawieszane
+    topic: updatery
+    rule: "Buduj czystą geometrię pochodną przez `always_redraw`, a przed ręcznym przejściem zawieszaj jej automatyczne aktualizowanie."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: state_vectors.py, line: 1541}
+      - {source: _2025/grover, file: state_vectors.py, line: 1542}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów, które można w całości odtworzyć z aktualnego stanu źródłowego."
+
+  - id: animacja-dyskretnego-losowania
+    topic: klasy-animacji
+    rule: "Twórz własną klasę `Animation`, gdy klatka ma wybierać dyskretny wariant zamiast interpolować stan, przechowuj próbki i wagi w konstruktorze, a w `interpolate` podmieniaj submobjects."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: state_vectors.py, line: 33}
+      - {source: _2025/grover, file: state_vectors.py, line: 41}
+      - {source: _2025/grover, file: state_vectors.py, line: 45}
+      - {source: _2025/grover, file: state_vectors.py, line: 50}
+    confidence: high
+    applies_to: "Obowiązuje dla losowego lub skokowego przełączania całych stanów mobjectu."
+
+  - id: fabryka-animacji-zlozonej
+    topic: klasy-animacji
+    rule: "Pakuj powtarzalną zmianę kilku obiektów w funkcję zwracającą `AnimationGroup` i synchronizuj zmianę stanu logicznego z ruchem wizualnym."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: polarization.py, line: 18}
+      - {source: _2025/grover, file: polarization.py, line: 20}
+      - {source: _2025/grover, file: runtime.py, line: 405}
+    confidence: high
+    applies_to: "Obowiązuje dla powtarzanych przejść, które zmieniają tracker oraz odpowiadający mu obiekt wizualny."
+
+  - id: czasowe-okna-w-animacji
+    topic: klasy-animacji
+    rule: "Rozdzielaj równoległe części animacji na zagnieżdżone grupy i steruj przekazaniem uwagi przez `lag_ratio` oraz `time_span`."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: runtime.py, line: 375}
+      - {source: _2025/grover, file: runtime.py, line: 381}
+      - {source: _2025/grover, file: state_vectors.py, line: 235}
+      - {source: _2025/grover, file: state_vectors.py, line: 238}
+    confidence: high
+    applies_to: "Obowiązuje dla animacji, w których źródło ma ustąpić miejsca wynikowi z kontrolowanym nakładaniem."
+
+  - id: rate-func-wedlug-roli
+    topic: klasy-animacji
+    rule: "Ustawiaj `linear` dla numerycznej zmiany śledzonej w czasie, `there_and_back` dla chwilowego podkreślenia, a `rush_into` dla zmiany nabierającej tempa."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: state_vectors.py, line: 211}
+      - {source: _2025/grover, file: state_vectors.py, line: 383}
+      - {source: _2025/grover, file: state_vectors.py, line: 2377}
+    confidence: medium
+    applies_to: "Obowiązuje, gdy tempo animacji ma komunikować różnicę między pomiarem, akcentem i narastaniem procesu."
+
+  - id: geometria-przed-adnotacja
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj element główny przez narysowanie lub wyrośnięcie geometrii, a podpis pokazuj dopiero w osobnym, krótszym oknie."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 805}
+      - {source: _2025/grover, file: clarification.py, line: 808}
+    confidence: high
+    applies_to: "Obowiązuje, gdy adnotacja opisuje świeżo pojawiający się obiekt."
+
+  - id: wejscie-i-wyjscie-z-punktu-dzialania
+    topic: wejscie-i-sprzatanie
+    rule: "Przy przejściu przez operator sprowadzaj kopię wejścia do punktu działania i wypuszczaj wynik z tego samego punktu w nakładających się, lecz przesuniętych przedziałach czasu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: runtime.py, line: 406}
+      - {source: _2025/grover, file: runtime.py, line: 407}
+      - {source: _2025/grover, file: clarification.py, line: 1077}
+      - {source: _2025/grover, file: clarification.py, line: 1078}
+    confidence: high
+    applies_to: "Obowiązuje dla wejścia i wyjścia z maszyny, bramki lub weryfikatora."
+
+  - id: efemeryczne-podswietlenie
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj prostokąty diagnostyczne jako krótkie sekwencje `VFadeInThenOut` z lagiem, aby po odczytaniu nie zostawały na scenie."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 188}
+      - {source: _2025/grover, file: clarification.py, line: 1039}
+    confidence: high
+    applies_to: "Obowiązuje dla wyróżniania wierszy, kolumn, komponentów lub wejść."
+
+  - id: przygaszanie-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Gdy obiekt nadal objaśnia porównanie, przesuwaj go i przygaszaj zamiast usuwać, a pełną widoczność przywracaj dopiero przy ponownym skupieniu uwagi."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 901}
+      - {source: _2025/grover, file: clarification.py, line: 911}
+    confidence: high
+    applies_to: "Obowiązuje dla elementów pomocniczych, które pozostają znaczeniowo przydatne po głównym przejściu."
+
+  - id: transformacja-reprezentacji
+    topic: wejscie-i-sprzatanie
+    rule: "Zmianę reprezentacji buduj przez transformowanie kopii lub części starego obiektu do nowego i dopiero potem przywracaj albo wygaszaj warstwę źródłową."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 639}
+      - {source: _2025/grover, file: clarification.py, line: 642}
+      - {source: _2025/grover, file: state_vectors.py, line: 268}
+    confidence: high
+    applies_to: "Obowiązuje przy przejściu między pełnym obiektem a jego skróconą lub abstrakcyjną reprezentacją."
+
+  - id: stale-dzieci-bitstringu
+    topic: custom-mobject
+    rule: "W komponencie o stałej liczbie cyfr twórz dzieci raz w `__init__`, zapamiętaj długość i aktualizuj istniejące cyfry w `set_value` zamiast wymieniać cały obiekt."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: state_vectors.py, line: 7}
+      - {source: _2025/grover, file: state_vectors.py, line: 13}
+      - {source: _2025/grover, file: runtime.py, line: 1256}
+    confidence: high
+    applies_to: "Obowiązuje dla wieloelementowych zapisów liczbowych zmienianych podczas animacji."
+
+  - id: semantyczne-podgrupy-w-init
+    topic: custom-mobject
+    rule: "W `__init__` buduj geometrię własnego obiektu i od razu zapisuj semantyczne podgrupy jako atrybuty dostępne dla sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 41}
+      - {source: _2025/grover, file: clarification.py, line: 46}
+      - {source: _2025/grover, file: clarification.py, line: 54}
+      - {source: _2025/grover, file: clarification.py, line: 65}
+    confidence: high
+    applies_to: "Obowiązuje dla złożonych obiektów, których części mają być później animowane niezależnie."
+
+  - id: gettery-budujace-widoki
+    topic: custom-mobject
+    rule: "Nie duplikuj geometrii w metodach zapytań, lecz składaj zwracane `VGroup`y z istniejących dzieci obiektu głównego."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 67}
+      - {source: _2025/grover, file: clarification.py, line: 80}
+      - {source: _2025/grover, file: clarification.py, line: 93}
+    confidence: high
+    applies_to: "Obowiązuje dla metod zwracających logiczne wiersze, kolumny lub inne przekroje obiektu."
+
+  - id: czesci-i-parametry-efektu
+    topic: custom-mobject
+    rule: "Przechowuj części główne, punkty kotwiczące, kopie efektu i trackery jako elementy własnego obiektu, a parametry efektu zmieniaj przez jego mutatory."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: qc_supplements.py, line: 83}
+      - {source: _2025/grover, file: qc_supplements.py, line: 87}
+      - {source: _2025/grover, file: qc_supplements.py, line: 103}
+      - {source: _2025/grover, file: qc_supplements.py, line: 118}
+      - {source: _2025/grover, file: qc_supplements.py, line: 121}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów, których wygląd zależy od wielu zsynchronizowanych warstw."
+
+  - id: wrapper-zachowujacy-mobject
+    topic: custom-mobject
+    rule: "Dla dekoracyjnego wrappera przyjmuj gotowy mobject, wyprowadzaj z niego rozmiar i zachowuj go jako dziecko zamiast odtwarzać jego geometrię."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: state_vectors.py, line: 19}
+      - {source: _2025/grover, file: state_vectors.py, line: 27}
+      - {source: _2025/grover, file: state_vectors.py, line: 29}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów dekorujących istniejący napis, bitstring lub inną geometrię."
+
+  - id: mutatory-in-place
+    topic: custom-mobject
+    rule: "Rozdzielaj mutatory zmieniające obiekt in place od getterów zwracających grupy i nie każ mutatorom tworzyć zastępczego mobjectu ani animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: state_vectors.py, line: 13}
+      - {source: _2025/grover, file: qc_supplements.py, line: 118}
+      - {source: _2025/grover, file: qc_supplements.py, line: 121}
+      - {source: _2025/grover, file: clarification.py, line: 67}
+    confidence: high
+    applies_to: "Obowiązuje dla metod zmieniających wartość, krycie, położenie lub parametry efektu istniejącego obiektu."

@@ -1,0 +1,237 @@
+observations:
+  - id: ruch-z-dt
+    topic: updatery
+    rule: "W updaterze odpowiedzialnym za ciągły ruch przyjmuj `dt` i przesuwaj obiekt o prędkość pomnożoną przez `dt`."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 76}
+      - {source: _2024/antp, file: main.py, line: 79}
+      - {source: _2024/antp, file: main.py, line: 412}
+      - {source: _2024/antp, file: main.py, line: 502}
+    confidence: high
+    applies_to: "Obowiązuje dla przewijania obiektów lub kamery, które ma być niezależne od liczby klatek."
+
+  - id: updater-geometria-styl
+    topic: updatery
+    rule: "Czytaj aktualne położenie obiektu i na jego podstawie synchronizuj geometrię części oraz styl, zamiast utrzymywać osobny tracker pozycji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 48}
+      - {source: _2024/antp, file: main.py, line: 51}
+      - {source: _2024/antp, file: main.py, line: 52}
+      - {source: _2024/antp, file: main.py, line: 61}
+      - {source: _2024/antp, file: main.py, line: 143}
+      - {source: _2024/antp, file: main.py, line: 145}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wygląd adnotacji ma zależeć od bieżącego położenia animowanego obiektu."
+
+  - id: usuwanie-poza-kadrem
+    topic: updatery
+    rule: "Usuwaj element z grupy w updaterze po przekroczeniu granicy kadru i natychmiast pomijaj dalszą aktualizację tego elementu."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 53}
+      - {source: _2024/antp, file: main.py, line: 54}
+      - {source: _2024/antp, file: main.py, line: 55}
+    confidence: high
+    applies_to: "Obowiązuje dla długich strumieni obiektów przesuwających się poza widoczny obszar."
+
+  - id: lambda-dla-prostego-ruchu
+    topic: updatery
+    rule: "Zapisuj jednowierszowy ruch jako lambdę, a synchronizację wielu części i zmianę stylu zamykaj w nazwanej funkcji updatera."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 48}
+      - {source: _2024/antp, file: main.py, line: 76}
+      - {source: _2024/antp, file: main.py, line: 412}
+      - {source: _2024/antp, file: main.py, line: 502}
+    confidence: high
+    applies_to: "Obowiązuje, gdy updater różni się złożonością od prostego przesunięcia zależnego od `dt`."
+
+  - id: animacje-gotowe-zamiast-klasy
+    topic: klasy-animacji
+    rule: "Dla zmian kilku istniejących obiektów składaj `self.play` z gotowych transformacji i efektów, zamiast tworzyć klasę dziedziczącą po `Animation`."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 272}
+      - {source: _2024/antp, file: main.py, line: 273}
+      - {source: _2024/antp, file: main.py, line: 274}
+      - {source: _2024/antp, file: main.py, line: 298}
+      - {source: _2024/antp, file: main.py, line: 304}
+      - {source: _2024/antp, file: main.py, line: 1044}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ruch polega na przejściu, wygaszeniu, zmianie stylu lub wejściu kilku gotowych mobjectów."
+
+  - id: kolejnosc-play
+    topic: klasy-animacji
+    rule: "Łącz równoległe zmiany w jednym `self.play`, a kroki wymagające osobnego rytmu rozdzielaj na kolejne wywołania `self.play` i `wait`."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 242}
+      - {source: _2024/antp, file: main.py, line: 253}
+      - {source: _2024/antp, file: main.py, line: 272}
+      - {source: _2024/antp, file: main.py, line: 278}
+      - {source: _2024/antp, file: main.py, line: 304}
+      - {source: _2024/antp, file: main.py, line: 308}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka efektów ma wystąpić jednocześnie albo gdy kolejne kroki mają być odczytywane osobno."
+
+  - id: zachowanie-ciaglosci-fragmentow
+    topic: klasy-animacji
+    rule: "Przy przejściu między równaniami zachowuj ciągłość wzrokową przez dopasowanie fragmentów albo transformację z kopii."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 244}
+      - {source: _2024/antp, file: main.py, line: 247}
+      - {source: _2024/antp, file: main.py, line: 273}
+      - {source: _2024/antp, file: main.py, line: 794}
+      - {source: _2024/antp, file: main.py, line: 799}
+    confidence: high
+    applies_to: "Obowiązuje dla wzorów, których części zachowują znaczenie w następnym stanie."
+
+  - id: target-dla-przestawienia
+    topic: klasy-animacji
+    rule: "Złożone przestawienie grupy buduj przez wygenerowanie `target`, ustawienie jego układu i uruchomienie `MoveToTarget` równolegle z transformacjami semantycznymi."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 588}
+      - {source: _2024/antp, file: main.py, line: 592}
+      - {source: _2024/antp, file: main.py, line: 598}
+      - {source: _2024/antp, file: main.py, line: 611}
+      - {source: _2024/antp, file: main.py, line: 616}
+    confidence: high
+    applies_to: "Obowiązuje, gdy układ całej grupy zmienia się razem z przejściem etykiet lub wyróżnień."
+
+  - id: rate-func-makroruchu
+    topic: klasy-animacji
+    rule: "Dobieraj `rate_func` do kierunku makroruchu i ustawiaj go na wspólnej animacji obejmującej cały przejazd."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 162}
+      - {source: _2024/antp, file: main.py, line: 164}
+      - {source: _2024/antp, file: main.py, line: 166}
+      - {source: _2024/antp, file: main.py, line: 459}
+      - {source: _2024/antp, file: main.py, line: 462}
+    confidence: high
+    applies_to: "Obowiązuje dla dużych przelotów, skalowań i ruchów kamery, w których tempo ma podkreślić wejście albo wyjazd."
+
+  - id: baza-przed-adnotacja
+    topic: wejscie-i-sprzatanie
+    rule: "Dodawaj główną wizualizację jako gotowy układ, a elementy objaśniające wprowadzaj osobnymi efektami z kierunkiem związanym z obiektem."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 753}
+      - {source: _2024/antp, file: main.py, line: 755}
+      - {source: _2024/antp, file: main.py, line: 773}
+      - {source: _2024/antp, file: main.py, line: 775}
+      - {source: _2024/antp, file: main.py, line: 783}
+      - {source: _2024/antp, file: main.py, line: 785}
+    confidence: high
+    applies_to: "Obowiązuje, gdy scena ma stałą warstwę danych i nakładane na nią objaśnienia."
+
+  - id: transformacja-zamiast-resetu
+    topic: wejscie-i-sprzatanie
+    rule: "Przy przejściu do kolejnego stanu przekształcaj obiekty niosące znaczenie, a wygaszaj tylko pomocnicze ramki, strzałki i etykiety."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 272}
+      - {source: _2024/antp, file: main.py, line: 275}
+      - {source: _2024/antp, file: main.py, line: 298}
+      - {source: _2024/antp, file: main.py, line: 301}
+      - {source: _2024/antp, file: main.py, line: 447}
+      - {source: _2024/antp, file: main.py, line: 453}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejna faza rozwija ten sam obiekt lub argument zamiast zaczynać niezależny obraz."
+
+  - id: rytm-odslaniania
+    topic: wejscie-i-sprzatanie
+    rule: "Odsłaniaj gęste tablice etapami, dodając elementy pojedynczo i utrzymując powtarzalny rytm opóźnień."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 976}
+      - {source: _2024/antp, file: main.py, line: 980}
+      - {source: _2024/antp, file: main.py, line: 982}
+      - {source: _2024/antp, file: main.py, line: 984}
+      - {source: _2024/antp, file: main.py, line: 987}
+    confidence: high
+    applies_to: "Obowiązuje dla tabel, redukcji i innych sekwencji, których nie należy pokazywać jako jednego bloku."
+
+  - id: lagowane-czyszczenie
+    topic: wejscie-i-sprzatanie
+    rule: "Przy eliminacji grupuj zależne elementy, wygaszaj je z tym samym przesunięciem i kontrolowanym opóźnieniem, a następnie usuń je z każdej grupy danych."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 645}
+      - {source: _2024/antp, file: main.py, line: 651}
+      - {source: _2024/antp, file: main.py, line: 653}
+      - {source: _2024/antp, file: main.py, line: 659}
+      - {source: _2024/antp, file: main.py, line: 661}
+    confidence: high
+    applies_to: "Obowiązuje, gdy usunięcie jednego elementu wymaga równoczesnego usunięcia jego etykiety, strzałki i wartości pomocniczej."
+
+  - id: faza-wyroznienia-przed-odrzuceniem
+    topic: wejscie-i-sprzatanie
+    rule: "Rozdziel wyróżnienie kandydatów od ich odrzucenia: najpierw zmień kolor i pokaż obrys, potem ukryj odrzucone elementy, pozostawiając reprezentanta następnego kroku."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 1032}
+      - {source: _2024/antp, file: main.py, line: 1044}
+      - {source: _2024/antp, file: main.py, line: 1051}
+      - {source: _2024/antp, file: main.py, line: 1057}
+    confidence: high
+    applies_to: "Obowiązuje dla wizualizacji filtrowania, w których odrzucenie ma być czytelne jako osobny etap."
+
+  - id: fabryka-vgroup
+    topic: custom-mobject
+    rule: "Parametryzuj konstrukcję wieloczęściowego obiektu w metodzie-fabryce i zwracaj z niej `VGroup`, oddzielając budowę od odtwarzania animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 888}
+      - {source: _2024/antp, file: main.py, line: 905}
+      - {source: _2024/antp, file: main.py, line: 915}
+      - {source: _2024/antp, file: main.py, line: 917}
+      - {source: _2024/antp, file: main.py, line: 919}
+      - {source: _2024/antp, file: main.py, line: 971}
+      - {source: _2024/antp, file: main.py, line: 974}
+    confidence: high
+    applies_to: "Obowiązuje dla jednorazowych, złożonych obiektów takich jak tablice, siatki i wiersze danych."
+
+  - id: stabilne-czesci
+    topic: custom-mobject
+    rule: "Trzymaj semantyczne części jako stabilne podgrupy lub atrybuty i odwołuj się do nich później przez te granice."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 527}
+      - {source: _2024/antp, file: main.py, line: 529}
+      - {source: _2024/antp, file: main.py, line: 588}
+      - {source: _2024/antp, file: main.py, line: 589}
+      - {source: _2024/antp, file: main.py, line: 976}
+      - {source: _2024/antp, file: main.py, line: 993}
+    confidence: high
+    applies_to: "Obowiązuje, gdy późniejsze animacje muszą niezależnie sięgać do zawartości, etykiet i elementów pomocniczych."
+
+  - id: dekoracja-jako-submobject
+    topic: custom-mobject
+    rule: "Dołączaj obrys lub inną pomocniczą geometrię jako submobject właściciela, jeśli ma poruszać się i znikać razem z nim."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 636}
+      - {source: _2024/antp, file: main.py, line: 638}
+      - {source: _2024/antp, file: main.py, line: 957}
+      - {source: _2024/antp, file: main.py, line: 971}
+    confidence: high
+    applies_to: "Obowiązuje dla elementów pomocniczych, których cykl życia jest związany z jednym numerem, komórką lub wierszem."
+
+  - id: parametry-i-warianty
+    topic: custom-mobject
+    rule: "Wyciągaj parametry wyglądu i układu do argumentów metod, a warianty tego samego obiektu zapisuj jako atrybuty klas pochodnych."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 888}
+      - {source: _2024/antp, file: main.py, line: 892}
+      - {source: _2024/antp, file: main.py, line: 895}
+      - {source: _2024/antp, file: main.py, line: 925}
+      - {source: _2024/antp, file: main.py, line: 1012}
+      - {source: _2024/antp, file: main.py, line: 1066}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam model obiektu ma występować w kilku rozmiarach, kolorach lub gęstościach."

@@ -1,0 +1,145 @@
+observations:
+  - id: alpha-interpolacja
+    topic: updatery
+    rule: "Steruj ruchem zależnym od parametru przez callback z `alpha`, interpolując wartość początkową i docelową oraz zapisując wynik w istniejącym mobjectcie."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter9.py, line: 63}
+      - {source: _2017/eoc, file: chapter10.py, line: 1024}
+    confidence: high
+    applies_to: "Obowiązuje dla animacji zmieniających położenie lub geometrię według parametru sceny."
+
+  - id: geometria-zrodla
+    topic: updatery
+    rule: "Synchronizuj obiekt zależny przez odczyt bieżącej geometrii obiektu źródłowego w każdej klatce callbacku, bez wprowadzania `dt` jako mechanizmu synchronizacji."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: old_chapter1.py, line: 1515}
+      - {source: _2017/eoc, file: footnote.py, line: 193}
+    confidence: high
+    applies_to: "Obowiązuje dla linii, etykiet i punktów śledzących poruszający się wykres lub mobject."
+
+  - id: jawny-stan-updatera
+    topic: updatery
+    rule: "Trzymaj stan logiczny grupy na mobjectcie i ustawiaj jego wartość końcową po zakończeniu animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter3.py, line: 1980}
+      - {source: _2017/eoc, file: chapter4.py, line: 1280}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejny updater wyznacza wartość początkową z własności grupy, takiej jak `x_val`."
+
+  - id: rownolegle-zaleznosci
+    topic: updatery
+    rule: "Uruchamiaj zależne od siebie callbacki w jednym `play`, przekazując osobny updater dla każdej części współdzielącej ruch głównego obiektu."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter2.py, line: 1106}
+      - {source: _2017/eoc, file: chapter6.py, line: 1117}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden ruch zmienia jednocześnie kilka obiektów pomocniczych."
+
+  - id: succession-wlasna
+    topic: klasy-animacji
+    rule: "Dla animacji będącej sekwencją wielu stanów dziedzicz po `Succession`, wygeneruj docelowe mobjecty w konstruktorze i przekaż listę transformacji do klasy bazowej."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter2.py, line: 11}
+      - {source: _2017/eoc, file: chapter2.py, line: 17}
+    confidence: high
+    applies_to: "Obowiązuje, gdy własna animacja ma tylko składać następujące po sobie przejścia."
+
+  - id: skladanie-gotowych-animacji
+    topic: klasy-animacji
+    rule: "Buduj prostsze animacje złożone jako metody zwracające gotowy `Transform`, `Succession` albo listę animacji równoległych zamiast tworzyć nową klasę."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter3.py, line: 85}
+      - {source: _2017/eoc, file: chapter3.py, line: 121}
+      - {source: _2017/eoc, file: chapter3.py, line: 146}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ruch nie wymaga własnego cyklu życia ani nadpisywania interpolacji."
+
+  - id: rate-func-ruchu
+    topic: klasy-animacji
+    rule: "Dobieraj `rate_func` do znaczenia ruchu: używaj `linear` dla parametru traktowanego jako czas, funkcji oscylacyjnej dla drgań, funkcji powrotnej dla chwilowego wychylenia i okienkowania dla wejść staggerowanych."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter4.py, line: 223}
+      - {source: _2017/eoc, file: chapter2.py, line: 1402}
+      - {source: _2017/eoc, file: chapter1.py, line: 1487}
+    confidence: high
+    applies_to: "Obowiązuje, gdy domyślne tempo nie oddaje fizycznej lub dydaktycznej funkcji ruchu."
+
+  - id: rozdzielne-wejscie
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj geometrię elementu głównego przez rysowanie lub transformację, a adnotacje przez osobne pisanie, wzrost od środka albo wygaszenie."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter1.py, line: 105}
+      - {source: _2017/eoc, file: chapter2.py, line: 254}
+      - {source: _2017/eoc, file: chapter6.py, line: 623}
+    confidence: high
+    applies_to: "Obowiązuje, gdy element merytoryczny i jego opis mają różne funkcje wizualne."
+
+  - id: rytm-wejscia
+    topic: wejscie-i-sprzatanie
+    rule: "Nadaj wejściu wielu części kolejność przez `lag_ratio`, okna `squish_rate_func` albo łuk ruchu zamiast pojawiać je jednocześnie."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter1.py, line: 632}
+      - {source: _2017/eoc, file: chapter1.py, line: 1487}
+      - {source: _2017/eoc, file: chapter2.py, line: 746}
+    confidence: high
+    applies_to: "Obowiązuje dla pierścieni, grup tekstowych i innych sekwencji elementów."
+
+  - id: transformuj-tresc
+    topic: wejscie-i-sprzatanie
+    rule: "Przy zmianie reprezentacji transformuj merytoryczny obiekt lub jego kopię, a wygaszaj tylko tymczasowe pytania, etykiety i stare objaśnienia."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter1.py, line: 617}
+      - {source: _2017/eoc, file: chapter1.py, line: 644}
+      - {source: _2017/eoc, file: chapter2.py, line: 261}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejny krok ma być wizualną kontynuacją poprzedniego obiektu."
+
+  - id: przygaszaj-kontekst
+    topic: wejscie-i-sprzatanie
+    rule: "Gdy potrzebujesz zachować kontekst jako tło, przygaś istniejące mobjecty i pozostaw nietkniętą kopię aktualnie omawianego elementu."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter2.py, line: 753}
+    confidence: high
+    applies_to: "Obowiązuje przy izolowaniu jednego momentu lub jednego stanu z większej sekwencji."
+
+  - id: ladder-init-points
+    topic: custom-mobject
+    rule: "Definiuj prosty własny `VMobject` przez parametry w `CONFIG` i konstrukcję prymitywów w `init_points`, dodając części w znaczącej kolejności."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter6.py, line: 557}
+      - {source: _2017/eoc, file: chapter6.py, line: 563}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektu, którego struktura wynika bezpośrednio z kilku parametrów geometrycznych."
+
+  - id: vgroup-z-nazwanymi-czesciami
+    topic: custom-mobject
+    rule: "Zwracaj obiekt złożony jako `VGroup` i przypinaj do niego nazwane części oraz grupy podrzędne, zanim oddasz go scenie."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter10.py, line: 345}
+      - {source: _2017/eoc, file: chapter3.py, line: 1917}
+      - {source: _2017/eoc, file: chapter4.py, line: 1822}
+    confidence: high
+    applies_to: "Obowiązuje, gdy późniejsze animacje muszą sięgać do wybranych części jednego obiektu."
+
+  - id: sceniczne-warianty-stanu
+    topic: custom-mobject
+    rule: "Oddziel bazową konstrukcję obiektu od wariantów sytuacyjnych, tworząc stany takie jak `target` lub `fallen` dopiero w scenie."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter6.py, line: 602}
+      - {source: _2017/eoc, file: chapter6.py, line: 613}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam obiekt ma być kolejno pokazywany w kilku konfiguracjach."

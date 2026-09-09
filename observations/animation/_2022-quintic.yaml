@@ -1,0 +1,295 @@
+observations:
+  - id: automatyczne-wiazanie-zaleznosci
+    topic: updatery
+    rule: "Rozpoznawaj w nadpisanym `play`, która rodzina punktów jest animowana, i automatycznie przypinaj updater rodziny zależnej."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 573}
+    confidence: high
+    applies_to: "Obowiązuje przy animowaniu samych korzeni albo samych współczynników."
+
+  - id: updatery-bez-dt
+    topic: updatery
+    rule: "Definiuj updater zależnościowy z argumentem mobject, odczytuj bieżący stan sceny lub trackera i ustawiaj wynik bez całkowania `dt`."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 465}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 504}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1045}
+    confidence: high
+    applies_to: "Obowiązuje dla pozycji i wartości wyliczanych z aktualnych współczynników."
+
+  - id: nazwane-updatery-grup
+    topic: updatery
+    rule: "Wydzielaj nazwany updater, gdy jedna zmiana ma przeliczać całą grupę zależnych elementów."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 465}
+      - {source: _2022/quintic, file: cubic.py, line: 190}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 853}
+    confidence: high
+    applies_to: "Obowiązuje dla grup punktów, wykresów i struktur pochodnych."
+
+  - id: lambdy-dla-prostych-zaleznosci
+    topic: updatery
+    rule: "Podpinaj lambdę w miejscu tylko dla krótkiej zależności jednego obiektu od jednego źródła."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 547}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1264}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1336}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, liczb i prostego śledzenia pozycji."
+
+  - id: stan-poprzedniej-klatki
+    topic: updatery
+    rule: "Przechowuj stan między klatkami i aktualizuj go przez różnicę względem poprzedniej wartości, gdy wynik ma zachować ciągłość."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1439}
+    confidence: high
+    applies_to: "Obowiązuje dla kąta przechodzącego przez gałąź funkcji wielowartościowej."
+
+  - id: stan-interakcji-na-obiekcie
+    topic: updatery
+    rule: "Zapisuj offset i ograniczenia interakcji jako atrybuty obiektu przed podpięciem updatera."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 687}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów przeciąganych myszą lub ograniczanych do osi albo promienia."
+
+  - id: always-redraw-dla-geometrii
+    topic: updatery
+    rule: "Buduj geometrię całkowicie zależną od bieżącego stanu przez fabrykę `always_redraw`."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 778}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 879}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1047}
+    confidence: high
+    applies_to: "Obowiązuje dla wykresów i krzywych, których skład zmienia się razem z danymi."
+
+  - id: odwrotna-kolejnosc-aktualizacji
+    topic: updatery
+    rule: "Aktualizuj mobjects w odwrotnej kolejności, jeśli obiekty są ponownie dodawane podczas interakcji."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 708}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejność na scenie wpływa na kolejność propagowania zależności."
+
+  - id: transport-dla-ciaglosci
+    topic: updatery
+    rule: "Dopasowuj nowe pozycje punktów przez minimalizację odległości zamiast ufać kolejności wyników funkcji wielowartościowej."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 62}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 479}
+      - {source: _2022/quintic, file: cubic.py, line: 163}
+    confidence: high
+    applies_to: "Obowiązuje, gdy zamiana indeksów punktów mogłaby wywołać wizualny skok."
+
+  - id: animacja-na-poziomie-sceny
+    topic: klasy-animacji
+    rule: "Umieszczaj logikę zależności i wyboru animacji w scenie, a ruch składaj z gotowych animacji zamiast tworzyć podklasę `Animation`."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 573}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 600}
+    confidence: high
+    applies_to: "Obowiązuje dla ruchów korzeni i współczynników sterowanych wzajemną zależnością."
+
+  - id: metody-ruchu-z-parametrami
+    topic: klasy-animacji
+    rule: "Opakowuj powtarzalny ruch w metodę sceny przyjmującą indeksy, czas trwania i parametry ścieżki."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 600}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 611}
+    confidence: high
+    applies_to: "Obowiązuje dla zamian cyklicznych i pełnych obrotów punktów."
+
+  - id: animacje-rownolegle
+    topic: klasy-animacji
+    rule: "Uruchamiaj niezależne ruchy równolegle w jednym wywołaniu `play`."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 612}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 250}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1344}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka elementów ma zmienić stan w tej samej fazie."
+
+  - id: wejscia-lagowane
+    topic: klasy-animacji
+    rule: "Rozciągaj wejście wielu elementów przez `LaggedStart` i dobieraj `lag_ratio` do kolejności czytania."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 65}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 916}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 952}
+    confidence: high
+    applies_to: "Obowiązuje dla grup wzorów, adnotacji i elementów wyprowadzanych jeden po drugim."
+
+  - id: transformacja-czesci-wzoru
+    topic: klasy-animacji
+    rule: "Przy zmianie zapisu zachowuj tożsamość części przez transformację dopasowującą kształty i dodaj łuk ścieżki, gdy ruch ma być przestrzennie czytelny."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 174}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 250}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 977}
+    confidence: high
+    applies_to: "Obowiązuje przy przechodzeniu między równoważnymi reprezentacjami matematycznymi."
+
+  - id: rate-funcja-wedlug-tempa
+    topic: klasy-animacji
+    rule: "Ustawiaj `linear` dla równomiernego odsłaniania, a `squish_rate_func` dla wejścia opóźnionego względem wcześniejszego elementu."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 72}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 430}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1067}
+    confidence: high
+    applies_to: "Obowiązuje, gdy tempo rysowania lub moment pojawienia się ma znaczenie narracyjne."
+
+  - id: jawne-zawieszanie-updaterow
+    topic: klasy-animacji
+    rule: "Jawnie steruj `suspend_updating` podczas animowania obiektu zależnego i po zmianie ponownie ustaw jego updater."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 864}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1404}
+    confidence: high
+    applies_to: "Obowiązuje, gdy transformowany obiekt ma zmieniać zapis albo zakres działania w trakcie sceny."
+
+  - id: glowdot-jako-wejscie-punktu
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj główny punkt przez transformację z istniejącego oznaczenia, a wykres odsłaniaj osobnym ruchem rysowania."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 64}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 72}
+    confidence: high
+    applies_to: "Obowiązuje dla pierwszego powiązania tekstowego opisu z obiektem geometrycznym."
+
+  - id: adnotacja-warstwowa
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotację warstwami: najpierw kontener lub rama, potem tekst, a następnie element powiązany z objaśnianym obiektem."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 229}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1393}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 918}
+    confidence: high
+    applies_to: "Obowiązuje dla dymków, klamer, etykiet i systemów objaśnień."
+
+  - id: transformuj-zamiast-wygaszac
+    topic: wejscie-i-sprzatanie
+    rule: "Przechodź między równoważnymi reprezentacjami przez transformację, zamiast wygaszać jedną i niezależnie pokazywać drugą."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 174}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 307}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 821}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejna forma ma być odczytana jako ta sama treść."
+
+  - id: przygaszanie-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Przygaszaj kontekst przez zmianę opacity, gdy ma pozostać punktem odniesienia dla aktualnego objaśnienia."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 275}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 691}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1304}
+    confidence: high
+    applies_to: "Obowiązuje dla wcześniejszych wzorów, punktów i etykiet pozostających w kadrze."
+
+  - id: sprzatanie-elementow-tymczasowych
+    topic: wejscie-i-sprzatanie
+    rule: "Usuwaj tymczasowe ramy i kolumny natychmiast po zakończeniu ich funkcji wskazywania."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 161}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 415}
+    confidence: high
+    applies_to: "Obowiązuje dla prostokątów zaznaczenia i tymczasowych kopii terminów."
+
+  - id: kierunkowa-wymiana-faz
+    topic: wejscie-i-sprzatanie
+    rule: "Łącz wygaszenie starego układu z kierunkiem ruchu i wejście następnego układu z przeciwnym lub zgodnym przesunięciem."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 351}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 458}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1427}
+    confidence: high
+    applies_to: "Obowiązuje przy przejściu między kolejnymi reprezentacjami sceny."
+
+  - id: osobny-cykl-tracerow
+    topic: wejscie-i-sprzatanie
+    rule: "Traktuj tracery jako osobną warstwę: usuwaj je przed ukryciem punktów i dodawaj ponownie po przywróceniu punktów."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 790}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1343}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1427}
+    confidence: high
+    applies_to: "Obowiązuje dla śladów ruchu, które nie powinny przypadkowo zostać w scenie zastępczej."
+
+  - id: grupy-zamiast-wlasnego-mobjectu
+    topic: custom-mobject
+    rule: "Składaj własne elementy z `Group` lub `VGroup`, zachowując ich semantyczne części jako zagnieżdżone podgrupy."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 489}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 744}
+      - {source: _2022/quintic, file: cubic.py, line: 186}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów złożonych z punktów, linii, etykiet i krzywych."
+
+  - id: referencje-do-czesci
+    topic: custom-mobject
+    rule: "Zapisuj części potrzebne później jako atrybuty sceny lub mniejszych obiektów."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 492}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 546}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 851}
+    confidence: high
+    applies_to: "Obowiązuje, gdy późniejszy updater albo faza ma odwołać się do konkretnej części konstrukcji."
+
+  - id: builder-zwraca-grupe
+    topic: custom-mobject
+    rule: "Niech builder obiektu zwraca gotową grupę części, a scenariusz decyduje osobno, kiedy ją dodać."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 505}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 771}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1507}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, linii śledzących, łuków i dynamicznych napisów."
+
+  - id: metody-animacyjne-wykonuja-ruch
+    topic: custom-mobject
+    rule: "Niech metody pomocnicze animacji wykonują `play` i `wait`, zamiast zwracać nowy obiekt."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 600}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 649}
+    confidence: high
+    applies_to: "Obowiązuje dla operacji zamiany, obrotu i cyklu interakcyjnego."
+
+  - id: parametry-w-klasie-setup-w-metodzie
+    topic: custom-mobject
+    rule: "Trzymaj style i parametry konstrukcji jako atrybuty klasy, a obiekty runtime twórz w metodach i zapisuj w referencjach."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 258}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 296}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 715}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1518}
+    confidence: high
+    applies_to: "Obowiązuje dla wariantów sceny różniących się stopniem, kolorami, konfiguracją płaszczyzn lub parametrem wejściowym."

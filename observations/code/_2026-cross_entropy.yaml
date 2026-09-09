@@ -1,0 +1,180 @@
+observations:
+  - id: osobne-sceny-i-suplementy
+    topic: dekompozycja
+    rule: Rozdzielaj ujęcia na osobne klasy sceny, a główny przebieg i suplementy trzymaj w osobnych modułach.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 531}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 10}
+      - {source: _2026/cross_entropy, file: part2_supplements.py, line: 4}
+    confidence: high
+    applies_to: Gdy materiał zawiera główną narrację, wstawki, testy lub alternatywne wersje ujęć.
+
+  - id: warianty-przez-dziedziczenie
+    topic: dekompozycja
+    rule: Buduj warianty scen przez dziedziczenie i nadpisuj konfigurację atrybutami klasy, gdy logika ujęcia pozostaje ta sama.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: supplements.py, line: 22}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1820}
+      - {source: _2026/cross_entropy, file: robot.py, line: 514}
+    confidence: high
+    applies_to: Gdy kilka ujęć różni się głównie rozmiarem, tempem lub jednym przełącznikiem konfiguracji.
+
+  - id: parametryzowane-mobjecty
+    topic: ponowne-uzycie
+    rule: Opakowuj powtarzalny układ wizualny w parametryzowaną klasę z nazwanymi częściami i metodami przejścia stanu.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: distribution.py, line: 8}
+      - {source: _2026/cross_entropy, file: arithmetic_coding.py, line: 17}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7539}
+    confidence: high
+    applies_to: Gdy ten sam układ ma być tworzony, aktualizowany lub animowany w więcej niż jednym ujęciu.
+
+  - id: wspolne-moduly
+    topic: ponowne-uzycie
+    rule: Umieszczaj konstrukcje współdzielone przez kilka scen w osobnym module i importuj je zamiast odtwarzać lokalnie.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: entropy.py, line: 4}
+      - {source: _2026/cross_entropy, file: arithmetic_coding.py, line: 4}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 3}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 3}
+    confidence: high
+    applies_to: Gdy wizualny komponent pojawia się w kilku plikach scen.
+
+  - id: tracker-jako-zrodlo-stanu
+    topic: stan-i-updatery
+    rule: Trzymaj liczbowy stan ujęcia w ValueTrackerze i aktualizuj z niego wszystkie zależne obiekty przez updatery.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 7562}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7573}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 153}
+    confidence: high
+    applies_to: Gdy jedna liczba steruje jednocześnie geometrią, etykietą i wyglądem kilku elementów.
+
+  - id: dynamiczna-geometria
+    topic: stan-i-updatery
+    rule: Buduj dynamiczne słupki, linie i łączniki przez always_redraw albo updater, gdy ich geometria zależy od zmiennego stanu.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 8021}
+      - {source: _2026/cross_entropy, file: robot.py, line: 8492}
+      - {source: _2026/cross_entropy, file: language_tree_visualization/language_tree.py, line: 436}
+    confidence: high
+    applies_to: Gdy element wizualny musi podążać za przesuwanymi obiektami lub odzwierciedlać zmienny wynik obliczenia.
+
+  - id: jawna-sekwencja-i-ciagle-sledzenie
+    topic: stan-i-updatery
+    rule: Zostawiaj updatery do ciągłego śledzenia i stylu, a kolejne elementy sekwencji wprowadzaj jawnie w pętli przez self.play lub self.wait.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_models.py, line: 141}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 148}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 142}
+    confidence: high
+    applies_to: Gdy ujęcie łączy ciągły ruch kamery lub strumienia z dyskretnym ujawnianiem kolejnych elementów.
+
+  - id: wzgledne-pozycjonowanie
+    topic: kompozycja
+    rule: Ustalaj pozycję kotwic globalnych ręcznie lub względem kadru, a etykiety i elementy zależne lokuj przez next_to, align_to lub match_*.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: entropy.py, line: 143}
+      - {source: _2026/cross_entropy, file: robot.py, line: 8652}
+      - {source: _2026/cross_entropy, file: language_tree_visualization/language_tree.py, line: 167}
+    confidence: high
+    applies_to: Gdy położenie elementu zależy od rozmiaru lub aktualnej pozycji innego elementu.
+
+  - id: proceduralny-layout
+    topic: kompozycja
+    rule: Centralizuj stałe układu dużych regularnych diagramów i generuj ich punkty oraz warstwy algorytmicznie.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: transformer_render.py, line: 38}
+      - {source: _2026/cross_entropy, file: transformer_render.py, line: 93}
+      - {source: _2026/cross_entropy, file: transformer_render.py, line: 153}
+      - {source: _2026/cross_entropy, file: entropy.py, line: 402}
+    confidence: high
+    applies_to: Gdy diagram składa się z wielu regularnych wierszy, kolumn, warstw lub bloków.
+
+  - id: dane-poza-kodem-sceny
+    topic: dane-a-obraz
+    rule: Trzymaj obszerne dane wejściowe i ręcznie dopracowane layouty poza kodem sceny, a wczytuj je przed zbudowaniem hierarchii obiektów.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_models.py, line: 16}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 758}
+      - {source: _2026/cross_entropy, file: language_tree_visualization/language_tree.py, line: 134}
+      - {source: _2026/cross_entropy, file: language_tree_visualization/language_tree.py, line: 380}
+    confidence: high
+    applies_to: Gdy scena korzysta z korpusów tekstowych, tabel lub ręcznie przygotowanych pozycji grafu.
+
+  - id: obliczenia-oddzielone-od-grafiki
+    topic: dane-a-obraz
+    rule: Oddzielaj obliczenie predykcji od grafiki przez helper zwracający dane, a sceny niech zamieniają wynik na obiekty wizualne.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: next_char.py, line: 62}
+      - {source: _2026/cross_entropy, file: next_char.py, line: 108}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 187}
+      - {source: _2026/cross_entropy, file: entropy.py, line: 1547}
+    confidence: high
+    applies_to: Gdy wynik modelu lub obliczenia numerycznego zasila słupki, etykiety albo inne elementy kadru.
+
+  - id: cache-parametrow-modelu
+    topic: dane-a-obraz
+    rule: Cache'uj kosztowne próbki modelu kluczem obejmującym wszystkie parametry próbkowania i używaj wyniku z cache podczas renderu.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: next_char.py, line: 244}
+      - {source: _2026/cross_entropy, file: next_char.py, line: 249}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1962}
+    confidence: high
+    applies_to: Gdy scena wielokrotnie korzysta z generowanych przez model tekstów lub innych kosztownych danych.
+
+  - id: tempo-jako-atrybut
+    topic: czas-i-tempo
+    rule: Parametryzuj tempo powtarzalnej sekwencji atrybutem klasy, aby wariant sceny mógł zmienić rytm bez kopiowania pętli.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1804}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1816}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1820}
+    confidence: high
+    applies_to: Gdy scena iteruje po wielu podobnych elementach z jednakowym czasem ekspozycji.
+
+  - id: usuwaj-kopiowane-przygotowanie
+    topic: anty-wzorce
+    rule: Usuwaj kopiowane bloki przygotowania i zastępuj je wspólnym helperem, gdy warianty powtarzają tę samą fazę ustawiania sceny.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_models.py, line: 315}
+      - {source: _2026/cross_entropy, file: language_tree_visualization/language_tree.py, line: 21}
+      - {source: _2026/cross_entropy, file: language_tree_visualization/language_tree.py, line: 195}
+    confidence: high
+    applies_to: Gdy dwie sceny mają powtarzające się przygotowanie danych, obiektów i układu.
+
+  - id: usuwaj-kod-po-return
+    topic: anty-wzorce
+    rule: Usuwaj instrukcje znajdujące się po bezwarunkowym returnie, bo nie mogą uczestniczyć w budowie ujęcia.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 7669}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7674}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1771}
+    confidence: high
+    applies_to: Każdą metodę pomocniczą lub konstruktor komponentu sceny.
+
+  - id: unikaj-absolutnych-sciezek
+    topic: anty-wzorce
+    rule: Nie uzależniaj generowania od absolutnych ścieżek do zewnętrznego checkoutu, lecz przyjmuj ścieżkę konfigurowalną lub repozytoryjną.
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: next_char.py, line: 18}
+      - {source: _2026/cross_entropy, file: next_char.py, line: 19}
+      - {source: _2026/cross_entropy, file: next_char.py, line: 310}
+    confidence: high
+    applies_to: Gdy scena wymaga zewnętrznego modelu lub danych do obliczenia obrazu.

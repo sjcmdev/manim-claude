@@ -1,0 +1,227 @@
+observations:
+  - id: pozycyjny-updater-bez-dt
+    topic: updatery
+    rule: "Buduj updater zależności pozycyjnej bez parametru dt i wyprowadzaj położenie z aktualnego stanu obiektu źródłowego."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 435}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2291}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 834}
+    confidence: high
+    applies_to: "Gdy obiekt ma jedynie podążać za punktem, okręgiem albo innym obiektem zależnym."
+
+  - id: dt-do-ruchu-stanowego
+    topic: updatery
+    rule: "Przy ruchu stanowym przyjmuj dt, przechowuj stan poprzedniej klatki na mobject i aktualizuj go przyrostowo."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 368}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 177}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1307}
+    confidence: high
+    applies_to: "Gdy pozycja zależy od prędkości, fazy albo skumulowanego czasu."
+
+  - id: dynamiczna-geometria-z-bieznego-stanu
+    topic: updatery
+    rule: "Odtwarzaj geometrię zależną od zmiennych obiektów z ich bieżącego stanu i stosuj natychmiastowy Transform zamiast kumulować ręczne przesunięcia."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1302}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1819}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1895}
+    confidence: high
+    applies_to: "Gdy kształt pola, wektora albo pierścienia zależy od aktualnych punktów lub funkcji."
+
+  - id: fabryka-updatera
+    topic: updatery
+    rule: "Zamykaj wspólny algorytm aktualizacji w fabryce closure, przekazując jej tylko getter źródłowej wartości."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2794}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2808}
+    confidence: high
+    applies_to: "Gdy identyczny updater ma obsługiwać kilka grup z różnymi źródłami danych."
+
+  - id: tracker-jako-zrodlo-prawdy
+    topic: updatery
+    rule: "Aktualizuj odczyty liczbowe przez bieżący getter trackera lub obiektu źródłowego i nie integruj ich osobnym dt."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1616}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1619}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2826}
+    confidence: high
+    applies_to: "Gdy liczba na ekranie ma odzwierciedlać tracker albo wartość wyliczaną z położenia."
+
+  - id: referencja-do-wylaczenia-updatera
+    topic: updatery
+    rule: "Zachowuj referencję do updatera, jeśli późniejsza faza ma go usunąć przed zmianą roli obiektu."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1819}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1910}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 3865}
+    confidence: high
+    applies_to: "Gdy obiekt przechodzi z trybu dynamicznego do statycznego albo do innej interpretacji."
+
+  - id: bez-wlasnej-klasy-animation
+    topic: klasy-animacji
+    rule: "Składaj ruch z gotowych animacji i metod sceny, zamiast definiować podklasę Animation z własnym przebiegiem interpolacji."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 161}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 474}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 721}
+    confidence: high
+    applies_to: "Gdy efekt można uzyskać przez równoległe gotowe animacje, Transform albo updater."
+
+  - id: rownolegle-animacje-jednego-zdarzenia
+    topic: klasy-animacji
+    rule: "Łącz wejście geometrii, wejście adnotacji i powiązaną zmianę stanu w jednym self.play, gdy opisują jedno zdarzenie wizualne."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 474}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 784}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2501}
+    confidence: high
+    applies_to: "Gdy kilka elementów powinno rozpocząć i zakończyć przejście jako jeden gest."
+
+  - id: zakrzywiona-sciezka-transformacji
+    topic: klasy-animacji
+    rule: "Dodawaj path_arc do transformacji, gdy relacja przestrzenna między stanem źródłowym i docelowym wymaga ruchu po łuku."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 237}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 337}
+    confidence: high
+    applies_to: "Gdy prostoliniowa interpolacja zaciera kierunek albo znaczenie przejścia."
+
+  - id: there-and-back-dla-akcentu
+    topic: klasy-animacji
+    rule: "Stosuj rate_func=there_and_back do chwilowych akcentów, które mają wrócić do poprzedniego wyglądu."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 484}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2144}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 3515}
+    confidence: high
+    applies_to: "Gdy animacja ma chwilowo pokazać próbkę, kolor, grubość albo wartość bez pozostawiania zmiany."
+
+  - id: linear-dla-ruchu-parametrycznego
+    topic: klasy-animacji
+    rule: "Ustawiaj rate_func=linear, gdy czas animacji ma równomiernie odpowiadać parametrowi drogi lub kąta."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 3851}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 4236}
+    confidence: high
+    applies_to: "Gdy płynność easing nie powinna zmieniać tempa opisu ruchu."
+
+  - id: geometria-glowna-przed-adnotacja
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj obiekt główny przez wzrost lub rysowanie, a adnotacje przez Write, FadeIn albo FadeInFromDown."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1479}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2321}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2754}
+    confidence: high
+    applies_to: "Gdy obiekt ma najpierw ustanowić zjawisko, a tekst dopiero nazwać lub objaśnić jego rolę."
+
+  - id: tymczasowy-slad-z-kontrolowanym-zniszczeniem
+    topic: wejscie-i-sprzatanie
+    rule: "Buduj tymczasowe ślady na kopii obiektu, wyróżniaj je kolorem i prowadź przez ShowCreationThenDestruction albo podobny cykl tworzenia i zaniku."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 515}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 547}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1886}
+    confidence: high
+    applies_to: "Gdy linia ma pokazać chwilowy przepływ lub konstrukcję, a nie zostać na kolejną fazę."
+
+  - id: transformacja-w-nastepny-obiekt
+    topic: wejscie-i-sprzatanie
+    rule: "Przekształcaj obiekt w jego pojęciowego następcę, a niezależne etykiety i komentarze wygaszaj osobno."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 237}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 557}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2508}
+    confidence: high
+    applies_to: "Gdy nowy obiekt reprezentuje kontynuację starego, a nie całkowicie nowy element kadru."
+
+  - id: przygaszanie-zamiast-usuwania-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Przygaszaj wcześniejsze równania lub elementy kontekstu przez zmianę opacity, jeśli mają pozostać czytelne jako tło."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2501}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2527}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2543}
+    confidence: high
+    applies_to: "Gdy poprzednia informacja nadal wyznacza kontekst, ale nie jest aktualnie aktywna."
+
+  - id: usuniecie-kontrolera-po-wygaszeniu
+    topic: wejscie-i-sprzatanie
+    rule: "Po wygaszeniu mobjectu sterowanego animacją usuń również jego kontroler lub obiekt opakowujący ze sceny."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 559}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1173}
+    confidence: high
+    applies_to: "Gdy aktywna animacja została dodana jako osobny obiekt zarządzający mobjectem."
+
+  - id: kierunkowe-wyjscie-poza-kadr
+    topic: wejscie-i-sprzatanie
+    rule: "Wyprowadzaj grupę poza kadr przez przesunięcie zgodne z jej kierunkiem i przyspieszenie rush_into."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 730}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 731}
+    confidence: high
+    applies_to: "Gdy obiekt ma opuścić scenę jako cała grupa, a nie zostać zastąpiony innym obiektem."
+
+  - id: jiggling-jako-vgroup-z-updaterem
+    topic: custom-mobject
+    rule: "Projektuj własny obiekt ruchowy jako VGroup przyjmujący istniejące dzieci, zapisujący stan ruchu per dziecko i podpinający updater w konstruktorze."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 161}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 167}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 170}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 175}
+    confidence: high
+    applies_to: "Gdy efekt ma działać na grupie już utworzonych mobjectów bez tworzenia ich kopii."
+
+  - id: parametryzowana-fabryka-czastki
+    topic: custom-mobject
+    rule: "Buduj cząstkę jako kompozycję koła i znaku, a warianty semantyczne uzyskuj przez cienkie funkcje wiążące kolor, znak i promień."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 120}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 136}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 140}
+    confidence: high
+    applies_to: "Gdy obiekty różnią się głównie parametrami wyglądu, ale mają wspólną strukturę."
+
+  - id: metadane-symulacji-na-mobject
+    topic: custom-mobject
+    rule: "Przypisuj metadane symulacji, takie jak charge i velocity, po utworzeniu obiektu i pozwól polu odczytywać je bezpośrednio z cząstek."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1321}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1324}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 1336}
+    confidence: high
+    applies_to: "Gdy ta sama geometria wizualna ma uczestniczyć w kilku modelach ruchu."
+
+  - id: fabryka-svg-z-wariantami
+    topic: custom-mobject
+    rule: "Parametryzuj fabrykę obiektu SVG nazwą zasobu i kolorem, a warianty obiektu wystawiaj jako osobne metody zwracające skonfigurowany mobject."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2848}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2871}
+      - {source: "_2018/div_curl", file: "div_curl.py", line: 2874}
+    confidence: high
+    applies_to: "Gdy kilka obiektów korzysta z tego samego schematu SVG, ale reprezentuje różne role lub kolory."

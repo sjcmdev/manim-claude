@@ -1,0 +1,197 @@
+observations:
+  - id: osobna-scena-na-ujecie
+    topic: dekompozycja
+    rule: "Wydziel każdą niezależną planszę lub ujęcie do osobnej klasy InteractiveScene, także krótkie przerywniki."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 193}
+      - {source: _2024/antp, file: main.py, line: 201}
+      - {source: _2024/antp, file: main.py, line: 206}
+      - {source: _2024/antp, file: main.py, line: 806}
+    confidence: high
+    applies_to: "Obowiązuje, gdy materiał zawiera kilka odrębnych plansz lub rytmów narracyjnych."
+
+  - id: wariant-przez-dziedziczenie
+    topic: dekompozycja
+    rule: "Dla wariantów różniących się głównie rozmiarem lub liczbą iteracji dziedzicz po scenie bazowej i wystaw te różnice jako atrybuty klasowe."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 1012}
+      - {source: _2024/antp, file: main.py, line: 1066}
+      - {source: _2024/antp, file: main.py, line: 1067}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen ma identyczny przebieg, ale inne parametry wizualizacji."
+
+  - id: updater-dla-ruchu-ciaglego
+    topic: stan-i-updatery
+    rule: "Używaj updaterów do ciągłego ruchu i aktualizacji zależnych od położenia, a zmiany dyskretne wykonuj przez jawne animacje."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 48}
+      - {source: _2024/antp, file: main.py, line: 76}
+      - {source: _2024/antp, file: main.py, line: 601}
+      - {source: _2024/antp, file: main.py, line: 1044}
+    confidence: high
+    applies_to: "Obowiązuje, gdy scena łączy długotrwały ruch lub reakcję na stan z pojedynczymi zmianami narracyjnymi."
+
+  - id: usuwaj-wygasle-annotacje
+    topic: stan-i-updatery
+    rule: "Usuwaj z kontenera obiekty, które opuściły kadr, w updaterze odpowiedzialnym za ich ruch."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 53}
+      - {source: _2024/antp, file: main.py, line: 54}
+    confidence: high
+    applies_to: "Obowiązuje przy nieskończonym lub długim przewijaniu z dynamicznymi adnotacjami."
+
+  - id: rownolegle-kolekcje-po-filtrowaniu
+    topic: stan-i-updatery
+    rule: "Przy filtrowaniu elementów animuj i usuwaj te same indeksy ze wszystkich równoległych kolekcji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 646}
+      - {source: _2024/antp, file: main.py, line: 651}
+      - {source: _2024/antp, file: main.py, line: 659}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden element sceny ma równoległe reprezentacje, takie jak etykieta, strzałka i wynik."
+
+  - id: parametryzuj-konstrukcje-wieloelementowe
+    topic: ponowne-uzycie
+    rule: "Wydziel powtarzalne konstrukcje wieloelementowe do metod parametryzowanych danymi, geometrią i tempem."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 823}
+      - {source: _2024/antp, file: main.py, line: 888}
+      - {source: _2024/antp, file: main.py, line: 919}
+      - {source: _2024/antp, file: main.py, line: 976}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam układ tabel, tablic lub animacji powstaje w kilku miejscach."
+
+  - id: uzywaj-wspolnych-komponentow
+    topic: ponowne-uzycie
+    rule: "Jeśli repozytorium udostępnia komponent do standardowej wizualizacji, importuj go i przekaż mu dane zamiast odtwarzać geometrię lokalnie."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 3}
+      - {source: _2024/antp, file: main.py, line: 365}
+    confidence: high
+    applies_to: "Obowiązuje, gdy potrzebny element ma już współdzieloną implementację poza analizowanym katalogiem."
+
+  - id: kopia-dla-drugiego-ukladu
+    topic: ponowne-uzycie
+    rule: "Gdy obiekt ma pozostać w źródłowym układzie i pojawić się w nowym, animuj kopię do nowej reprezentacji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 242}
+      - {source: _2024/antp, file: main.py, line: 244}
+      - {source: _2024/antp, file: main.py, line: 607}
+      - {source: _2024/antp, file: main.py, line: 614}
+    confidence: high
+    applies_to: "Obowiązuje, gdy przejście ma pokazać zachowanie ciągłości między istniejącym obiektem a jego nową rolą."
+
+  - id: nie-duplikuj-wizualizacji-osi
+    topic: anty-wzorce
+    rule: "Nie kopiuj lokalnie konstrukcji osi liczbowej z punktami danych między scenami; wyciągnij wspólny builder z parametrami zakresu i tempa."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 370}
+      - {source: _2024/antp, file: main.py, line: 388}
+      - {source: _2024/antp, file: main.py, line: 478}
+      - {source: _2024/antp, file: main.py, line: 492}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen buduje tę samą rodzinę osi, punktów i ruchu kamery."
+
+  - id: kotwicz-adnotacje-do-geometrii
+    topic: kompozycja
+    rule: "Kotwicz lokalne adnotacje do geometrii obiektu, a ręczne przesunięcia stosuj tylko do globalnego kadrowania."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 100}
+      - {source: _2024/antp, file: main.py, line: 104}
+      - {source: _2024/antp, file: main.py, line: 406}
+      - {source: _2024/antp, file: main.py, line: 766}
+      - {source: _2024/antp, file: main.py, line: 944}
+    confidence: high
+    applies_to: "Obowiązuje, gdy napis, strzałka, ramka lub wynik ma wskazywać konkretny element sceny."
+
+  - id: grupuj-motyw-z-adnotacjami
+    topic: kompozycja
+    rule: "Pakuj element podstawowy wraz z etykietami i oznaczeniami w jedną grupę, aby synchronizować ich ruch, styl i usuwanie."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 35}
+      - {source: _2024/antp, file: main.py, line: 410}
+      - {source: _2024/antp, file: main.py, line: 823}
+      - {source: _2024/antp, file: main.py, line: 834}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden motyw wizualny składa się z obiektu głównego i kilku zależnych adnotacji."
+
+  - id: najpierw-dane-potem-obraz
+    topic: dane-a-obraz
+    rule: "Najpierw wylicz lub wczytaj dane sceny, a następnie przekształć je w mobjects."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 360}
+      - {source: _2024/antp, file: main.py, line: 362}
+      - {source: _2024/antp, file: main.py, line: 388}
+      - {source: _2024/antp, file: main.py, line: 747}
+    confidence: high
+    applies_to: "Obowiązuje w scenach, których obraz wynika z obliczeń numerycznych lub filtrowania danych."
+
+  - id: wspolna-mapa-wspolrzednych
+    topic: dane-a-obraz
+    rule: "Dla wszystkich punktów wynikających z danych wyprowadzaj położenie przez tę samą mapę współrzędnych osi."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 389}
+      - {source: _2024/antp, file: main.py, line: 399}
+      - {source: _2024/antp, file: main.py, line: 751}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka typów oznaczeń musi pozostać wyrównanych podczas ruchu lub skalowania osi."
+
+  - id: tempo-zalezne-od-geometrii
+    topic: czas-i-tempo
+    rule: "Dla długiego przewijania wylicz czas trwania z rozmiaru treści i stałej prędkości."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 73}
+      - {source: _2024/antp, file: main.py, line: 74}
+      - {source: _2024/antp, file: main.py, line: 82}
+    confidence: high
+    applies_to: "Obowiązuje, gdy czas sceny ma wynikać z długości przewijanej zawartości."
+
+  - id: jeden-parametr-rytmu
+    topic: czas-i-tempo
+    rule: "Steruj rytmem powtarzanej mikroanimacji jednym parametrem metody i stosuj go do całej sekwencji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 976}
+      - {source: _2024/antp, file: main.py, line: 982}
+      - {source: _2024/antp, file: main.py, line: 985}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wiele podobnych elementów pojawia się kolejno w rytmie narracji."
+
+  - id: planowanie-ruchu-kamery
+    topic: stan-i-updatery
+    rule: "Wydziel powtarzalne przygotowanie ruchu kamery do helpera, gdy ma ono zachodzić równolegle z kolejnymi animacjami."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 867}
+      - {source: _2024/antp, file: main.py, line: 878}
+      - {source: _2024/antp, file: main.py, line: 1006}
+      - {source: _2024/antp, file: main.py, line: 1007}
+    confidence: high
+    applies_to: "Obowiązuje przy długich planszach, w których kamera musi przesuwać się z wyprzedzeniem względem treści."
+
+  - id: usuwaj-proby-i-niedokonczone-sceny
+    topic: anty-wzorce
+    rule: "Usuwaj albo izoluj nieużywane próby, puste sceny i niedokończone metody przed traktowaniem modułu jako źródła produkcyjnego."
+    falsifiable: true
+    evidence:
+      - {source: _2024/antp, file: main.py, line: 169}
+      - {source: _2024/antp, file: main.py, line: 457}
+      - {source: _2024/antp, file: main.py, line: 696}
+      - {source: _2024/antp, file: main.py, line: 730}
+      - {source: _2024/antp, file: main.py, line: 1100}
+    confidence: high
+    applies_to: "Obowiązuje, gdy plik zawiera alternatywne implementacje, metody oznaczone jako stare lub konstrukcje bez pełnego przebiegu."

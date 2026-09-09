@@ -1,0 +1,231 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Definiuj updater odczytujący tracker lub callable jako funkcję przyjmującą tylko obiekt aktualizowany i pobieraj źródłową wartość ponownie w każdej klatce."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: misc.py, line: 41}
+      - {source: src/MF_Tools, file: misc.py, line: 49}
+    confidence: high
+    applies_to: "Stosuj, gdy tekst liczbowy ma odzwierciedlać ValueTracker albo funkcję zależną od geometrii."
+
+  - id: layout-updatery
+    topic: updatery
+    rule: "Rozdziel w updaterach niezależne niezmienniki złożonego oznaczenia: układ dzieci, dopasowanie wysokości i opcjonalne położenie względem śledzonego obiektu."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: misc.py, line: 77}
+      - {source: src/MF_Tools, file: misc.py, line: 80}
+      - {source: src/MF_Tools, file: misc.py, line: 83}
+    confidence: high
+    applies_to: "Stosuj dla grup złożonych z elementów o zmiennej szerokości lub pozycji."
+
+  - id: orientation-marker
+    topic: updatery
+    rule: "Do kompensacji orientacji dołącz niewidoczny znacznik linii jako ostatnią część obiektu i obracaj pozostałe części przeciwnie do jego kąta w updaterze sceny."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: updaters.py, line: 4}
+      - {source: src/MF_Tools, file: updaters.py, line: 8}
+      - {source: demo, file: demo_code.py, line: 14}
+    confidence: high
+    applies_to: "Stosuj, gdy obiekt ma zachować własną orientację podczas obrotu grupy nadrzędnej."
+
+  - id: camera-style
+    topic: updatery
+    rule: "Zamykaj w updaterze początkową szerokość obrysu i kadru, a bieżącą szerokość obrysu wyliczaj z ich aktualnego stosunku."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: rescaling.py, line: 6}
+      - {source: src/MF_Tools, file: rescaling.py, line: 10}
+    confidence: high
+    applies_to: "Stosuj, gdy grubość obrysu ma pozostać wizualnie stała przy zmianie kadru."
+
+  - id: parametryzuj-wieloruch
+    topic: klasy-animacji
+    rule: "Twórz własną klasę Animation, gdy jeden przebieg alpha ma jednocześnie sterować geometrią i profilem krycia, a czasy, amplitudy oraz wartości krycia wystaw w __init__."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: animations.py, line: 3}
+      - {source: src/MF_Tools, file: animations.py, line: 4}
+      - {source: src/MF_Tools, file: animations.py, line: 23}
+    confidence: high
+    applies_to: "Stosuj dla obiektów, których pojawienie się, życie i zniknięcie jest częścią jednego ruchu."
+
+  - id: resetuj-przed-interpolacja
+    topic: klasy-animacji
+    rule: "Przed każdym zastosowaniem transformacji zależnej od alpha przywracaj mobject do starting_mobject, aby ruch nie kumulował się między klatkami."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: animations.py, line: 26}
+      - {source: src/MF_Tools, file: animations.py, line: 27}
+    confidence: high
+    applies_to: "Stosuj, gdy interpolate_mobject wykonuje kilka niezależnych transformacji geometrycznych."
+
+  - id: mapowanie-buduje-grupe
+    topic: klasy-animacji
+    rule: "Buduj animację złożoną przez przetłumaczenie wpisów mapy indeksów na animacje transformujące, wprowadzające i usuwające, a następnie przekaż całą listę do AnimationGroup."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: transforms.py, line: 12}
+      - {source: src/MF_Tools, file: transforms.py, line: 66}
+      - {source: src/MF_Tools, file: transforms.py, line: 90}
+    confidence: high
+    applies_to: "Stosuj przy transformowaniu części tekstu lub innych obiektów indeksowanych."
+
+  - id: delay-przez-rate
+    topic: klasy-animacji
+    rule: "Realizuj opóźnienie przez dodanie go do run_time i owinięcie rate_func odcinkiem zwracającym zero przed właściwą interpolacją."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: transforms.py, line: 155}
+      - {source: src/MF_Tools, file: transforms.py, line: 160}
+      - {source: src/MF_Tools, file: transforms.py, line: 162}
+    confidence: high
+    applies_to: "Stosuj, gdy pojedynczy element ma rozpocząć ruch później w ramach wspólnej animacji."
+
+  - id: tryby-dla-reszty
+    topic: klasy-animacji
+    rule: "Pozostaw nieopisane indeksy do osobnego trybu, który albo paruje je po kolei, morfuje razem, albo wprowadza i usuwa pojedynczo."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: transforms.py, line: 73}
+      - {source: src/MF_Tools, file: transforms.py, line: 83}
+      - {source: src/MF_Tools, file: transforms.py, line: 208}
+    confidence: high
+    applies_to: "Stosuj, gdy mapa obejmuje tylko semantycznie istotne fragmenty."
+
+  - id: ghost-profile
+    topic: wejscie-i-sprzatanie
+    rule: "Steruj wejściem i wyjściem obiektu jednym profilem alpha z osobnymi odcinkami fade-in, życia i fade-out, równolegle do płynnej skali, przesunięcia i obrotu."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: animations.py, line: 25}
+      - {source: src/MF_Tools, file: animations.py, line: 27}
+      - {source: src/MF_Tools, file: animations.py, line: 30}
+      - {source: src/MF_Tools, file: animations.py, line: 36}
+    confidence: high
+    applies_to: "Stosuj dla tymczasowych obiektów dekoracyjnych lub wizualnych śladów."
+
+  - id: fade-shift-to-target
+    topic: wejscie-i-sprzatanie
+    rule: "Przy fade elementu niepasującego do mapowania dodawaj domyślny wektor od środka źródła do środka celu tylko wtedy, gdy nie podano własnego przesunięcia."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: transforms.py, line: 127}
+      - {source: src/MF_Tools, file: transforms.py, line: 138}
+    confidence: high
+    applies_to: "Stosuj, gdy wygaszany lub wprowadzany fragment ma wizualnie przejść w kierunku kolejnego układu."
+
+  - id: match-leftovers
+    topic: wejscie-i-sprzatanie
+    rule: "Paruj odpowiadające sobie glyphy przez transformer, a resztę obsługuj osobnymi introducerami i removerami z możliwością grupowania albo rozbicia na pojedyncze elementy."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: transforms.py, line: 129}
+      - {source: src/MF_Tools, file: transforms.py, line: 140}
+      - {source: src/MF_Tools, file: transforms.py, line: 145}
+    confidence: high
+    applies_to: "Stosuj przy przejściach między wyrażeniami o częściowo wspólnej strukturze."
+
+  - id: clean-parent
+    topic: wejscie-i-sprzatanie
+    rule: "Po zakończeniu transformacji odtwórz stan źródła i ponownie dodaj obiekt docelowy jako korzeń sceny przed następnym krokiem."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: transforms.py, line: 222}
+      - {source: src/MF_Tools, file: transforms.py, line: 227}
+      - {source: src/MF_Tools, file: transforms.py, line: 232}
+    confidence: high
+    applies_to: "Stosuj, gdy złożona transformacja tymczasowo rozdziela obiekt nadrzędny na submobjects."
+
+  - id: geometria-w-init
+    topic: custom-mobject
+    rule: "Przyjmuj parametry geometrii w __init__, buduj tam pełny zestaw punktów obiektu i wystawiaj scenie gotowy obiekt do ustawiania oraz animowania."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: geometry.py, line: 3}
+      - {source: src/MF_Tools, file: geometry.py, line: 6}
+      - {source: src/MF_Tools, file: geometry.py, line: 13}
+    confidence: high
+    applies_to: "Stosuj dla własnych obiektów geometrycznych, których kształt wynika bezpośrednio z parametrów konstrukcji."
+
+  - id: union-cache
+    topic: custom-mobject
+    rule: "Przechowuj pośrednie pętle wielokątów w polu obiektu przed utworzeniem dzieci, aby osobne metody mogły później modyfikować wierzchołki i zaokrąglać poligony."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: misc.py, line: 95}
+      - {source: src/MF_Tools, file: misc.py, line: 100}
+      - {source: src/MF_Tools, file: misc.py, line: 115}
+      - {source: src/MF_Tools, file: misc.py, line: 127}
+    confidence: high
+    applies_to: "Stosuj dla obiektów, które mają kilka etapów obróbki geometrii przed utworzeniem finalnej hierarchii."
+
+  - id: snapshot-vs-redraw
+    topic: custom-mobject
+    rule: "Traktuj obiekt wyliczany z innych mobjectów jako migawkę konstruktorową, a śledzenie jego zmian realizuj przez opakowanie fabryki w always_redraw na poziomie sceny."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: misc.py, line: 96}
+      - {source: src/MF_Tools, file: misc.py, line: 112}
+      - {source: demo, file: demo_code.py, line: 141}
+    confidence: high
+    applies_to: "Stosuj dla obwiedni i innych obiektów pochodnych od aktualnej geometrii kilku elementów."
+
+  - id: keyed-group-map
+    topic: custom-mobject
+    rule: "Utrzymuj mapę kluczy do submobjectów jako źródło prawdy i synchronizuj ją z hierarchią przy dodawaniu oraz usuwaniu elementów."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: dual_compatibility.py, line: 37}
+      - {source: src/MF_Tools, file: dual_compatibility.py, line: 45}
+      - {source: src/MF_Tools, file: dual_compatibility.py, line: 71}
+    confidence: high
+    applies_to: "Stosuj dla słownikowych grup obiektów w ścieżce kompatybilności GL."
+
+  - id: slider-owns-state
+    topic: custom-mobject
+    rule: "Trzymaj tracker, granice i części wizualne suwaka w jednym obiekcie, a wartość wyliczaj z procentowej pozycji suwaka względem stałej długości."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: VT_sliders.py, line: 4}
+      - {source: src/MF_Tools, file: VT_sliders.py, line: 18}
+      - {source: src/MF_Tools, file: VT_sliders.py, line: 22}
+    confidence: high
+    applies_to: "Stosuj dla wizualnych kontrolek sterujących wartością śledzoną przez scenę."
+
+  - id: animated-vs-mutating
+    topic: custom-mobject
+    rule: "Rozdziel zwykłe operatory sterujące od ich form in-place: pierwsze zwracają animację ustawiającą wartość, a drugie mutują tracker i zwracają go dalej."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: misc.py, line: 15}
+      - {source: src/MF_Tools, file: misc.py, line: 18}
+      - {source: src/MF_Tools, file: misc.py, line: 30}
+      - {source: src/MF_Tools, file: misc.py, line: 32}
+    confidence: high
+    applies_to: "Stosuj dla obiektów stanu, które mają być wygodne zarówno w self.play, jak i w bezpośredniej mutacji."
+
+  - id: tex-wrapper
+    topic: custom-mobject
+    rule: "Normalizuj łączone obiekty tekstowe do zagnieżdżenia VGroup zgodnego ze strukturą pojedynczego wyrażenia, zbierając tylko potrzebne submobjects."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: transforms.py, line: 242}
+      - {source: src/MF_Tools, file: transforms.py, line: 245}
+      - {source: src/MF_Tools, file: transforms.py, line: 250}
+    confidence: high
+    applies_to: "Stosuj, gdy kilka osobnych obiektów tekstowych ma zachowywać się jak jedno wyrażenie podczas późniejszego mapowania."
+
+  - id: chainable-geometry-methods
+    topic: custom-mobject
+    rule: "Niech metody mutujące rozmiar i obrys zwracają mobject, aby operacje dopasowania można było łańcuchować oraz animować."
+    falsifiable: true
+    evidence:
+      - {source: src/MF_Tools, file: rescaling.py, line: 19}
+      - {source: src/MF_Tools, file: rescaling.py, line: 24}
+      - {source: src/MF_Tools, file: rescaling.py, line: 53}
+      - {source: src/MF_Tools, file: rescaling.py, line: 61}
+    confidence: high
+    applies_to: "Stosuj dla metod monkey-patchowanych na Mobject, które mają być używane jako operacje modyfikujące obiekt."

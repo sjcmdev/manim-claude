@@ -1,0 +1,207 @@
+observations:
+  - id: rozdziel-typy-ujec
+    topic: dekompozycja
+    rule: Dobieraj klasę bazową sceny do odpowiedzialności ujęcia: dialogi umieszczaj w `TeacherStudentsScene`, plansze w `InteractiveScene`, a wstawki wideo w `VideoWrapper`.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 209}
+      - {source: _2022/puzzles, file: subsets.py, line: 290}
+      - {source: _2022/puzzles, file: subsets.py, line: 415}
+    confidence: high
+    applies_to: Obowiązuje, gdy katalog zawiera dialogi, animowane wyjaśnienia i materiały wstawiane jako wideo.
+
+  - id: tnij-fazy-wspolny-stan
+    topic: dekompozycja
+    rule: Dziel długie ujęcie na metody odpowiadające kolejnym fazom, gdy fazy współdzielą stan sceny, a osobne cięcia trzymaj w osobnych klasach.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 872}
+      - {source: _2022/puzzles, file: subsets.py, line: 979}
+      - {source: _2022/puzzles, file: subsets.py, line: 1201}
+      - {source: _2022/puzzles, file: subsets.py, line: 1331}
+    confidence: high
+    applies_to: Obowiązuje dla scen, które przechodzą przez kilka kolejnych reprezentacji tej samej idei.
+
+  - id: wariant-przez-atrybuty
+    topic: ponowne-uzycie
+    rule: Twórz warianty zakresu lub tempa przez nadpisanie atrybutów klasy dziedziczącej zamiast kopiowania metody `construct`.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 601}
+      - {source: _2022/puzzles, file: subsets.py, line: 688}
+      - {source: _2022/puzzles, file: subsets.py, line: 689}
+    confidence: high
+    applies_to: Obowiązuje, gdy warianty wykonują tę samą choreografię na innej liczbie elementów lub w innym tempie.
+
+  - id: wspolna-gramatyka-w-helperach
+    topic: ponowne-uzycie
+    rule: Wyciągaj do helperów modułowych powtarzalną konstrukcję obiektu, jego układ i animację przejścia między reprezentacjami.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 6}
+      - {source: _2022/puzzles, file: subsets.py, line: 60}
+      - {source: _2022/puzzles, file: subsets.py, line: 123}
+      - {source: _2022/puzzles, file: subsets.py, line: 136}
+    confidence: high
+    applies_to: Obowiązuje, gdy ten sam typ obiektu pojawia się w kilku scenach lub kilku fazach jednego ujęcia.
+
+  - id: czesci-po-danych-domenowych
+    topic: ponowne-uzycie
+    rule: Przechowuj dane domenowe na obiekcie i wyszukuj jego części po znaczeniu, zamiast wiązać animacje z pozycjami submobjectów.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 28}
+      - {source: _2022/puzzles, file: subsets.py, line: 32}
+      - {source: _2022/puzzles, file: subsets.py, line: 152}
+      - {source: _2022/puzzles, file: subsets.py, line: 1032}
+    confidence: high
+    applies_to: Obowiązuje, gdy animowany napis lub diagram jest wielokrotnie przebudowywany z różnymi danymi.
+
+  - id: tracker-jako-zrodlo-stanu
+    topic: stan-i-updatery
+    rule: Steruj ciągłą zmianą parametru przez `ValueTracker`, wyliczaj stan zależnych obiektów w updaterze, dodaj tracker do sceny i animuj jego wartość.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 643}
+      - {source: _2022/puzzles, file: subsets.py, line: 650}
+      - {source: _2022/puzzles, file: subsets.py, line: 681}
+      - {source: _2022/puzzles, file: subsets.py, line: 2065}
+      - {source: _2022/puzzles, file: subsets.py, line: 2141}
+    confidence: high
+    applies_to: Obowiązuje dla płynnych przebiegów po liczbie, parametrze funkcji lub pozycji na wykresie.
+
+  - id: updater-dla-zaleznosci
+    topic: stan-i-updatery
+    rule: Używaj updatera dla obiektu zależnego od ruchu źródła, a samo źródło animuj jawną animacją.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 826}
+      - {source: _2022/puzzles, file: subsets.py, line: 837}
+      - {source: _2022/puzzles, file: subsets.py, line: 2745}
+      - {source: _2022/puzzles, file: subsets.py, line: 4036}
+      - {source: _2022/puzzles, file: subsets.py, line: 4042}
+    confidence: high
+    applies_to: Obowiązuje dla grotów, linii, punktów i śladów, które muszą stale podążać za innym obiektem.
+
+  - id: zamrazaj-kopie-z-updaterem
+    topic: stan-i-updatery
+    rule: Przed pozostawieniem śladu kopii obiektu sterowanego updaterem wyczyść updatery na tej kopii.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 838}
+    confidence: high
+    applies_to: Obowiązuje, gdy kopia ma zostać nieruchomym śladem po ruchu obiektu źródłowego.
+
+  - id: ukladaj-wzgledem-znacznikow
+    topic: kompozycja
+    rule: Pozycjonuj zwykłe elementy względem zakotwiczonych obiektów przez `next_to`, `arrange` i `to_edge`, a współrzędne wpisuj ręcznie tylko dla świadomie specjalnego ustawienia.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 104}
+      - {source: _2022/puzzles, file: subsets.py, line: 1468}
+      - {source: _2022/puzzles, file: subsets.py, line: 1488}
+      - {source: _2022/puzzles, file: subsets.py, line: 1681}
+    confidence: high
+    applies_to: Obowiązuje dla tekstu, etykiet, ramek i grup budowanych w relacji do innych elementów kadru.
+
+  - id: grupuj-przed-reorganizacja
+    topic: kompozycja
+    rule: Grupuj elementy według relacji widokowych i przenoś całe grupy przez targety, zamiast osobno aktualizować każdy składnik reorganizowanego układu.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1137}
+      - {source: _2022/puzzles, file: subsets.py, line: 1156}
+      - {source: _2022/puzzles, file: subsets.py, line: 1313}
+      - {source: _2022/puzzles, file: subsets.py, line: 1360}
+    confidence: high
+    applies_to: Obowiązuje przy przejściu między układem według kolejności tworzenia a układem według wspólnej cechy.
+
+  - id: skaluj-kolekcje-z-danych
+    topic: kompozycja
+    rule: Dla kolekcji zależnej od danych używaj układu siatkowego lub stosów, następnie ograniczaj rozmiar grupy i centruj ją zamiast ręcznie ustawiać każdy element.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1427}
+      - {source: _2022/puzzles, file: subsets.py, line: 1468}
+      - {source: _2022/puzzles, file: subsets.py, line: 1486}
+      - {source: _2022/puzzles, file: subsets.py, line: 1800}
+    confidence: high
+    applies_to: Obowiązuje dla list, tabel, rodzin podzbiorów i innych grup, których liczność może się zmieniać.
+
+  - id: licz-dane-w-konstrukcji
+    topic: dane-a-obraz
+    rule: Licz małe, deterministyczne dane wynikające bezpośrednio z modelu w kodzie sceny i od razu twórz z nich obiekty wizualne.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 152}
+      - {source: _2022/puzzles, file: subsets.py, line: 522}
+      - {source: _2022/puzzles, file: subsets.py, line: 3613}
+      - {source: _2022/puzzles, file: subsets.py, line: 3751}
+    confidence: high
+    applies_to: Obowiązuje dla wartości pochodnych od niewielkiego zakresu, które nie wymagają ręcznie przygotowanego datasetu.
+
+  - id: asset-dla-gotowych-plansz
+    topic: dane-a-obraz
+    rule: Wczytuj zewnętrzny mobject dla gotowej, złożonej planszy lub formuły, a kod sceny ogranicz do jej rozmieszczenia i animowania.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 2232}
+      - {source: _2022/puzzles, file: subsets.py, line: 2242}
+      - {source: _2022/puzzles, file: subsets.py, line: 4225}
+      - {source: _2022/puzzles, file: subsets.py, line: 4232}
+    confidence: medium
+    applies_to: Obowiązuje, gdy ręczne odtworzenie wieloelementowej planszy byłoby trudniejsze niż użycie przygotowanego assetu.
+
+  - id: nie-uzywaj-sciezek-maszynowych
+    topic: anty-wzorce
+    rule: Nie wiąż sceny z absolutną ścieżką konkretnego komputera; odwołuj assety przez ścieżkę repozytorium albo resolver zasobów.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 4480}
+    confidence: high
+    applies_to: Obowiązuje dla każdego obrazu, pliku mobject i innego zasobu ładowanego podczas renderu.
+
+  - id: tempo-zalezne-od-licznosci
+    topic: czas-i-tempo
+    rule: Wyliczaj czas progresywnej animacji z liczby elementów i ustawiaj dolny próg czasu zamiast używać jednej stałej dla wszystkich przypadków.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1909}
+      - {source: _2022/puzzles, file: subsets.py, line: 1912}
+      - {source: _2022/puzzles, file: subsets.py, line: 683}
+    confidence: high
+    applies_to: Obowiązuje dla animacji ujawniających elementy kolekcji lub przeszukujących zakres zależny od danych.
+
+  - id: parametryzuj-punkty-montazowe
+    topic: czas-i-tempo
+    rule: Oznaczaj pauzy przeznaczone na komentarz montażowy przez nazwany argument `note` zamiast pozostawiać je jako anonimowe oczekiwanie.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 893}
+      - {source: _2022/puzzles, file: subsets.py, line: 1326}
+      - {source: _2022/puzzles, file: subsets.py, line: 2176}
+      - {source: _2022/puzzles, file: subsets.py, line: 2197}
+    confidence: medium
+    applies_to: Obowiązuje dla pauz, które odpowiadają konkretnym kwestiom lub decyzjom montażowym.
+
+  - id: usun-stuby-sceny
+    topic: anty-wzorce
+    rule: Nie zostawiaj w katalogu renderowanych scen pustych metod `construct` zakończonych `pass`.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 3607}
+      - {source: _2022/puzzles, file: subsets.py, line: 3881}
+      - {source: _2022/puzzles, file: subsets.py, line: 4684}
+    confidence: high
+    applies_to: Obowiązuje dla klas, które mają być rzeczywistymi ujęciami, a nie celowymi punktami rozszerzeń.
+
+  - id: usun-niedokonczone-helpery
+    topic: anty-wzorce
+    rule: Usuń niedokończone helpery, jeśli zawierają `pass` albo odwołują się do stanu niezdefiniowanego w ich zakresie.
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 163}
+      - {source: _2022/puzzles, file: subsets.py, line: 1125}
+      - {source: _2022/puzzles, file: subsets.py, line: 1642}
+    confidence: high
+    applies_to: Obowiązuje dla funkcji pomocniczych i metod scen, które mogą zostać wywołane ponownie przy rozbudowie materiału.

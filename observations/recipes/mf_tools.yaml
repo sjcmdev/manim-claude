@@ -1,0 +1,288 @@
+techniques:
+  - id: mapowanie-glifow
+    nazwa: "TransformByGlyphMap"
+    problem: "Zwykła transformacja całego wzoru nie pozwala kontrolować, które symbole mają się połączyć, rozdzielić, pojawić albo zniknąć."
+    zamiast: "Ręczne składanie wielu transformacji i wygaszeń dla osobno wycinanych fragmentów wzoru."
+    kiedy: "Gdy przejście między wzorami ma zachować czytelną semantykę poszczególnych symboli."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: README.md, line: 22}
+    przenosnosc: wysoka
+
+  - id: mapowanie-tylko-aktywnych-glifow
+    nazwa: "automatic handling of unmentioned indices"
+    problem: "Pełna mapa transformacji staje się długa i krucha, choć większość symboli jedynie przesuwa się do odpowiadających pozycji."
+    zamiast: "Wypisywanie mapowania każdego niezmienionego symbolu."
+    kiedy: "Gdy pominięte symbole po obu stronach są równoliczne i odpowiadają sobie kolejnością."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: README.md, line: 85}
+    przenosnosc: wysoka
+
+  - id: podglad-indeksow-transformacji
+    nazwa: "show_indices"
+    problem: "Indeksy glifów w złożonym MathTex są trudne do odgadnięcia i łatwo przez to przygotować błędną mapę."
+    zamiast: "Wielokrotne próbne rendery oraz tymczasowe ręczne dodawanie i usuwanie etykiet indeksów."
+    kiedy: "Gdy mapa jest pusta, niekompletna albo liczby nieprzypisanych glifów po obu stronach się różnią."
+    dotyczy_bolaczki: "iteracja-bez-renderu"
+    zrodlo: {file: README.md, line: 50}
+    przenosnosc: wysoka
+
+  - id: audyt-nieprzypisanych-indeksow
+    nazwa: "printing"
+    problem: "Trudno ustalić, czy błąd przejścia wynika z indeksów użytych wielokrotnie, pominiętych lub pozostawionych bez pary."
+    zamiast: "Diagnozowanie mapy wyłącznie na podstawie klatek nieudanego renderu."
+    kiedy: "Gdy transformacja ma nieoczekiwane parowania albo automatycznie przechodzi w tryb pokazywania indeksów."
+    dotyczy_bolaczki: "iteracja-bez-renderu"
+    zrodlo: {file: src/MF_Tools/transforms.py, line: 172}
+    przenosnosc: wysoka
+
+  - id: jeden-glif-do-wielu-celow
+    nazwa: "copying repeated source glyphs"
+    problem: "Ten sam symbol źródłowy nie może być bezpiecznie zużyty równocześnie przez kilka transformacji."
+    zamiast: "Ręczne tworzenie, pozycjonowanie i pilnowanie kopii symbolu przed animacją."
+    kiedy: "Gdy jeden indeks źródłowy ma zasilić co najmniej dwa symbole docelowe."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: README.md, line: 52}
+    przenosnosc: wysoka
+
+  - id: wejscia-i-wyjscia-w-mapie
+    nazwa: "introducer and remover entries"
+    problem: "Nowe i znikające symbole trzeba zsynchronizować z resztą przekształcenia wzoru."
+    zamiast: "Osobne grupy FadeIn i FadeOut układane ręcznie obok transformacji symboli."
+    kiedy: "Gdy fragment wzoru nie ma odpowiednika odpowiednio po stronie źródłowej albo docelowej."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: README.md, line: 32}
+    przenosnosc: wysoka
+
+  - id: indywidualne-wejscia-i-wyjscia
+    nazwa: "introduce_individually / remove_individually"
+    problem: "Animowanie całej grupy nowych lub usuwanych znaków naraz może wyglądać jak jeden blok zamiast sekwencji pisania lub wzrostu."
+    zamiast: "Rozbijanie listy indeksów na wiele prawie identycznych wpisów mapy."
+    kiedy: "Gdy wybrany efekt wprowadzenia lub usunięcia powinien działać osobno na każdy glif."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: README.md, line: 98}
+    przenosnosc: wysoka
+
+  - id: lokalna-trasa-transformacji
+    nazwa: "per-entry animation kwargs"
+    problem: "Różne części wzoru często wymagają innych łuków, czasów lub typów transformacji, aby ruch pozostał czytelny."
+    zamiast: "Stosowanie jednego globalnego stylu albo rozbijanie przejścia na osobne wywołania animacji."
+    kiedy: "Gdy co najmniej jeden fragment ma poruszać się inaczej niż pozostałe."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: README.md, line: 41}
+    przenosnosc: wysoka
+
+  - id: opoznienie-bez-succession
+    nazwa: "delay"
+    problem: "Opóźnianie pojedynczej części grupy animacji przez Succession i Wait powoduje problemy z kompozycją oraz synchronizacją."
+    zamiast: "Opakowywanie każdej opóźnionej animacji w osobną sekwencję z Wait."
+    kiedy: "Gdy tylko wybrane fragmenty wspólnego przejścia mają rozpocząć się później."
+    dotyczy_bolaczki: "pokretla-czasowe"
+    zrodlo: {file: README.md, line: 11}
+    przenosnosc: wysoka
+
+  - id: automatyczne-wygaszanie-reszty
+    nazwa: "auto_fade"
+    problem: "Nierówna liczba nieopisanych glifów uniemożliwia automatyczne parowanie reszty wzorów."
+    zamiast: "Dopisywanie osobnego wejścia lub wyjścia dla każdego drugorzędnego symbolu."
+    kiedy: "Gdy jawnie mapowane są tylko ważne symbole, a pozostałe mogą po prostu zniknąć i pojawić się."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: README.md, line: 101}
+    przenosnosc: wysoka
+
+  - id: grupowe-morfowanie-reszty
+    nazwa: "auto_morph"
+    problem: "Nieopisane fragmenty o różnej liczbie glifów nie dają się sensownie sparować znak po znaku."
+    zamiast: "Wymuszanie sztucznych par indeksów albo ręczne budowanie transformacji całego pozostałego fragmentu."
+    kiedy: "Gdy reszta wzoru ma zostać odebrana jako jeden zmieniający kształt blok."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: README.md, line: 102}
+    przenosnosc: wysoka
+
+  - id: wspolna-konfiguracja-reszty
+    nazwa: "auto_resolve_kwargs"
+    problem: "Powtarzanie tych samych parametrów dla wszystkich automatycznie obsługiwanych glifów zaciemnia właściwą mapę."
+    zamiast: "Przekazywanie identycznego zestawu argumentów w każdym wpisie dotyczącym pozostałych symboli."
+    kiedy: "Gdy wszystkie automatycznie rozwiązywane fragmenty mają dzielić trasę, opóźnienie lub rytm."
+    dotyczy_bolaczki: "przekazywanie-parametrow"
+    zrodlo: {file: README.md, line: 103}
+    przenosnosc: wysoka
+
+  - id: transformacja-z-kopii
+    nazwa: "from_copy"
+    problem: "Przekształcenie usuwa wizualny stan źródłowy, choć bywa on nadal potrzebny jako część wyprowadzenia."
+    zamiast: "Samodzielne kopiowanie źródła i pilnowanie, który egzemplarz znajduje się w scenie po animacji."
+    kiedy: "Gdy wzór źródłowy ma pozostać widoczny obok wyniku transformacji."
+    dotyczy_bolaczki: "reset"
+    zrodlo: {file: README.md, line: 92}
+    przenosnosc: wysoka
+
+  - id: odtworzenie-stanu-po-transformacji
+    nazwa: "TransformByGlyphMap cleanup"
+    problem: "Transformacje działające na podglifach mogą pozostawić zmienione źródło i osierocone podmobjecty celu w strukturze sceny."
+    zamiast: "Ręczne zapisywanie stanu, przywracanie źródła oraz ponowne składanie obiektu docelowego po animacji."
+    kiedy: "Gdy po przejściu wzór źródłowy lub docelowy będzie dalej używany jako spójny obiekt."
+    dotyczy_bolaczki: "reset"
+    zrodlo: {file: src/MF_Tools/transforms.py, line: 222}
+    przenosnosc: wysoka
+
+  - id: splaszczanie-wielu-mathtex
+    nazwa: "CombineTex"
+    problem: "Kilka osobno utworzonych MathTex ma inną strukturę podmobjectów niż pojedynczy wzór, co utrudnia wspólne indeksowanie."
+    zamiast: "Specjalne przypadki mapowania dla każdego składnika albo ręczne przebudowywanie zagnieżdżonych grup."
+    kiedy: "Gdy kilka istniejących wzorów ma być traktowanych przez transformację glifów jak jeden MathTex."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: src/MF_Tools/transforms.py, line: 238}
+    przenosnosc: srednia
+
+  - id: zachowanie-orientacji-etykiety
+    nazwa: "Scene.keep_orientation"
+    problem: "Etykieta będąca częścią obracanego obiektu dziedziczy obrót i staje się przekrzywiona lub nieczytelna."
+    zamiast: "Ręczne obracanie etykiety w przeciwną stronę przy każdej zmianie rodzica."
+    kiedy: "Gdy pozycja etykiety ma podążać za obracanym rodzicem, ale jej tekst ma pozostać pionowy."
+    dotyczy_bolaczki: null
+    zrodlo: {file: README.md, line: 237}
+    przenosnosc: srednia
+
+  - id: luk-w-dowolnej-plaszczyznie-3d
+    nazwa: "Arc3d"
+    problem: "Standardowe konstrukcje łuku są niewygodne, gdy punkty i środek nie leżą w płaszczyźnie sceny."
+    zamiast: "Budowanie płaskiego łuku, a następnie ręczne wyznaczanie obrotu i transformacji do właściwej orientacji."
+    kiedy: "Gdy trzeba połączyć kierunki od środka do dwóch dowolnych punktów przestrzeni łukiem 3D."
+    dotyczy_bolaczki: null
+    zrodlo: {file: README.md, line: 267}
+    przenosnosc: wysoka
+
+  - id: wektor-z-kata
+    nazwa: "Vcis"
+    problem: "Powtarzane składanie kierunku z sinusa, cosinusa i wektorów bazowych jest rozwlekłe oraz podatne na pomylenie konwencji kąta."
+    zamiast: "Każdorazowe ręczne obliczanie kartezjańskich składowych kierunku."
+    kiedy: "Gdy położenie, przesunięcie lub kierunek obiektu jest zadany kątem."
+    dotyczy_bolaczki: null
+    zrodlo: {file: README.md, line: 293}
+    przenosnosc: wysoka
+
+  - id: zwiezle-sterowanie-trackerem
+    nazwa: "VT"
+    problem: "Częste odczyty, skoki i animowane zmiany ValueTracker rozrastają kod sceny i przesłaniają zależności matematyczne."
+    zamiast: "Powtarzanie pełnych wywołań get_value, set_value i animate.increment_value."
+    kiedy: "Gdy wiele obiektów i animacji korzysta z często zmienianych parametrów liczbowych."
+    dotyczy_bolaczki: null
+    zrodlo: {file: README.md, line: 315}
+    przenosnosc: wysoka
+
+  - id: zywa-wartosc-liczbowa
+    nazwa: "DN"
+    problem: "Wyświetlana liczba łatwo przestaje odpowiadać trackerowi lub wielkości obliczanej z aktualnego stanu sceny."
+    zamiast: "Ręczne tworzenie DecimalNumber i dopisywanie za każdym razem niemal identycznego updatera."
+    kiedy: "Gdy na ekranie ma być stale widoczna bieżąca wartość trackera albo funkcji zależnej od sceny."
+    dotyczy_bolaczki: null
+    zrodlo: {file: README.md, line: 347}
+    przenosnosc: wysoka
+
+  - id: sledzaca-etykieta-wspolrzednych
+    nazwa: "CoordPair"
+    problem: "Etykieta współrzędnych poruszającego się obiektu wymaga jednoczesnego odświeżania obu liczb, układu nawiasów i położenia etykiety."
+    zamiast: "Osobne updatery dla współrzędnych, składu tekstu, rozmiaru, tła i pozycjonowania."
+    kiedy: "Gdy punkt lub inny obiekt ma podczas ruchu pokazywać aktualną parę współrzędnych."
+    dotyczy_bolaczki: null
+    zrodlo: {file: src/MF_Tools/misc.py, line: 53}
+    przenosnosc: srednia
+
+  - id: wizualizacja-bounding-box
+    nazwa: "bounding_box"
+    problem: "Nie widać, z jakich punktów krytycznych Manim wyznacza wyrównanie i prostokąt ograniczający obiektu."
+    zamiast: "Zgadywanie przyczyn złego next_to, align_to lub obrotu na podstawie samego rezultatu."
+    kiedy: "Gdy pozycjonowanie zależne od rozmiaru albo punktów krytycznych zachowuje się nieintuicyjnie."
+    dotyczy_bolaczki: "iteracja-bez-renderu"
+    zrodlo: {file: README.md, line: 367}
+    przenosnosc: wysoka
+
+  - id: inspekcja-geometrii-glifu
+    nazwa: "debug_glyph"
+    problem: "Kształt glifu nie ujawnia kolejności i rozmieszczenia punktów danych używanych do rysowania ścieżki."
+    zamiast: "Analizowanie surowych tablic punktów albo zgadywanie przyczyny wadliwego zapisu glifu."
+    kiedy: "Gdy animacja pisania, morfowanie lub własna obróbka pojedynczego glifu daje nieoczekiwany wynik."
+    dotyczy_bolaczki: "iteracja-bez-renderu"
+    zrodlo: {file: src/MF_Tools/debug.py, line: 4}
+    przenosnosc: srednia
+
+  - id: indeksy-zagniezdzonego-tex
+    nazwa: "indexx_labels"
+    problem: "Jednokolorowe etykiety indeksów nie odróżniają warstw podmobjectów w wieloczęściowym Tex."
+    zamiast: "Osobne etykietowanie każdej grupy lub ręczne śledzenie zagnieżdżonych indeksów."
+    kiedy: "Gdy MathTex powstał z wielu łańcuchów albo zawiera więcej niż jedną warstwę indeksowania."
+    dotyczy_bolaczki: "iteracja-bez-renderu"
+    zrodlo: {file: README.md, line: 392}
+    przenosnosc: wysoka
+
+  - id: etykiety-indeksow-proporcjonalne-do-obiektu
+    nazwa: "proportional label height"
+    problem: "Stały rozmiar etykiet indeksów jest nieczytelny dla małych obiektów i przytłacza duże lub gęste wzory."
+    zamiast: "Ręczne dobieranie label_height po każdej zmianie skali badanego obiektu."
+    kiedy: "Gdy tym samym narzędziem indeksowane są obiekty o wyraźnie różnych rozmiarach."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: README.md, line: 397}
+    przenosnosc: wysoka
+
+  - id: wspolny-obrys-rozproszonych-obiektow
+    nazwa: "SurroundingRectangleUnion"
+    problem: "Pojedynczy prostokąt wokół nieregularnej grupy obejmuje dużo pustej przestrzeni, a osobne prostokąty nie wyglądają jak jeden obszar."
+    zamiast: "Ręczne rysowanie wielokąta granicznego albo utrzymywanie zestawu nakładających się ramek."
+    kiedy: "Gdy kilka sąsiadujących obiektów ma być wizualnie zaznaczonych jako jeden możliwie ciasny region."
+    dotyczy_bolaczki: "buff"
+    zrodlo: {file: README.md, line: 410}
+    przenosnosc: wysoka
+
+  - id: dynamiczny-wspolny-obrys
+    nazwa: "SurroundingRectangleUnion with always_redraw"
+    problem: "Obrys grupy szybko przestaje pasować, gdy jego elementy przesuwają się lub obracają."
+    zamiast: "Animowanie granicy niezależnie albo ręczne aktualizowanie jej w każdym kroku ruchu."
+    kiedy: "Gdy wyróżniany region ma stale podążać za zmieniającym się układem obiektów."
+    dotyczy_bolaczki: "buff"
+    zrodlo: {file: README.md, line: 468}
+    przenosnosc: wysoka
+
+  - id: animacja-z-cyklem-zycia
+    nazwa: "GhostSlideFade"
+    problem: "Obiekt mający wejść, przez pewien czas istnieć i wyjść podczas jednoczesnego ruchu wymaga synchronizacji kilku efektów."
+    zamiast: "Składanie FadeIn, Wait, transformacji geometrycznych i FadeOut w osobną sekwencję."
+    kiedy: "Gdy efemeryczny element ma mieć niezależnie regulowane fazy pojawiania, ekspozycji i zanikania."
+    dotyczy_bolaczki: "pokretla-czasowe"
+    zrodlo: {file: src/MF_Tools/animations.py, line: 3}
+    przenosnosc: wysoka
+
+  - id: stala-grubosc-przy-zoomie
+    nazwa: "maintain_apparent_stroke_width"
+    problem: "Zoom kamery zmienia postrzeganą grubość konturów i zaburza spójność grafiki."
+    zamiast: "Ręczne korygowanie stroke_width po każdej animacji ramki kamery."
+    kiedy: "Gdy kamera przybliża lub oddala scenę, a kontur ma zachować ekranową grubość."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: src/MF_Tools/rescaling.py, line: 6}
+    przenosnosc: wysoka
+
+  - id: skalowanie-razem-z-konturem
+    nazwa: "scale_with_stroke_width"
+    problem: "Zwykłe skalowanie geometrii bez proporcjonalnej zmiany konturu daje wizualnie zbyt ciężkie lub zbyt cienkie linie."
+    zamiast: "Osobne skalowanie obiektu i ręczne przeliczanie stroke_width całej rodziny podmobjectów."
+    kiedy: "Gdy obiekt ma zmienić rozmiar jako kompletna grafika, łącznie z wagą linii."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: src/MF_Tools/rescaling.py, line: 19}
+    przenosnosc: wysoka
+
+  - id: dopasowanie-do-ograniczen
+    nazwa: "scale_to_fit"
+    problem: "Ręczny scale wymaga prób, gdy obiekt musi zmieścić się jednocześnie w kilku wymiarach z marginesem i limitami skali."
+    zamiast: "Dobieranie współczynnika na oko lub osobne warunki dla szerokości i wysokości."
+    kiedy: "Gdy dostępne miejsce jest określone graniczną szerokością, wysokością lub głębokością."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: src/MF_Tools/rescaling.py, line: 28}
+    przenosnosc: wysoka
+
+  - id: dopasowanie-rozmiaru-do-obiektu
+    nazwa: "scale_to_fit_mobject"
+    problem: "Dopasowanie jednego obiektu do wymiarów drugiego wymaga powtarzania pomiarów i wyboru bezpiecznego współczynnika."
+    zamiast: "Ręczne pobieranie szerokości i wysokości wzorca oraz eksperymentowanie z scale."
+    kiedy: "Gdy napis, ilustracja lub inny element ma zmieścić się w obszarze wyznaczonym przez istniejący mobject."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: src/MF_Tools/rescaling.py, line: 53}
+    przenosnosc: wysoka

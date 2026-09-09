@@ -1,0 +1,246 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Updater zależny wyłącznie od trackera pisz bez argumentu `dt` i odczytuj tracker przy każdej klatce."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1038}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 392}
+    confidence: high
+    applies_to: "Obowiązuje, gdy położenie lub wartość wynika bezpośrednio z aktualnego stanu trackera."
+
+  - id: czas-przez-dt
+    topic: updatery
+    rule: "Upływ czasu modeluj updaterem przyjmującym `dt`, a skalowanie tempa trzymaj w osobnym trackerze."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1280}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1281}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 910}
+    confidence: high
+    applies_to: "Obowiązuje dla trackerów sterujących czasem symulacji lub jej spowolnieniem."
+
+  - id: nazwany-updater-dla-logiki
+    topic: updatery
+    rule: "Dla updatera wykonującego kilka obliczeń używaj nazwanej funkcji lokalnej, a lambdę zostaw dla pojedynczej mutacji."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1038}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1062}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1078}
+    confidence: high
+    applies_to: "Obowiązuje, gdy updater wyznacza pozycję, rozmiar i więcej niż jedną zależną wartość."
+
+  - id: odbudowa-geometrii
+    topic: updatery
+    rule: "Geometrię zależną od trackera generuj przez funkcję odbudowującą obiekt, a proste właściwości spinaj krótkim updaterem lub `f_always`."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 502}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 505}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 814}
+    confidence: high
+    applies_to: "Obowiązuje, gdy zmiana trackera wpływa na kształt całego obiektu albo tylko na jego pojedynczą właściwość."
+
+  - id: zawieszanie-updaterow
+    topic: updatery
+    rule: "Zawieszaj updater przed ręczną animacją obiektu i wznawiaj go dopiero po jej zakończeniu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1706}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1742}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 820}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 836}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt jest zwykle sterowany stanem, ale chwilowo ma zostać przesunięty lub obrócony niezależnie."
+
+  - id: efekt-zdarzeniowy-jako-updater
+    topic: updatery
+    rule: "Efekt wywołany zdarzeniem trzymaj jako updater z zapisanym czasem rozpoczęcia i usuwaj go po upływie jego krótkiego życia."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1102}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1104}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1111}
+    confidence: high
+    applies_to: "Obowiązuje dla krótkich wizualnych reakcji na kolizję lub inne zdarzenie wykrywane poza zwykłym przebiegiem animacji."
+
+  - id: animacja-parametryczna
+    topic: klasy-animacji
+    rule: "Własną klasę `Animation` stosuj dla ruchu parametrycznego, a po bazowej interpolacji modyfikuj położenie i obrót na podstawie `alpha`."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 72}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 87}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 90}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden obiekt ma jednocześnie wykonywać niestandardowy obrót, przesunięcie i zmianę zależną od postępu animacji."
+
+  - id: parametry-przez-kwargs
+    topic: klasy-animacji
+    rule: "Parametry własnej animacji przyjmuj przez `kwargs`, wyjmuj z nich ustawienia ruchu i przekaż pozostałe argumenty do klasy bazowej."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 79}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 85}
+    confidence: high
+    applies_to: "Obowiązuje dla własnych animacji, których warianty różnią się promieniem, liczbą obrotów albo pozycją startową."
+
+  - id: tempo-zgodne-z-rolą-ruchu
+    topic: klasy-animacji
+    rule: "Animacje czasu symulacji uruchamiaj z `linear`, a chwilowe podkreślenia lub powroty z `there_and_back`, `wiggle` albo pauzą."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1144}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1702}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1748}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 716}
+    confidence: high
+    applies_to: "Obowiązuje, gdy trzeba odróżnić ciągły przebieg zjawiska od tymczasowego zaakcentowania fragmentu."
+
+  - id: skladanie-ruchu
+    topic: klasy-animacji
+    rule: "Ruch złożony składaj z kilku animacji w jednym wywołaniu odtwarzania, a kolejność części steruj przez `LaggedStart`, `LaggedStartMap` lub zakresy czasu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: grover.py, line: 85}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 381}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1831}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wejście, wyjście, ruch kamery i zmiana obiektu mają tworzyć jeden zsynchronizowany gest."
+
+  - id: symulacja-przed-adnotacja
+    topic: wejscie-i-sprzatanie
+    rule: "Obiekt ciągłej symulacji dodawaj przed odtwarzaniem i wprawiaj w ruch trackerem, a adnotacje wpuszczaj osobnymi animacjami."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 129}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 166}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 194}
+    confidence: high
+    applies_to: "Obowiązuje, gdy główny obiekt ma być obecny przez cały etap, a tekst lub oznaczenie ma tylko objaśniać jego stan."
+
+  - id: wejscie-z-elementu-zrodlowego
+    topic: wejscie-i-sprzatanie
+    rule: "Adnotację wyjaśniającą istniejący element wprowadzaj przez transformację jego kopii, zamiast niezależnego pojawienia się."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 243}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 409}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 303}
+    confidence: high
+    applies_to: "Obowiązuje, gdy nowy napis lub symbol ma być wizualnie odczytany jako rozwinięcie już widocznego źródła."
+
+  - id: kopia-bez-updaterow
+    topic: wejscie-i-sprzatanie
+    rule: "Do transformacji obiektu sterowanego updaterem używaj kopii z wyczyszczonymi updaterami, pozostawiając oryginał aktywny."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 240}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 286}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 836}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt na scenie nadal ma być aktualizowany, ale jego chwilowa kopia ma wejść do wzoru lub równania."
+
+  - id: przygaszanie-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Elementy pozostawiane jako ślad argumentu przygaszaj przez zmianę krycia, a usuwaj dopiero po zakończeniu ich roli."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1807}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1811}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1965}
+    confidence: high
+    applies_to: "Obowiązuje dla wcześniejszych linii, łuków i punktów, które mają pozostać kontekstem podczas omawiania nowego fragmentu."
+
+  - id: przejscie-semantyczne
+    topic: wejscie-i-sprzatanie
+    rule: "Gdy następny element jest semantycznym następcą poprzedniego, prowadź przejście przez transformację, a nie przez niezależne usunięcie i dodanie."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1697}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 711}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 1192}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ramka, prostokąt lub inny znacznik zmienia tylko wskazywany obiekt albo znaczenie."
+
+  - id: sprzatanie-przed-kolejnym-krokiem
+    topic: wejscie-i-sprzatanie
+    rule: "Przed kolejnym krokiem usuwaj przejściowe nakładki jednym zsynchronizowanym odtworzeniem, pozostawiając element bazowy."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1890}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1965}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 970}
+    confidence: high
+    applies_to: "Obowiązuje, gdy etap kończy się przejściem od rozbudowanego diagramu lub objaśnienia do jego podstawowego elementu."
+
+  - id: stan-jako-value-tracker
+    topic: custom-mobject
+    rule: "Własny obiekt stanu dziedzicz po `ValueTracker`, inicjalizuj go danymi modelu i wystaw metody odczytu wartości pochodnych oraz ustawiania stanu w czasie."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 7}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 18}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 29}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 42}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka obiektów sceny ma wynikać ze wspólnego modelu fizycznego lub matematycznego."
+
+  - id: metody-stanu-zwracaja-wartosci
+    topic: custom-mobject
+    rule: "Metody zapytań obiektu stanu zwracaj tablice lub liczby pochodne, a składanie animacji pozostaw scenie."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 42}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 49}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 55}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 64}
+    confidence: high
+    applies_to: "Obowiązuje dla metod opisujących pozycję, prędkość, energię, pęd lub liczbę kolizji."
+
+  - id: kompozycja-w-fabryce
+    topic: custom-mobject
+    rule: "Budowę wieloczęściowego obiektu zamykaj w metodzie fabrykującej, która zwraca gotowy `Group` lub `VGroup`."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 980}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 986}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1033}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 2163}
+    confidence: high
+    applies_to: "Obowiązuje dla powtarzalnych bloków, wskaźników, stref i innych kompozycji geometrycznych."
+
+  - id: dostep-do-czesci
+    topic: custom-mobject
+    rule: "Części używane później trzymaj jednocześnie w hierarchii obiektu i pod nazwanymi atrybutami."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1013}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1030}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1502}
+    confidence: high
+    applies_to: "Obowiązuje, gdy scena musi osobno zmieniać korpus, obrys lub etykietę obiektu."
+
+  - id: parametry-wariantow-w-klasie
+    topic: custom-mobject
+    rule: "Parametry wariantów obiektu deklaruj jako atrybuty klasy, a metodę budującą utrzymuj niezależną od konkretnego wariantu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 93}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1124}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1159}
+    confidence: high
+    applies_to: "Obowiązuje, gdy te same obiekty mają występować z innymi masami, rozmiarami, kolorami lub ustawieniami kamery."
+
+  - id: fabryka-z-lokalnymi-updaterami
+    topic: custom-mobject
+    rule: "Fabryka wskaźnika powinna zwracać grupę z lokalnym updaterem geometrii i osobnym updaterem etykiety zależnymi od przekazanej funkcji wartości."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1045}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1062}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1078}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1084}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów wizualizujących dynamiczną wartość jednocześnie kształtem i liczbą."

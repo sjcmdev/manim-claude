@@ -1,0 +1,265 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Odczytuj wartość z ValueTracker przez zamknięty getter i nie przyjmuj argumentu dt."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 466}
+      - {source: "_2023/clt_proof", file: "main.py", line: 488}
+    confidence: high
+    applies_to: "Stosuj, gdy updater zależy od jawnie sterowanego trackera."
+
+  - id: proste-updatery-lambda
+    topic: updatery
+    rule: "Dla prostego przeliczenia pojedynczego obiektu podpinaj updater jako lambdę bezpośrednio przy obiekcie."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 488}
+      - {source: "_2023/clt_proof", file: "main.py", line: 545}
+      - {source: "_2023/clt_proof", file: "main.py", line: 547}
+    confidence: high
+    applies_to: "Stosuj, gdy updater aktualizuje jedną wartość lub relację przestrzenną."
+
+  - id: geometria-przez-become
+    topic: updatery
+    rule: "Oddziel funkcję generującą nową geometrię od updatera, który wstawia jej wynik przez become."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 473}
+      - {source: "_2023/clt_proof", file: "main.py", line: 497}
+      - {source: "_2023/clt_proof", file: "main.py", line: 578}
+      - {source: "_2023/clt_proof", file: "main.py", line: 579}
+    confidence: high
+    applies_to: "Stosuj, gdy zmiana parametru wymaga ponownego zbudowania wykresu lub grupy."
+
+  - id: czas-w-trackerze
+    topic: updatery
+    rule: "Dla ruchu autonomicznego zapisuj funkcję czasu w trackerze i pozwól zależnym updaterom odczytywać jego wartość."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 578}
+      - {source: "_2023/clt_proof", file: "main.py", line: 583}
+    confidence: high
+    applies_to: "Stosuj, gdy scena ma samoczynnie zmieniać parametr przez określony czas."
+
+  - id: updater-z-kotwica
+    topic: updatery
+    rule: "Wyznaczaj pozycję elementu wtórnego z aktualnej pozycji elementu kotwiczącego."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 545}
+      - {source: "_2023/clt_proof", file: "main.py", line: 547}
+    confidence: high
+    applies_to: "Stosuj, gdy etykieta lub wskaźnik ma podążać za innym mobjectem."
+
+  - id: laggedstart-dla-staggeringu
+    topic: klasy-animacji
+    rule: "Rozbijaj wejście grupy na LaggedStart lub LaggedStartMap, gdy elementy mają pojawiać się z opóźnieniem."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 93}
+      - {source: "_2023/clt_proof", file: "main.py", line: 217}
+      - {source: "_2023/clt_proof", file: "main.py", line: 856}
+    confidence: high
+    applies_to: "Stosuj przy listach, wyrazach wzoru i grupach elementów wprowadzanych sekwencyjnie."
+
+  - id: animationgroup-dla-rownoleglych-kopii
+    topic: klasy-animacji
+    rule: "Gdy jeden element ma zasilić kilka celów równocześnie, grupuj jego transformacje w AnimationGroup."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 869}
+      - {source: "_2023/clt_proof", file: "main.py", line: 873}
+    confidence: high
+    applies_to: "Stosuj, gdy ta sama część wzoru ma pojawić się w kilku równoległych nawiasach lub miejscach."
+
+  - id: transformowanie-podlancuchow
+    topic: klasy-animacji
+    rule: "Przy zmianie wzoru mapuj odpowiadające sobie podłańcuchy przez TransformMatchingTex lub TransformMatchingShapes."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 439}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1222}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1490}
+    confidence: high
+    applies_to: "Stosuj, gdy nowy wzór zachowuje znaczące fragmenty starego wzoru."
+
+  - id: lukowa-sciezka-transformacji
+    topic: klasy-animacji
+    rule: "Nadawaj transformacjom znaczącą trajektorię przez path_arc i dobieraj znak łuku do relacji między źródłem a celem."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 622}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1221}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1331}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1422}
+    confidence: high
+    applies_to: "Stosuj przy przenoszeniu fragmentów wzoru między odległymi pozycjami."
+
+  - id: targety-do-przelozen
+    topic: klasy-animacji
+    rule: "Przed skoordynowanym przełożeniem geometrii generuj target i wykonuj MoveToTarget."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 343}
+      - {source: "_2023/clt_proof", file: "main.py", line: 369}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1083}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1110}
+    confidence: high
+    applies_to: "Stosuj, gdy jeden obiekt ma zmienić kilka parametrów położenia lub skali naraz."
+
+  - id: gotowe-animacje-zamiast-klasy
+    topic: klasy-animacji
+    rule: "Składaj złożone ruchy z gotowych transformacji, FadeIn, Write i grup animacji zamiast definiować własną klasę Animation."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 856}
+      - {source: "_2023/clt_proof", file: "main.py", line: 869}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1222}
+    confidence: high
+    applies_to: "Stosuj, gdy ruch składa się z jawnie opisanych transformacji kilku istniejących mobjectów."
+
+  - id: rytm-bez-rate-func
+    topic: klasy-animacji
+    rule: "Steruj rytmem przez run_time i lag_ratio, a kształtem ścieżki przez path_arc; nie ustawiaj rate_func."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 856}
+      - {source: "_2023/clt_proof", file: "main.py", line: 879}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1221}
+    confidence: high
+    applies_to: "Stosuj w animacjach dydaktycznych, w których tempo i kierunek są ważniejsze niż niestandardowe easing."
+
+  - id: rozdzielone-wejscia
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj główny wzór przez Write lub transformację z istniejącego wzoru, a adnotacje przez krótkie kierunkowe FadeIn."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 357}
+      - {source: "_2023/clt_proof", file: "main.py", line: 359}
+      - {source: "_2023/clt_proof", file: "main.py", line: 414}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1300}
+    confidence: high
+    applies_to: "Stosuj, gdy treść główna i jej objaśnienia mają różną wagę wizualną."
+
+  - id: tymczasowa-wskazowka
+    topic: wejscie-i-sprzatanie
+    rule: "Traktuj krótkie wskazówki jako warstwę tymczasową, wygaszając je w ramach wejścia, podczas gdy wskazywany obiekt pozostaje."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 534}
+      - {source: "_2023/clt_proof", file: "main.py", line: 536}
+      - {source: "_2023/clt_proof", file: "main.py", line: 537}
+    confidence: high
+    applies_to: "Stosuj dla strzałek lub innych krótkich cue wskazujących element już obecny albo właśnie wchodzący."
+
+  - id: highlight-przed-zamiana
+    topic: wejscie-i-sprzatanie
+    rule: "Przed zamianą kluczowego fragmentu pokaż ramkę lub flash, a następnie usuń overlay w tym samym przejściu."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 249}
+      - {source: "_2023/clt_proof", file: "main.py", line: 253}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1007}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1373}
+    confidence: high
+    applies_to: "Stosuj, gdy widz ma zauważyć fragment wzoru przed jego rozwinięciem lub zastąpieniem."
+
+  - id: transformowana-adnotacja
+    topic: wejscie-i-sprzatanie
+    rule: "Gdy adnotacja zmienia znaczenie, przekształć jej istniejącą geometrię w następną przez ReplacementTransform."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 1173}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1392}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1394}
+    confidence: high
+    applies_to: "Stosuj przy wymianie etykiet, ramek lub wskaźników odnoszących się do kolejnego elementu."
+
+  - id: przygaszony-kontekst
+    topic: wejscie-i-sprzatanie
+    rule: "Gdy element ma pozostać kontekstem, przygaś go przez zmianę opacity i przywróć przed zakończeniem argumentu."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 945}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1023}
+    confidence: high
+    applies_to: "Stosuj, gdy wcześniejsze rozwinięcie ma nadal wspierać nowe równanie, ale nie powinno dominować kadru."
+
+  - id: sprzatanie-overlayow
+    topic: wejscie-i-sprzatanie
+    rule: "Po zakończeniu argumentu usuń ramki i strzałki, odsuń zużyte elementy kierunkowym FadeOut i pozostaw tylko trwały kontekst."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 1007}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1404}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1539}
+    confidence: high
+    applies_to: "Stosuj przed wejściem kolejnego równania lub kolejnej warstwy objaśnienia."
+
+  - id: fabryka-group-zamiast-klasy
+    topic: custom-mobject
+    rule: "Buduj wieloelementowy mobject jako parametryzowaną fabrykę zwracającą Group lub VGroup zamiast wprowadzać własną klasę Mobject."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 497}
+      - {source: "_2023/clt_proof", file: "main.py", line: 517}
+    confidence: high
+    applies_to: "Stosuj dla kompozycji złożonych z gotowych punktów, linii, etykiet lub wykresów."
+
+  - id: uchwyty-do-czesci
+    topic: custom-mobject
+    rule: "Trzymaj części kompozycji jako dzieci grupy i rozpakuj je do osobnych uchwytów, jeśli scena ma sterować nimi niezależnie."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 517}
+      - {source: "_2023/clt_proof", file: "main.py", line: 523}
+      - {source: "_2023/clt_proof", file: "main.py", line: 549}
+    confidence: high
+    applies_to: "Stosuj, gdy różne części obiektu mają osobne fazy wejścia, transformacji lub wygaszania."
+
+  - id: dane-w-fabryce-zasoby-w-domknieciu
+    topic: custom-mobject
+    rule: "Przekazuj zmienne dane wejściowe do fabryki, a zasoby sceny, takie jak osie i tracker, wiąż przez domknięcie."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 466}
+      - {source: "_2023/clt_proof", file: "main.py", line: 497}
+      - {source: "_2023/clt_proof", file: "main.py", line: 518}
+    confidence: high
+    applies_to: "Stosuj, gdy geometria obiektu zależy równocześnie od danych oraz od układu współrzędnych sceny."
+
+  - id: scena-steruje-animacja
+    topic: custom-mobject
+    rule: "Nie zwracaj animacji z fabryki obiektu; zwracaj gotową geometrię, a kolejność jej modyfikacji zostaw scenie."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 497}
+      - {source: "_2023/clt_proof", file: "main.py", line: 534}
+      - {source: "_2023/clt_proof", file: "main.py", line: 578}
+    confidence: high
+    applies_to: "Stosuj, gdy ten sam typ obiektu może mieć różne prezentacje w różnych scenach."
+
+  - id: parametryzuj-licznosc-i-styl
+    topic: custom-mobject
+    rule: "Parametryzuj liczność i wygląd dzieci przez pola lub argumenty konstrukcji zamiast zaszywać je w grupie."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 461}
+      - {source: "_2023/clt_proof", file: "main.py", line: 462}
+      - {source: "_2023/clt_proof", file: "main.py", line: 513}
+      - {source: "_2023/clt_proof", file: "main.py", line: 514}
+    confidence: high
+    applies_to: "Stosuj, gdy obiekt ma być używany z różną liczbą próbek lub różnym stylem wizualnym."
+
+  - id: osobny-grot-krzywej
+    topic: custom-mobject
+    rule: "Dla krzywej z grotem trzymaj ścieżkę, grot i etykietę jako osobne części, kotwicząc etykietę w punkcie ścieżki."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/clt_proof", file: "main.py", line: 1551}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1558}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1564}
+      - {source: "_2023/clt_proof", file: "main.py", line: 1567}
+    confidence: high
+    applies_to: "Stosuj, gdy złożony wizualnie obiekt wymaga niezależnego sterowania końcówką lub etykietą."

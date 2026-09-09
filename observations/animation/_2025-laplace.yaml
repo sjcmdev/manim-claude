@@ -1,0 +1,214 @@
+observations:
+  - id: dt-dla-czasu
+    topic: updatery
+    rule: "Używaj sygnatury z `dt` tylko do przesuwania czasu lub całkowania stanu, a zależności od trackerów aktualizuj bez `dt`."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: shm.py, line: 47}
+      - {source: _2025/laplace, file: integration.py, line: 82}
+      - {source: _2025/laplace, file: exponentials.py, line: 1323}
+    confidence: high
+    applies_to: "Updater powinien rozróżniać upływ czasu od odczytu aktualnego parametru."
+
+  - id: getter-do-geometrii
+    topic: updatery
+    rule: "Buduj updater obiektu zależnego na getterach trackerów i zapisuj wynik bezpośrednio w geometrii albo wartości obiektu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: exponentials.py, line: 927}
+      - {source: _2025/laplace, file: exponentials.py, line: 958}
+      - {source: _2025/laplace, file: integration.py, line: 102}
+    confidence: high
+    applies_to: "Obiekt jest pochodną aktualnego położenia, wartości lub parametrów innego obiektu."
+
+  - id: nazwany-updater-grupy
+    topic: updatery
+    rule: "Nazywaj updater, gdy w jednej klatce przeliczasz kilka części grupy."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: exponentials.py, line: 1173}
+      - {source: _2025/laplace, file: integration.py, line: 1365}
+      - {source: _2025/laplace, file: shm.py, line: 808}
+    confidence: high
+    applies_to: "Jedna funkcja aktualizuje równolegle kilka elementów zależnych od wspólnego parametru."
+
+  - id: odbudowa-geometrii
+    topic: updatery
+    rule: "Używaj `always_redraw`, gdy każda klatka może odtworzyć kompletny kształt z aktualnego stanu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: exponentials.py, line: 257}
+      - {source: _2025/laplace, file: derivatives.py, line: 117}
+      - {source: _2025/laplace, file: integration.py, line: 377}
+    confidence: high
+    applies_to: "Geometria nie wymaga zachowania własnego stanu między klatkami."
+
+  - id: stan-poprzedniej-klatki
+    topic: updatery
+    rule: "Dla śladu zależnego od poprzedniej klatki przesuwaj istniejącą geometrię przez `dt` i dopisuj nowy punkt na podstawie aktualnego końca."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: exponentials.py, line: 1398}
+    confidence: high
+    applies_to: "Updater buduje historię ruchu zamiast tylko wyznaczać bieżący kształt."
+
+  - id: czyszczenie-przed-kopia
+    topic: updatery
+    rule: "Czyść updatery przed użyciem kopii jako statycznego śladu lub przed przekazaniem obiektu do niezależnej transformacji."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: integration.py, line: 1592}
+      - {source: _2025/laplace, file: exponentials.py, line: 303}
+      - {source: _2025/laplace, file: main_equations.py, line: 1225}
+    confidence: high
+    applies_to: "Kopia ma przestać reagować na tracker albo źródłowy updater ma przestać konkurować z animacją."
+
+  - id: kompozycja-gotowych-animacji
+    topic: klasy-animacji
+    rule: "Składaj ruchy równoległe i sekwencyjne przez `AnimationGroup` lub `LaggedStart`, przekazując im animacje poszczególnych elementów."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: derivatives.py, line: 800}
+      - {source: _2025/laplace, file: integration.py, line: 183}
+      - {source: _2025/laplace, file: main_equations.py, line: 479}
+    confidence: high
+    applies_to: "Złożony efekt jest kombinacją niezależnych ruchów bez potrzeby własnego cyklu interpolacji."
+
+  - id: update-alpha-dla-jednorazowego-ruchu
+    topic: klasy-animacji
+    rule: "Steruj jednorazowym parametrycznym przebiegiem przez `UpdateFromAlphaFunc`, ustawiając stan obiektu bez tworzenia osobnej podklasy animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: shm.py, line: 234}
+      - {source: _2025/laplace, file: integration.py, line: 1103}
+    confidence: high
+    applies_to: "Ruch jest lokalnym przejściem od stanu początkowego do końcowego."
+
+  - id: rate-func-wedlug-znaczenia
+    topic: klasy-animacji
+    rule: "Ustawiaj `linear` dla reprezentacji upływu czasu, a `there_and_back` lub własną funkcję dla chwilowych odchyleń i nieliniowych efektów."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: exponentials.py, line: 623}
+      - {source: _2025/laplace, file: integration.py, line: 641}
+      - {source: _2025/laplace, file: integration.py, line: 400}
+    confidence: high
+    applies_to: "Tempo animacji ma komunikować fizyczny czas, powrót do stanu lub celowo nieregularny efekt."
+
+  - id: zawieszanie-updatera
+    topic: klasy-animacji
+    rule: "Zawieszaj updater obiektu podczas animacji, która chwilowo przejmuje jego geometrię."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: integration.py, line: 152}
+      - {source: _2025/laplace, file: main_equations.py, line: 1453}
+      - {source: _2025/laplace, file: exponentials.py, line: 267}
+    confidence: high
+    applies_to: "Animacja ma chwilowo narysować lub przekształcić obiekt niezależnie od jego źródła danych."
+
+  - id: wejscie-z-punktu-zrodla
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj główny obiekt z punktu lub kierunku jego źródła i rozdzielaj wejście części niewielkim lagiem."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: main_equations.py, line: 547}
+      - {source: _2025/laplace, file: main_supplements.py, line: 330}
+    confidence: high
+    applies_to: "Element ma pojawić się jako rezultat konkretnego procesu lub miejsca na scenie."
+
+  - id: adnotacja-po-obiekcie
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotację po obiekcie wskazywanym przez nią, używając krótkiego przesunięcia, rysowania obrysu albo wzrostu strzałki."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: main_supplements.py, line: 285}
+      - {source: _2025/laplace, file: main_supplements.py, line: 323}
+    confidence: high
+    applies_to: "Adnotacja ma objaśniać już widoczny element, a nie pojawić się jako niezależny dekoracyjny obiekt."
+
+  - id: transformacja-semantyczna
+    topic: wejscie-i-sprzatanie
+    rule: "Łącz kolejne wersje tego samego pojęcia przez transformacje zachowujące wspólne fragmenty."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: main_equations.py, line: 443}
+      - {source: _2025/laplace, file: main_equations.py, line: 659}
+      - {source: _2025/laplace, file: main_supplements.py, line: 435}
+    confidence: high
+    applies_to: "Nowy zapis rozwija, przepisuje lub zmienia istniejący zapis matematyczny."
+
+  - id: ghost-dla-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Przed usunięciem zużytego elementu zostawiaj jego przygaszoną kopię jako kontekst dla następnego kroku."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: main_equations.py, line: 508}
+      - {source: _2025/laplace, file: main_equations.py, line: 522}
+    confidence: high
+    applies_to: "Poprzedni zapis ma pozostać czytelny jako ślad, ale nie powinien konkurować z aktualnie omawianym elementem."
+
+  - id: kierunkowe-sprzatanie
+    topic: wejscie-i-sprzatanie
+    rule: "Sprzątaj etap kierunkowym lub punktowym ruchem i wyłączaj źródłowe updatery przed przekazaniem sceny kolejnemu obiektowi."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: main_equations.py, line: 514}
+      - {source: _2025/laplace, file: main_supplements.py, line: 336}
+      - {source: _2025/laplace, file: integration.py, line: 652}
+    confidence: high
+    applies_to: "Obiekt kończy funkcję narracyjną, a jego następca ma przejąć uwagę i stan sceny."
+
+  - id: parametry-w-init
+    topic: custom-mobject
+    rule: "Umieszczaj parametry geometrii, fizyki i wyglądu w `__init__`, a części składowe twórz tam przez metody pomocnicze."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: shm.py, line: 12}
+      - {source: _2025/laplace, file: shm.py, line: 35}
+      - {source: _2025/laplace, file: shm.py, line: 44}
+    confidence: high
+    applies_to: "Własny obiekt ma być konfigurowalnym modelem, a nie jednorazowym układem sceny."
+
+  - id: atrybuty-czesci
+    topic: custom-mobject
+    rule: "Przechowuj ważne części obiektu jako atrybuty i dołączaj elementy pomocnicze do części, której dotyczą."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: shm.py, line: 35}
+      - {source: _2025/laplace, file: shm.py, line: 59}
+      - {source: _2025/laplace, file: shm.py, line: 67}
+    confidence: high
+    applies_to: "Scena lub metody obiektu muszą później odwoływać się do jego części geometrycznych."
+
+  - id: fluent-settery
+    topic: custom-mobject
+    rule: "Zwracaj `self` z setterów zmieniających stan, aby stan obiektu można było animować bezpośrednio."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: shm.py, line: 105}
+      - {source: _2025/laplace, file: shm.py, line: 116}
+      - {source: _2025/laplace, file: shm.py, line: 227}
+    confidence: high
+    applies_to: "Metoda ma być używana jako cel animacji albo część łańcucha operacji."
+
+  - id: dynamika-wewnatrz-obiektu
+    topic: custom-mobject
+    rule: "Podpinaj updater dynamiki wewnątrz własnego obiektu, a scenie wystawiaj jawne metody pauzy i wznowienia."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: shm.py, line: 46}
+      - {source: _2025/laplace, file: shm.py, line: 99}
+      - {source: _2025/laplace, file: shm.py, line: 224}
+    confidence: high
+    applies_to: "Obiekt ma sam utrzymywać model ruchu, podczas gdy scena tylko steruje jego cyklem życia."
+
+  - id: obiekty-pochodne-z-gettera
+    topic: custom-mobject
+    rule: "Wystawiaj metody tworzące obiekty pochodne, których updater czyta części i stan własnego obiektu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/laplace, file: shm.py, line: 120}
+      - {source: _2025/laplace, file: shm.py, line: 124}
+      - {source: _2025/laplace, file: shm.py, line: 130}
+    confidence: high
+    applies_to: "Wektor, etykieta lub inny obiekt pomocniczy ma podążać za stanem własnego modelu."

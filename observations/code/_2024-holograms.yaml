@@ -1,0 +1,193 @@
+observations:
+  - id: baza-dla-sekwencji-3d
+    topic: dekompozycja
+    rule: "Wydzielaj wspólny setup 3D i fabryki geometrii do klasy bazowej, a kolejne ujęcia definiuj jako klasy scen dziedziczące po niej."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 359}
+      - {source: _2024/holograms, file: diffraction.py, line: 407}
+      - {source: _2024/holograms, file: diffraction.py, line: 720}
+      - {source: _2024/holograms, file: diffraction.py, line: 2829}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen współdzieli oświetlenie kamery, geometrię ściany lub konstrukcję wykresów."
+
+  - id: osobne-przerywniki
+    topic: dekompozycja
+    rule: "Umieszczaj samodzielne plansze, pytania i krótkie przerywniki w osobnym pliku, kodując każde ujęcie jako osobną klasę sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: supplements.py, line: 4}
+      - {source: _2024/holograms, file: supplements.py, line: 151}
+      - {source: _2024/holograms, file: supplements.py, line: 477}
+      - {source: _2024/holograms, file: supplements.py, line: 974}
+    confidence: high
+    applies_to: "Obowiązuje, gdy materiał zawiera wiele krótkich ujęć pomocniczych niezależnych od głównej sekwencji."
+
+  - id: czas-fali-w-obiekcie
+    topic: stan-i-updatery
+    rule: "Trzymaj ciągły parametr czasu w obiekcie renderującym, aktualizuj go przez updater i steruj pauzą zmianą tempa zamiast ręcznym przepisywaniem czasu."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 94}
+      - {source: _2024/holograms, file: diffraction.py, line: 158}
+      - {source: _2024/holograms, file: diffraction.py, line: 165}
+      - {source: _2024/holograms, file: diffraction.py, line: 183}
+    confidence: high
+    applies_to: "Obowiązuje, gdy parametr ma płynnie zmieniać się także podczas animowania innych obiektów."
+
+  - id: obiekt-sterujacy-i-geometria-pochodna
+    topic: stan-i-updatery
+    rule: "Animuj jawnie obiekt sterujący lub tracker, a pozycję i kształt geometrii pochodnej wyliczaj w updaterze."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 420}
+      - {source: _2024/holograms, file: diffraction.py, line: 421}
+      - {source: _2024/holograms, file: diffraction.py, line: 1375}
+      - {source: _2024/holograms, file: diffraction.py, line: 1506}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka elementów kadru musi stale podążać za jednym punktem, odcinkiem lub parametrem."
+
+  - id: jawny-cykl-zycia-updaterow
+    topic: stan-i-updatery
+    rule: "Jawnie wznawiaj, zawieszaj i usuwaj updatery wtedy, gdy animacja ma zmienić ich obiekt bazowy albo zatrzymać zależną geometrię."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 1005}
+      - {source: _2024/holograms, file: diffraction.py, line: 1017}
+      - {source: _2024/holograms, file: diffraction.py, line: 3164}
+      - {source: _2024/holograms, file: diffraction.py, line: 3243}
+    confidence: high
+    applies_to: "Obowiązuje, gdy updater i jawna animacja mogłyby równocześnie modyfikować ten sam obiekt."
+
+  - id: warianty-przez-kopiowanie
+    topic: ponowne-uzycie
+    rule: "Buduj warianty tej samej fali lub ekspozycji przez kopiowanie, dopasowanie punktów i przeniesienie uniformów zamiast powtarzać inicjalizację."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 745}
+      - {source: _2024/holograms, file: diffraction.py, line: 750}
+      - {source: _2024/holograms, file: diffraction.py, line: 3595}
+      - {source: _2024/holograms, file: diffraction.py, line: 3596}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka obiektów ma wspólną geometrię i parametry, ale różni się źródłem, kryciem lub położeniem."
+
+  - id: parametryzowany-model-fali
+    topic: ponowne-uzycie
+    rule: "Udostępniaj parametry modelu fali przez metody ustawiające, aby sceny zmieniały częstotliwość, długość fali, tłumienie i tempo bez sięgania do wnętrza uniformów."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 64}
+      - {source: _2024/holograms, file: diffraction.py, line: 121}
+      - {source: _2024/holograms, file: diffraction.py, line: 137}
+      - {source: _2024/holograms, file: diffraction.py, line: 162}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam typ obiektu jest używany w kilku scenach z innymi parametrami."
+
+  - id: hierarchia-komponentu-kadru
+    topic: kompozycja
+    rule: "Łącz obrys, obraz i etykietę w grupy semantyczne, a pozycję etykiety wyprowadzaj względem całego komponentu."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: supplements.py, line: 168}
+      - {source: _2024/holograms, file: supplements.py, line: 174}
+      - {source: _2024/holograms, file: supplements.py, line: 185}
+      - {source: _2024/holograms, file: supplements.py, line: 250}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden element wizualny składa się z ramki, zawartości i podpisu."
+
+  - id: kotwice-dla-bitmap
+    topic: kompozycja
+    rule: "Dla adnotacji na fotografii trzymaj punkty kotwiczące jawnie, ale linie, okręgi i strzałki konstruuj z tych punktów."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: supplements.py, line: 87}
+      - {source: _2024/holograms, file: supplements.py, line: 95}
+      - {source: _2024/holograms, file: supplements.py, line: 549}
+      - {source: _2024/holograms, file: supplements.py, line: 565}
+    confidence: high
+    applies_to: "Obowiązuje, gdy geometria ma wskazywać miejsca na zewnętrznym obrazie lub nagraniu."
+
+  - id: jawny-plan-kamery
+    topic: kompozycja
+    rule: "Zapisuj kolejne ujęcia 3D jako jawne etapy zmian orientacji i położenia kamery."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 451}
+      - {source: _2024/holograms, file: diffraction.py, line: 457}
+      - {source: _2024/holograms, file: diffraction.py, line: 841}
+      - {source: _2024/holograms, file: diffraction.py, line: 843}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kamera prowadzi widza przez kolejne perspektywy tej samej sceny."
+
+  - id: lokalne-i-globalne-tempo
+    topic: czas-i-tempo
+    rule: "Rozdzielaj czas całej sekwencji od lokalnych przedziałów wejścia i wyjścia poszczególnych animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 456}
+      - {source: _2024/holograms, file: diffraction.py, line: 480}
+      - {source: _2024/holograms, file: diffraction.py, line: 849}
+      - {source: _2024/holograms, file: supplements.py, line: 267}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka obiektów ma pojawić się w różnych momentach jednego ujęcia."
+
+  - id: shader-i-obliczenia-pomocnicze
+    topic: dane-a-obraz
+    rule: "Trzymaj obliczenia per-piksel w shaderze, a osobną funkcję CPU utrzymuj tylko dla pomocniczych wykresów i pól wektorowych."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 188}
+      - {source: _2024/holograms, file: diffraction.py, line: 391}
+      - {source: _2024/holograms, file: diffraction.wgsl, line: 52}
+      - {source: _2024/holograms, file: diffraction.wgsl, line: 65}
+    confidence: high
+    applies_to: "Obowiązuje, gdy koszt obliczeń obrazu jest duży, ale potrzebna jest też geometria pomocnicza sterowana tym samym modelem."
+
+  - id: stopniowe-wprowadzanie-danych
+    topic: dane-a-obraz
+    rule: "Przy dużym zbiorze punktów ograniczaj liczbę aktywnych danych i zwiększaj ją w trakcie animacji razem z aktualizacją obrazu."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 3496}
+      - {source: _2024/holograms, file: diffraction.py, line: 3508}
+      - {source: _2024/holograms, file: diffraction.py, line: 3581}
+      - {source: _2024/holograms, file: diffraction.py, line: 3587}
+    confidence: high
+    applies_to: "Obowiązuje, gdy pełny dataset jest zbyt duży, aby od razu pokazać go w animacji."
+
+  - id: ekstrakcja-klatek-poza-construct
+    topic: dane-a-obraz
+    rule: "Dla źródła wideo otwieraj zasób w setup, zwalniaj go w tear_down, a pobieranie i zapis klatek wydziel do osobnej metody."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: model.py, line: 16}
+      - {source: _2024/holograms, file: model.py, line: 23}
+      - {source: _2024/holograms, file: model.py, line: 39}
+      - {source: _2024/holograms, file: model.py, line: 66}
+    confidence: high
+    applies_to: "Obowiązuje, gdy scena korzysta z klatek generowanych z zewnętrznego nagrania."
+
+  - id: usuwanie-kodu-martwego
+    topic: anty-wzorce
+    rule: "Usuwaj wyłączone gałęzie, stare sekcje, puste sceny i instrukcje umieszczone po return przed uznaniem pliku za wzorzec do ponownego użycia."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 310}
+      - {source: _2024/holograms, file: diffraction.py, line: 784}
+      - {source: _2024/holograms, file: diffraction.py, line: 4161}
+      - {source: _2024/holograms, file: supplements.py, line: 1821}
+      - {source: _2024/holograms, file: supplements.py, line: 1413}
+      - {source: _2024/holograms, file: diffraction.py, line: 1593}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kod ma być traktowany jako aktualna dokumentacja konstrukcji scen."
+
+  - id: niedublowanie-helperow
+    topic: anty-wzorce
+    rule: "Przenoś powtarzające się helpery tworzące ten sam typ geometrii do jednego współdzielonego miejsca i różnicuj je parametrami."
+    falsifiable: true
+    evidence:
+      - {source: _2024/holograms, file: diffraction.py, line: 3771}
+      - {source: _2024/holograms, file: diffraction.py, line: 4238}
+      - {source: _2024/holograms, file: supplements.py, line: 872}
+    confidence: medium
+    applies_to: "Obowiązuje, gdy kilka scen zawiera równoważne konstruktory obiektów lub jawnie skopiowane fragmenty budowy."

@@ -1,0 +1,171 @@
+observations:
+  - id: baza-dla-wariantow-sceny
+    topic: dekompozycja
+    rule: "Wspólny setup kilku scen wyciągaj do klasy bazowej, a różnice zapisuj jako pola klasowe lub nadpisane metody."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: herschel.py, line: 5}
+      - {source: _2023/gauss_int, file: herschel.py, line: 160}
+      - {source: _2023/gauss_int, file: integral.py, line: 311}
+      - {source: _2023/gauss_int, file: integral.py, line: 448}
+      - {source: _2023/gauss_int, file: integral.py, line: 1008}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen używa tej samej geometrii lub konfiguracji, ale pokazuje różne warianty ujęcia."
+
+  - id: osobny-plik-na-wstawki
+    topic: dekompozycja
+    rule: "Trzymaj sceny tytułowe, przejściowe, reakcyjne i końcowe w osobnym pliku dodatków, oddzielonym od scen prowadzących główną konstrukcję."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: supplements.py, line: 64}
+      - {source: _2023/gauss_int, file: supplements.py, line: 701}
+      - {source: _2023/gauss_int, file: supplements.py, line: 826}
+      - {source: _2023/gauss_int, file: supplements.py, line: 1336}
+      - {source: _2023/gauss_int, file: integral.py, line: 15}
+      - {source: _2023/gauss_int, file: herschel.py, line: 5}
+    confidence: high
+    applies_to: "Obowiązuje, gdy katalog zawiera zarówno sceny narracyjne, jak i krótkie plansze lub przerywniki."
+
+  - id: parametryzowane-helpery-geometrii
+    topic: ponowne-uzycie
+    rule: "Współdzielone geometrie twórz przez parametryzowane helpery przyjmujące kontekst sceny, taki jak osie, zakresy i styl."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: integral.py, line: 315}
+      - {source: _2023/gauss_int, file: integral.py, line: 358}
+      - {source: _2023/gauss_int, file: integral.py, line: 371}
+      - {source: _2023/gauss_int, file: integral.py, line: 417}
+      - {source: _2023/gauss_int, file: herschel.py, line: 126}
+      - {source: _2023/gauss_int, file: herschel.py, line: 144}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam typ osi, wykresu, przekroju lub animacji pojawia się w więcej niż jednej scenie."
+
+  - id: tracker-jako-zrodlo-stanu
+    topic: stan-i-updatery
+    rule: "Stan zmienny trzymaj w ValueTracker, obiekty zależne podłącz updaterami, a animuj zmianę trackera."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: integral.py, line: 371}
+      - {source: _2023/gauss_int, file: integral.py, line: 433}
+      - {source: _2023/gauss_int, file: integral.py, line: 1022}
+      - {source: _2023/gauss_int, file: integral.py, line: 1030}
+      - {source: _2023/gauss_int, file: herschel.py, line: 1120}
+      - {source: _2023/gauss_int, file: herschel.py, line: 1131}
+    confidence: high
+    applies_to: "Obowiązuje, gdy zmiana jednej wartości ma jednocześnie zmienić geometrię, położenie i etykiety."
+
+  - id: odpinanie-updaterow-kopii
+    topic: stan-i-updatery
+    rule: "Każdą kopię dynamicznego obiektu przeznaczoną na statyczny ślad lub transformację odłącz od updatera."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: integral.py, line: 736}
+      - {source: _2023/gauss_int, file: integral.py, line: 1044}
+      - {source: _2023/gauss_int, file: integral.py, line: 1161}
+    confidence: high
+    applies_to: "Obowiązuje, gdy dynamiczny obiekt jest kopiowany do pokazania wcześniejszego położenia lub niezależnej animacji."
+
+  - id: zapis-stanu-przed-przejsciem
+    topic: stan-i-updatery
+    rule: "Przed przejściem między ujęciami zapisuj stan obiektu i przywracaj go zamiast ręcznie odtwarzać poprzednią konfigurację."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: herschel.py, line: 17}
+      - {source: _2023/gauss_int, file: herschel.py, line: 72}
+      - {source: _2023/gauss_int, file: integral.py, line: 154}
+      - {source: _2023/gauss_int, file: integral.py, line: 490}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam obiekt ma wrócić do wcześniejszego stylu, widoku lub położenia."
+
+  - id: layout-z-relacji
+    topic: kompozycja
+    rule: "Buduj układ kadru przez relacje next_to, arrange, match i to_edge, a nie przez osobne ręcznie wpisane współrzędne każdego elementu."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: integral.py, line: 29}
+      - {source: _2023/gauss_int, file: integral.py, line: 35}
+      - {source: _2023/gauss_int, file: integral.py, line: 194}
+      - {source: _2023/gauss_int, file: supplements.py, line: 270}
+      - {source: _2023/gauss_int, file: supplements.py, line: 1051}
+    confidence: high
+    applies_to: "Obowiązuje przy układaniu etykiet, równań, plansz i grup obiektów."
+
+  - id: tekst-w-przestrzeni-ekranu
+    topic: kompozycja
+    rule: "W scenach 3D przypinaj tekst i oznaczenia narracyjne do ekranu, pozostawiając geometrię modelu w przestrzeni sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: integral.py, line: 482}
+      - {source: _2023/gauss_int, file: integral.py, line: 583}
+      - {source: _2023/gauss_int, file: integral.py, line: 624}
+      - {source: _2023/gauss_int, file: integral.py, line: 715}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kamera obraca lub skaluje model 3D, a równania mają pozostać czytelne."
+
+  - id: sekwencje-w-petli
+    topic: czas-i-tempo
+    rule: "Powtarzane wartości parametru zapisuj jako sekwencję i przeprowadzaj przez jedną pętlę z jednolitym czasem animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: herschel.py, line: 1092}
+      - {source: _2023/gauss_int, file: herschel.py, line: 1115}
+      - {source: _2023/gauss_int, file: integral.py, line: 278}
+      - {source: _2023/gauss_int, file: herschel.py, line: 1225}
+    confidence: high
+    applies_to: "Obowiązuje, gdy scena pokazuje serię zmian tego samego trackera lub wykresu."
+
+  - id: tempo-z-liczby-elementow
+    topic: czas-i-tempo
+    rule: "Dla dużych sekwencji niezależnych elementów zamieniaj animację na updater i wyprowadzaj jej czas z liczby elementów."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: herschel.py, line: 144}
+      - {source: _2023/gauss_int, file: herschel.py, line: 151}
+      - {source: _2023/gauss_int, file: herschel.py, line: 156}
+    confidence: high
+    applies_to: "Obowiązuje przy tysiącach kropek, cząstek lub innych jednorodnych wejść pojawiających się sekwencyjnie."
+
+  - id: dane-przed-geometria
+    topic: dane-a-obraz
+    rule: "Najpierw wyliczaj dane w tablicach lub listach, a dopiero potem mapuj je na mobjecty przez układ współrzędnych."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: herschel.py, line: 145}
+      - {source: _2023/gauss_int, file: integral.py, line: 418}
+      - {source: _2023/gauss_int, file: herschel.py, line: 439}
+      - {source: _2023/gauss_int, file: herschel.py, line: 454}
+    confidence: high
+    applies_to: "Obowiązuje przy losowaniu punktów, generowaniu próbek, siatek i list wartości matematycznych."
+
+  - id: lokalne-sciezki-zasobow
+    topic: anty-wzorce
+    rule: "Nie wiąż scen z absolutnymi ścieżkami do prywatnego dysku; rozwiązuj zasoby względem repozytorium lub konfiguracji projektu."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: supplements.py, line: 27}
+      - {source: _2023/gauss_int, file: supplements.py, line: 42}
+      - {source: _2023/gauss_int, file: supplements.py, line: 116}
+      - {source: _2023/gauss_int, file: supplements.py, line: 1040}
+    confidence: high
+    applies_to: "Obowiązuje dla obrazów, miniaturek i innych zewnętrznych assetów używanych podczas renderowania."
+
+  - id: brak-kodu-po-return
+    topic: anty-wzorce
+    rule: "Nie pozostawiaj alternatywnej implementacji za bezwarunkowym returnem w metodzie sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: supplements.py, line: 458}
+      - {source: _2023/gauss_int, file: supplements.py, line: 460}
+    confidence: high
+    applies_to: "Obowiązuje, gdy metoda zawiera wybraną ścieżkę renderowania oraz niedostępny wariant eksperymentalny."
+
+  - id: usuwanie-szkicow
+    topic: anty-wzorce
+    rule: "Nie zostawiaj zakomentowanych alternatyw ani niekompletnych klas-szkiców w pliku renderowanych scen."
+    falsifiable: true
+    evidence:
+      - {source: _2023/gauss_int, file: supplements.py, line: 5}
+      - {source: _2023/gauss_int, file: herschel.py, line: 242}
+      - {source: _2023/gauss_int, file: herschel.py, line: 1235}
+    confidence: high
+    applies_to: "Obowiązuje przed przekazaniem katalogu do ponownego użycia lub automatycznego renderowania."

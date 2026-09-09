@@ -1,0 +1,196 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Czytaj bieżący stan z trackera przez domknięty getter i nie dodawaj do takiego updatera parametru `dt`."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 99}
+      - {source: "_2023/convolutions2", file: "diagonal_slices.py", line: 61}
+      - {source: "_2023/convolutions2", file: "gauss_example_supplements.py", line: 708}
+    confidence: high
+    applies_to: "Obowiązuje dla markerów, etykiet i linii sterowanych wartością trackera."
+
+  - id: osobne-updatery
+    topic: updatery
+    rule: "Rozdzielaj aktualizację treści i geometrii na osobne updatery zamiast łączyć je w jeden."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1102}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1699}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1750}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów, których wartość, położenie lub rozmiar zależą od różnych źródeł stanu."
+
+  - id: nazwany-updater-dla-logiki
+    topic: updatery
+    rule: "Wydzielaj nazwany updater, gdy aktualizacja iteruje po podelementach albo buduje tablicę próbek, a proste zależności zapisuj jako lambdy."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 171}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1867}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 99}
+    confidence: high
+    applies_to: "Obowiązuje, gdy updater zawiera więcej niż pojedyncze przeliczenie własności obiektu."
+
+  - id: bezstanowa-rekonstrukcja
+    topic: updatery
+    rule: "Odtwarzaj geometrię zależną od trackera przez `always_redraw` albo przeliczenie punktów w updaterze zamiast przechowywać stan poprzedniej klatki."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 165}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1084}
+      - {source: "_2023/convolutions2", file: "diagonal_slices.py", line: 426}
+    confidence: high
+    applies_to: "Obowiązuje dla linii, wykresów i pól powierzchni wyznaczanych całkowicie z bieżących wartości trackerów."
+
+  - id: kopiuj-i-przesuwaj
+    topic: updatery
+    rule: "Synchronizuj kopię dynamicznego wskaźnika najpierw przez odtworzenie źródła, a potem przez przesunięcie jej do drugiego układu współrzędnych."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1211}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1212}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden obiekt dynamiczny ma być pokazany równolegle w dwóch układach osi."
+
+  - id: kompozycja-zamiast-klasy
+    topic: klasy-animacji
+    rule: "Składaj złożony ruch z gotowych animacji w jednym `self.play`, zamiast definiować podklasę `Animation` dla samej kombinacji efektów."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1919}
+      - {source: "_2023/convolutions2", file: "dice.py", line: 503}
+      - {source: "_2023/convolutions2", file: "supplements.py", line: 405}
+    confidence: high
+    applies_to: "Obowiązuje, gdy efekt składa się z równoległego rysowania, przesuwania, transformacji i pomocniczego markera."
+
+  - id: opoznienia-w-kompozycji
+    topic: klasy-animacji
+    rule: "Wprowadzaj różne czasy startu elementów przez `LaggedStart` lub `LaggedStartMap`, gdy tworzą jeden wspólny gest."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "dice.py", line: 204}
+      - {source: "_2023/convolutions2", file: "diagonal_slices.py", line: 188}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1264}
+    confidence: high
+    applies_to: "Obowiązuje dla grup elementów, które mają wejść lub zmienić się sekwencyjnie, ale pozostać jednym ruchem."
+
+  - id: stan-docelowy-grupy
+    topic: klasy-animacji
+    rule: "Ustawiaj kompletny stan docelowy grupy przed uruchomieniem `MoveToTarget`, zamiast animować jej właściwości niezależnie."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "dice.py", line: 322}
+      - {source: "_2023/convolutions2", file: "dice.py", line: 340}
+      - {source: "_2023/convolutions2", file: "dice.py", line: 495}
+    confidence: high
+    applies_to: "Obowiązuje dla grup, które jednocześnie zmieniają położenie, skalę, krycie lub układ podelementów."
+
+  - id: rate-func-dla-powrotu
+    topic: klasy-animacji
+    rule: "Ustawiaj `rate_func=there_and_back`, gdy animacja ma pokazać cykliczny ruch bez pozostawiania obiektu w nowym stanie."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "diagonal_slices.py", line: 979}
+      - {source: "_2023/convolutions2", file: "gauss_example_supplements.py", line: 722}
+    confidence: high
+    applies_to: "Obowiązuje dla ambientowego przesuwania trackera lub wskaźnika tam i z powrotem."
+
+  - id: wejscie-wykresu-przez-rysowanie
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj główny wykres przez zaznaczenie jego terminu, utworzenie osi i rysowanie krzywej z krótkim przejściem świetlnym."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1263}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1269}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1285}
+    confidence: high
+    applies_to: "Obowiązuje dla pierwszego pokazania funkcji lub wykresu, który ma wyglądać jak rozwijane wyjaśnienie."
+
+  - id: adnotacja-ze-zrodla
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotację przez `TransformFromCopy` lub `FadeTransform` z obiektu źródłowego i utrzymuj widoczne połączenie z nim."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "diagonal_slices.py", line: 189}
+      - {source: "_2023/convolutions2", file: "gauss_example_supplements.py", line: 283}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1265}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, wzorów i objaśnień wyprowadzanych z już widocznego elementu."
+
+  - id: transformuj-zamiast-resetu
+    topic: wejscie-i-sprzatanie
+    rule: "Zastępuj starą wersję nową przez transformację zachowującą wspólne kształty, gdy oba obiekty pełnią tę samą funkcję wizualną."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 2208}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 2243}
+      - {source: "_2023/convolutions2", file: "dice.py", line: 1009}
+    confidence: high
+    applies_to: "Obowiązuje dla kolejnych wersji wzoru, etykiety lub wykresu, które mają wspólną strukturę."
+
+  - id: przygaszanie-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Przy lokalnym zaznaczeniu przygaszaj nieaktywne elementy do częściowego krycia i przywracaj pełne krycie po zakończeniu przejścia."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "dice.py", line: 495}
+      - {source: "_2023/convolutions2", file: "dice.py", line: 511}
+      - {source: "_2023/convolutions2", file: "dice.py", line: 537}
+    confidence: high
+    applies_to: "Obowiązuje, gdy trzeba wskazać jeden element bez usuwania całego kontekstu."
+
+  - id: czyszczenie-updaterow
+    topic: wejscie-i-sprzatanie
+    rule: "Czyść updatery przed obróceniem lub ponownym użyciem obiektu jako statycznego elementu."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1860}
+      - {source: "_2023/convolutions2", file: "diagonal_slices.py", line: 928}
+      - {source: "_2023/convolutions2", file: "diagonal_slices.py", line: 929}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt wcześniej śledził tracker lub inną geometrię i ma wejść w nowy cykl animacji."
+
+  - id: kompozyt-vgroup
+    topic: custom-mobject
+    rule: "Dla kompozytu istniejących obiektów buduj nowy `VGroup` i zapisuj uchwyty do jego części jako nazwane atrybuty."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "dice.py", line: 33}
+      - {source: "_2023/convolutions2", file: "dice.py", line: 37}
+      - {source: "_2023/convolutions2", file: "dice.py", line: 85}
+    confidence: high
+    applies_to: "Obowiązuje dla elementów, których podczęści będą później animowane lub zaznaczane niezależnie."
+
+  - id: fabryka-i-uchwyt
+    topic: custom-mobject
+    rule: "Nie mieszaj fabryki geometrii z animacją: zwracaj nowy obiekt albo dane z helpera, a na `self` zapisuj tylko elementy aktualizowane później."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 2039}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 2042}
+      - {source: "_2023/convolutions2", file: "diagonal_slices.py", line: 390}
+    confidence: high
+    applies_to: "Obowiązuje dla metod tworzących wykresy, powierzchnie i grupy pomocnicze."
+
+  - id: metoda-zwraca-ruch
+    topic: custom-mobject
+    rule: "Niech metoda sterująca ruchem zwraca animowalny proxy albo bezpośredni obiekt zależnie od trybu, aby wywołujący mógł włączyć ją do własnej kompozycji."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 2047}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 2049}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 2052}
+    confidence: high
+    applies_to: "Obowiązuje dla metod, które mają działać zarówno natychmiast, jak i wewnątrz `self.play`."
+
+  - id: parametry-klasowe-wariantow
+    topic: custom-mobject
+    rule: "Parametryzuj warianty obiektu przez atrybuty klasowe i nadpisywane funkcje zamiast kopiować konstrukcję."
+    falsifiable: true
+    evidence:
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1024}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1508}
+      - {source: "_2023/convolutions2", file: "continuous.py", line: 1569}
+    confidence: high
+    applies_to: "Obowiązuje dla rodzin wykresów i kompozytów różniących się funkcją, stylem lub rozdzielczością."

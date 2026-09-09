@@ -1,0 +1,215 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "W updaterach zależnych od trackera czytaj wartość przez domknięty getter i nie przyjmuj dt."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 1201}
+      - {source: _2023/clt, file: main.py, line: 2035}
+      - {source: _2023/clt, file: wordy_scenes.py, line: 883}
+    confidence: high
+    applies_to: "Obowiązuje, gdy źródłem zmiany jest ValueTracker albo stan domknięty przez updater."
+
+  - id: referencja-zaleznosci
+    topic: updatery
+    rule: "Zapisuj obiekt, za którym podąża updater, jako atrybut obiektu aktualizowanego."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 1387}
+      - {source: _2023/clt, file: main.py, line: 1448}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet i oznaczeń zależnych od konkretnego kwadratu, strzałki lub linii."
+
+  - id: pelna-rekonstrukcja-geometrii
+    topic: updatery
+    rule: "Przy zmianie geometrii VMobjectu przeliczaj punkty od bieżących parametrów i obsługuj pusty zakres przed ich zapisaniem."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 1778}
+      - {source: _2023/clt, file: main.py, line: 3140}
+    confidence: high
+    applies_to: "Obowiązuje dla obszarów i innych obiektów, których kształt zależy od zmiennego przedziału."
+
+  - id: kontrola-cyklu-updatera
+    topic: updatery
+    rule: "Zawieszaj albo usuwaj updater przed statyczną zmianą roli obiektu i wznawiaj go dopiero po zakończeniu przejścia."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 1284}
+      - {source: _2023/clt, file: main.py, line: 1677}
+      - {source: _2023/clt, file: main.py, line: 1743}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt przechodzi z trybu dynamicznego do transformacji lub ekspozycji statycznej."
+
+  - id: updater-tylko-na-czas-animacji
+    topic: updatery
+    rule: "Dla jednorazowej animacji zależnej od stanu używaj UpdateFromFunc w play zamiast instalować updater na stałe."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: dice_sims.py, line: 181}
+      - {source: _2023/clt, file: wordy_scenes.py, line: 1036}
+      - {source: _2023/clt, file: main.py, line: 2795}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wartość ma być śledzona wyłącznie podczas jednego przejścia."
+
+  - id: odtwarzanie-zuzywalnej-geometrii
+    topic: updatery
+    rule: "Używaj odtwarzania obiektu z bieżących danych, gdy jego geometria ma być wymieniana w każdej klatce."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 1422}
+    confidence: high
+    applies_to: "Obowiązuje dla pomocniczych kształtów, których nie trzeba zachowywać między klatkami."
+
+  - id: fabryka-ruchu
+    topic: klasy-animacji
+    rule: "Wydzielaj powtarzalny ruch do funkcji zwracającej gotową animację zamiast tworzyć klasę dziedziczącą po Animation."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: galton_board.py, line: 378}
+      - {source: _2023/clt, file: main.py, line: 1546}
+    confidence: high
+    applies_to: "Obowiązuje dla ruchów scenicznych używanych w wielu miejscach lub dla wielu obiektów."
+
+  - id: czas-z-geometrii-trasy
+    topic: klasy-animacji
+    rule: "Dla ruchu po trajektorii ustawiaj liniowe tempo i wyznaczaj czas z długości trajektorii."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: galton_board.py, line: 378}
+      - {source: _2023/clt, file: galton_board.py, line: 382}
+    confidence: high
+    applies_to: "Obowiązuje dla ruchu piłki, którego prędkość ma być niezależna od liczby punktów ścieżki."
+
+  - id: animacja-zlozona-z-faz
+    topic: klasy-animacji
+    rule: "Składaj ruch wieloetapowy z animacji równoległych lub następujących po sobie i zwracaj osobne sprzątanie."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: galton_board.py, line: 294}
+      - {source: _2023/clt, file: galton_board.py, line: 320}
+      - {source: _2023/clt, file: main.py, line: 1551}
+    confidence: high
+    applies_to: "Obowiązuje dla efektów, które mają osobną fazę ruchu, fazę transformacji i fazę usunięcia."
+
+  - id: alpha-steruje-efektem
+    topic: klasy-animacji
+    rule: "Steruj krótkim efektem pulsowania z alpha osobno od ruchu po ścieżce i ograniczaj jego amplitudę."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 1552}
+      - {source: _2023/clt, file: main.py, line: 1555}
+    confidence: high
+    applies_to: "Obowiązuje dla efektów wizualnych nakładanych na główny ruch."
+
+  - id: bezruch-jako-animacja-czasowa
+    topic: klasy-animacji
+    rule: "Używaj pustej animacji obiektu, gdy ma on tylko współdzielić czas równoległego przejścia bez własnej zmiany."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 707}
+      - {source: _2023/clt, file: main.py, line: 721}
+    confidence: medium
+    applies_to: "Obowiązuje, gdy obiekt ma pozostać widoczny podczas transformacji innych elementów."
+
+  - id: wejscie-przez-mechanike
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj element główny ruchem wynikającym z jego mechaniki, a adnotacje pokazuj osobnym wejściem po zdarzeniu."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: galton_board.py, line: 58}
+      - {source: _2023/clt, file: galton_board.py, line: 66}
+      - {source: _2023/clt, file: main.py, line: 2204}
+    confidence: high
+    applies_to: "Obowiązuje, gdy główny obiekt ma własną trajektorię, a adnotacja tylko ją objaśnia."
+
+  - id: przygaszenie-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Przy skupieniu na jednym elemencie przygaszaj kontekst i przywracaj jego stan po zakończeniu objaśnienia."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 2332}
+      - {source: _2023/clt, file: main.py, line: 2348}
+      - {source: _2023/clt, file: main.py, line: 2384}
+    confidence: high
+    applies_to: "Obowiązuje dla zbliżeń i komentarzy do fragmentu wykresu, gdy reszta sceny ma pozostać rozpoznawalna."
+
+  - id: transformacja-zamiast-resetu
+    topic: wejscie-i-sprzatanie
+    rule: "Zamieniaj podobne obiekty transformacją zachowującą ich ciągłość zamiast niezależnego wyjścia i wejścia."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: wordy_scenes.py, line: 260}
+      - {source: _2023/clt, file: main.py, line: 2399}
+      - {source: _2023/clt, file: dice_sims.py, line: 267}
+    confidence: high
+    applies_to: "Obowiązuje, gdy stary i nowy obiekt mają wspólną strukturę lub znaczenie."
+
+  - id: transfer-do-trwalego-stanu
+    topic: wejscie-i-sprzatanie
+    rule: "Przy zastępowaniu próbki przenoś jej wartość do trwałego obiektu i równocześnie usuwaj tylko elementy tymczasowe."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: dice_sims.py, line: 166}
+      - {source: _2023/clt, file: dice_sims.py, line: 190}
+      - {source: _2023/clt, file: dice_sims.py, line: 201}
+    confidence: high
+    applies_to: "Obowiązuje dla powtarzanych próbek, których wynik ma zostać w stosie lub historii."
+
+  - id: etapowanie-adnotacji
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotacje z opóźnieniem i kierunkiem wejścia, a po spełnieniu roli usuwaj je grupowo."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: wordy_scenes.py, line: 60}
+      - {source: _2023/clt, file: wordy_scenes.py, line: 62}
+      - {source: _2023/clt, file: galton_board.py, line: 96}
+    confidence: high
+    applies_to: "Obowiązuje dla kilku etykiet, strzałek lub komentarzy pojawiających się wokół jednego zdarzenia."
+
+  - id: geometria-w-init
+    topic: custom-mobject
+    rule: "Buduj składowe obiektu w __init__, zachowuj osie i xs jako stan, a aktualizację danych ogranicz do zmiany wysokości istniejących części."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 17}
+      - {source: _2023/clt, file: main.py, line: 43}
+      - {source: _2023/clt, file: main.py, line: 55}
+      - {source: _2023/clt, file: main.py, line: 59}
+    confidence: high
+    applies_to: "Obowiązuje dla ChartBars i podobnych obiektów będących grupą parametryzowanych części."
+
+  - id: in-place-kontra-nowy-obiekt
+    topic: custom-mobject
+    rule: "Rozdzielaj mutator aktualizujący istniejące części od zmiany semantycznego obiektu, dla której twórz nową grupę i transformuj starą."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 59}
+      - {source: _2023/clt, file: main.py, line: 1175}
+      - {source: _2023/clt, file: main.py, line: 1178}
+    confidence: high
+    applies_to: "Obowiązuje, gdy dane można zmieniać in-place, ale przejście ma być widoczne jako zmiana całego rozkładu."
+
+  - id: nazwane-czesci-kompozytu
+    topic: custom-mobject
+    rule: "Udostępniaj części kompozytu zarówno jako dzieci grupy, jak i nazwane atrybuty używane później przez scenę."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 94}
+      - {source: _2023/clt, file: main.py, line: 95}
+      - {source: _2023/clt, file: galton_board.py, line: 249}
+      - {source: _2023/clt, file: galton_board.py, line: 253}
+    confidence: high
+    applies_to: "Obowiązuje dla wykresów, pojemników i innych grup, których części są animowane niezależnie."
+
+  - id: get-buduje-set-mutuje
+    topic: custom-mobject
+    rule: "Niech funkcje get_* zwracają nowe obiekty, a metody set_* aktualizują istniejące dzieci bez tworzenia zamiennika."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 59}
+      - {source: _2023/clt, file: main.py, line: 69}
+      - {source: _2023/clt, file: main.py, line: 94}
+      - {source: _2023/clt, file: galton_board.py, line: 322}
+    confidence: high
+    applies_to: "Obowiązuje dla pomocników budujących obiekty oraz metod aktualizujących ich stan."

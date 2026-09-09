@@ -1,0 +1,236 @@
+observations:
+  - id: wstawki-osobne-sceny
+    topic: dekompozycja
+    rule: "Wydzielaj niezależne wstawki — tytuły, cytaty i reakcje — do osobnych klas scen, nawet gdy ich `construct` zawiera tylko jeden krótki przebieg."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: supplements.py, line: 5}
+      - {source: _2026/print_gallery, file: supplements.py, line: 17}
+      - {source: _2026/print_gallery, file: supplements.py, line: 126}
+      - {source: _2026/print_gallery, file: supplements.py, line: 187}
+    confidence: high
+    applies_to: "Obowiązuje dla ujęć, które nie współdzielą stanu z głównym ciągiem animacji."
+
+  - id: stanowy-rozdzial-jedna-klasa
+    topic: dekompozycja
+    rule: "Trzymaj ciągły, stanowy rozdział w jednej klasie sceny, dzieląc go komentarzami etapów zamiast tworzyć klasę dla każdego podujęcia."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 429}
+      - {source: _2026/print_gallery, file: exponential.py, line: 1253}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2034}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2844}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejne etapy używają tych samych płaszczyzn, obiektów i trackerów."
+
+  - id: bazowe-setup-dla-wariantow
+    topic: ponowne-uzycie
+    rule: "Umieszczaj wspólną geometrię, trackery i parametry w `setup` klasy bazowej, a warianty definiuj przez dziedziczenie i nadpisywanie atrybutów klasowych."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 2043}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2047}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2068}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2846}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3088}
+    confidence: high
+    applies_to: "Obowiązuje dla kilku scen realizujących ten sam schemat wizualny z innymi parametrami."
+
+  - id: fabryki-wspolnych-obiektow
+    topic: ponowne-uzycie
+    rule: "Wyciągaj powtarzalne konstrukcje obrazów, kafelków, siatek i grup strzałek do funkcji lub metod `get_*`, a w scenach wywołuj je z parametrami."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 19}
+      - {source: _2026/print_gallery, file: exponential.py, line: 83}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2769}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2809}
+      - {source: _2026/print_gallery, file: supplements.py, line: 2}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam typ obiektu pojawia się w więcej niż jednej scenie lub wariancie."
+
+  - id: fabryka-parametrycznych-przykladow
+    topic: ponowne-uzycie
+    rule: "Parametryzuj fabrykę układu wejście–wyjście etykietą, funkcją i zakresem, aby jedna scena generowała wiele przykładów."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 269}
+      - {source: _2026/print_gallery, file: exponential.py, line: 281}
+      - {source: _2026/print_gallery, file: exponential.py, line: 389}
+      - {source: _2026/print_gallery, file: exponential.py, line: 402}
+    confidence: high
+    applies_to: "Obowiązuje dla serii ujęć różniących się funkcją, zakresem lub rozmiarem siatki."
+
+  - id: tracker-zrodlo-stanu
+    topic: stan-i-updatery
+    rule: "Trzymaj zmienny stan w trackerze i podłączaj do niego wszystkie zależne punkty, etykiety, strzałki i liczby."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 17}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 21}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 24}
+      - {source: _2026/print_gallery, file: exponential.py, line: 471}
+      - {source: _2026/print_gallery, file: exponential.py, line: 479}
+      - {source: _2026/print_gallery, file: exponential.py, line: 490}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka elementów musi reagować na tę samą wielkość animowaną."
+
+  - id: redraw-dla-geometrii
+    topic: stan-i-updatery
+    rule: "Dla geometrii wyliczanej na nowo przy każdej zmianie stanu zwracaj świeży obiekt przez `always_redraw` lub `UpdateFromFunc`."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 2134}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2177}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3117}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3386}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów wynikających z transformacji całej siatki lub obrazu."
+
+  - id: reset-updaterow-miedzy-ujeciami
+    topic: stan-i-updatery
+    rule: "Przed zmianą roli obiektu czyść lub zawieszaj jego updater, a po przejściu do kolejnego ujęcia podpinaj nową zależność."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 177}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 190}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2607}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2621}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2687}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2695}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam mobject przechodzi między niezależnymi etapami konstrukcji."
+
+  - id: uklad-wzgledny-paneli
+    topic: kompozycja
+    rule: "Układaj panele i etykiety metodami względnymi, takimi jak `arrange`, `next_to`, `to_edge` i `arrange_in_grid`, zamiast wpisywać ich pozycje niezależnie."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: supplements.py, line: 205}
+      - {source: _2026/print_gallery, file: supplements.py, line: 149}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2732}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 506}
+    confidence: high
+    applies_to: "Obowiązuje dla układów złożonych z powtarzalnych paneli, etykiet lub elementów sąsiadujących."
+
+  - id: mapowanie-do-ukladu-matematycznego
+    topic: kompozycja
+    rule: "Pozycjonuj elementy związane z płaszczyzną przez jej konwersje współrzędnych i kotwice obiektu, nie przez stałe pozycje ekranu."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 542}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 544}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 556}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2057}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2212}
+    confidence: high
+    applies_to: "Obowiązuje dla punktów, obrazów i etykiet, których położenie wynika z danych na płaszczyźnie."
+
+  - id: grupa-relacji-scennych
+    topic: kompozycja
+    rule: "Grupuj obiekt z ramką, etykietą lub strzałką, gdy te elementy muszą zachować wspólną relację podczas animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 2218}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2220}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2764}
+      - {source: _2026/print_gallery, file: supplements.py, line: 794}
+    confidence: high
+    applies_to: "Obowiązuje dla elementów opisujących lub obramowujących ten sam obiekt wizualny."
+
+  - id: nakladane-time-span
+    topic: czas-i-tempo
+    rule: "W animacji wieloetapowej zapisuj `time_span` dla poszczególnych elementów i `run_time` dla całej sekwencji."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 177}
+      - {source: _2026/print_gallery, file: exponential.py, line: 180}
+      - {source: _2026/print_gallery, file: exponential.py, line: 184}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2151}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2156}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka animacji ma rozpocząć się lub zakończyć w różnych momentach jednego ujęcia."
+
+  - id: wspolne-parametry-tempa
+    topic: czas-i-tempo
+    rule: "Gdy kilka równoległych animacji ma identyczny rytm, zdefiniuj lokalny słownik parametrów i przekaż go wszystkim animacjom."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 3260}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3263}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3265}
+    confidence: high
+    applies_to: "Obowiązuje dla równoległych animacji wykonywanych z tym samym czasem i opóźnieniem."
+
+  - id: tekstura-plus-obliczenie
+    topic: dane-a-obraz
+    rule: "Wczytuj teksturę jako dane wejściowe, a geometrię obrazu twórz w trakcie renderu przez wspólną funkcję mapującą między płaszczyznami."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 20}
+      - {source: _2026/print_gallery, file: exponential.py, line: 30}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2055}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2803}
+    confidence: high
+    applies_to: "Obowiązuje dla scen, w których obraz źródłowy jest deformowany matematycznie."
+
+  - id: przyciecie-po-mapowaniu
+    topic: dane-a-obraz
+    rule: "Po przemapowaniu geometrii przycinaj ją do docelowej płaszczyzny lub usuwaj elementy poza zakresem przed rozpoczęciem animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 3191}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3257}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3258}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3461}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3469}
+    confidence: high
+    applies_to: "Obowiązuje dla siatek i kafelków, których transformacja może wyprowadzić fragmenty poza kadr."
+
+  - id: pass-jako-eksperyment
+    topic: anty-wzorce
+    rule: "Usuwaj testowe klasy pozostawione z pustym `construct` lub `pass`, zanim moduł będzie traktowany jako katalog produkcyjnych ujęć."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 256}
+      - {source: _2026/print_gallery, file: exponential.py, line: 260}
+      - {source: _2026/print_gallery, file: supplements.py, line: 164}
+    confidence: high
+    applies_to: "Obowiązuje dla klas oznaczonych komentarzem testowym lub nieposiadających aktywnej konstrukcji sceny."
+
+  - id: kod-za-return
+    topic: anty-wzorce
+    rule: "Usuwaj nieosiągalne warianty scen pozostawione za bezwarunkowym `return`."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 378}
+      - {source: _2026/print_gallery, file: exponential.py, line: 380}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3066}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3071}
+    confidence: high
+    applies_to: "Obowiązuje dla metod zawierających alternatywną wersję przebiegu po zakończeniu aktywnej gałęzi."
+
+  - id: absolutny-export
+    topic: anty-wzorce
+    rule: "Nie zapisuj artefaktów renderu do ścieżek absolutnych zależnych od konkretnego komputera; wyprowadzaj ścieżkę z konfiguracji lub katalogu projektu."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 3500}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3501}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3502}
+      - {source: _2026/print_gallery, file: exponential.py, line: 7}
+    confidence: high
+    applies_to: "Obowiązuje dla eksportu SVG, PNG i innych artefaktów pomocniczych tworzonych podczas renderu."
+
+  - id: kalibracja-warstw-rastrowych
+    topic: kompozycja
+    rule: "Dla osobnych warstw rastrowych wymagających pikselowego nakładania zachowuj jawne rozmiary i pozycje każdej warstwy."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 155}
+      - {source: _2026/print_gallery, file: exponential.py, line: 163}
+      - {source: _2026/print_gallery, file: exponential.py, line: 164}
+      - {source: _2026/print_gallery, file: exponential.py, line: 165}
+      - {source: _2026/print_gallery, file: exponential.py, line: 166}
+    confidence: high
+    applies_to: "Obowiązuje dla zestawu niezależnych obrazów rastrowych składających się na jedną kompozycję."

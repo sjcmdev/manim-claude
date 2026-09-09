@@ -1,0 +1,171 @@
+observations:
+  - id: bazowa-scena-dla-rodziny
+    topic: dekompozycja
+    rule: "Wydziel wspólny cykl przygotowania danych i sterowania do bazowej sceny, a warianty obrazu, jądra i punktów zatrzymania ustawiaj w atrybutach klasowych lub małych nadpisaniach."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1303}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1538}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1642}
+    confidence: high
+    applies_to: "Gdy kilka scen wykonuje ten sam cykl wizualizacji, lecz korzysta z innymi danymi lub parametrami."
+
+  - id: osobny-modul-przerywnikow
+    topic: dekompozycja
+    rule: "Umieszczaj krótkie przerywniki, ekrany przejściowe i warianty etykiet w osobnym module pomocniczym importującym główny moduł scen."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "supplements.py", line: 1}
+      - {source: "_2022/convolutions", file: "supplements.py", line: 5}
+      - {source: "_2022/convolutions", file: "supplements.py", line: 218}
+    confidence: high
+    applies_to: "Gdy katalog zawiera główny przebieg filmu oraz niezależne wstawki lub warianty montażowe."
+
+  - id: bezstanowe-funkcje-pomocnicze
+    topic: ponowne-uzycie
+    rule: "Wyodrębniaj bezstanowe funkcje budujące powtarzalne układy geometryczne lub pary danych, zamiast odtwarzać tę samą pętlę w każdej scenie."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 14}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 23}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 466}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1137}
+    confidence: high
+    applies_to: "Gdy kilka ujęć operuje na tym samym typie elementów i relacji między nimi."
+
+  - id: metadane-na-obiektach
+    topic: stan-i-updatery
+    rule: "Zapisuj na obiektach metadane potrzebne do późniejszego dopasowania, grupowania i obliczeń, zamiast utrzymywać równoległe mapy indeksów."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 386}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 801}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 948}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1841}
+    confidence: high
+    applies_to: "Gdy pojedyncze elementy obrazu muszą być później odnajdywane po indeksie, wartości lub zależnościach."
+
+  - id: tracker-dla-postepu
+    topic: stan-i-updatery
+    rule: "Trzymaj pojedynczą zmienną postępu w ValueTracker i pozwól zależnym obiektom odczytywać ją podczas animacji."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1338}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1344}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1354}
+    confidence: high
+    applies_to: "Gdy wiele obiektów ma reagować na jeden wspólny indeks lub parametr zmieniający się w czasie."
+
+  - id: updatery-dla-trwalych-relacji
+    topic: stan-i-updatery
+    rule: "Używaj updaterów do utrzymywania trwałych relacji między obiektami, a pojedyncze przejścia sceniczne wykonuj jawnymi animacjami."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1233}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1344}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1593}
+      - {source: "_2022/convolutions", file: "supplements.py", line: 86}
+    confidence: high
+    applies_to: "Gdy zależność musi działać podczas wielu niezależnych animacji lub ruchu kamery."
+
+  - id: zapisywanie-stanu-przed-epizodem
+    topic: stan-i-updatery
+    rule: "Zapisuj stan obiektów przed epizodem zmieniającym ich układ i przywracaj go po zakończeniu tego epizodu."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 360}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 447}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 679}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 707}
+    confidence: high
+    applies_to: "Gdy ten sam układ ma być pokazany w kilku różnych konfiguracjach w obrębie jednej sceny."
+
+  - id: layout-relacyjny
+    topic: kompozycja
+    rule: "Ustalaj pozycje przede wszystkim przez relacje między grupami i sąsiadami, a ręczne współrzędne rezerwuj dla zamierzonego podziału kadru."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 125}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 811}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 831}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1109}
+    confidence: high
+    applies_to: "Gdy elementy tworzą układ, który powinien zachować spójność po zmianie rozmiaru lub zawartości."
+
+  - id: grupy-semantycznych-etapow
+    topic: kompozycja
+    rule: "Twórz grupy odpowiadające etapom lub rolom sceny i animuj całą grupę, gdy przejście dotyczy wszystkich jej elementów."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 630}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 996}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 2270}
+    confidence: high
+    applies_to: "Gdy kilka obiektów musi wspólnie zmienić położenie, widoczność lub stan między ujęciami."
+
+  - id: tempo-jako-parametr-klasy
+    topic: czas-i-tempo
+    rule: "Wystawiaj czas pojedynczego kroku i czas końcowego przejścia jako atrybuty klasy, aby warianty sceny mogły zmieniać tempo bez kopiowania choreografii."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1093}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1145}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1190}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1202}
+    confidence: high
+    applies_to: "Gdy ta sama sekwencja ma mieć wersję demonstracyjną, szybką lub bez pauz."
+
+  - id: tablice-przed-obrazem
+    topic: dane-a-obraz
+    rule: "Policz dane wynikowe przed budową obiektów wizualnych i mapuj każdy element tablicy na odpowiadający mu piksel, słupek lub komórkę."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1101}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1211}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1317}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1365}
+    confidence: high
+    applies_to: "Gdy scena wizualizuje wynik obliczeń na regularnej tablicy danych."
+
+  - id: oddziel-zrodlo-danych
+    topic: dane-a-obraz
+    rule: "Oddziel wczytywanie źródłowych danych od przeliczenia i od konstrukcji obiektów sceny."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1317}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1326}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1360}
+    confidence: high
+    applies_to: "Gdy scena korzysta z obrazu, pliku lub innego zewnętrznego źródła danych."
+
+  - id: parametryzuj-jadra
+    topic: anty-wzorce
+    rule: "Zastępuj ręcznie wpisaną pełną tablicę jądra wzorem lub parametrami, jeśli wartości wynikają z generowalnej funkcji."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1615}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1617}
+    confidence: high
+    applies_to: "Gdy tablica numeryczna jest próbką znanego rozkładu lub innego parametrycznego wzoru."
+
+  - id: usun-martwe-parametry
+    topic: anty-wzorce
+    rule: "Nie deklaruj parametrów klasowych, których konstruktor sceny nie odczytuje."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1573}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1636}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 1637}
+    confidence: medium
+    applies_to: "Gdy wariant sceny dziedziczy po konstruktorze, który nie korzysta z deklarowanego parametru."
+
+  - id: nie-zostawiaj-niedokonczonych-scen
+    topic: anty-wzorce
+    rule: "Usuń niedokończone sceny i przypadkowe nadpisania obiektów przed włączeniem modułu do renderowanego katalogu."
+    falsifiable: true
+    evidence:
+      - {source: "_2022/convolutions", file: "discrete.py", line: 2762}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 2792}
+      - {source: "_2022/convolutions", file: "discrete.py", line: 2796}
+    confidence: high
+    applies_to: "Gdy scena zawiera jawny znacznik TODO albo przygotowany obiekt zostaje zastąpiony klasą lub inną niegotową wartością."

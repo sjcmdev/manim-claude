@@ -1,0 +1,258 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Oddzielaj updater zależny od trackera od integratora czasu: odczytuj tracker, ale nie przyjmuj `dt`."
+    falsifiable: true
+    evidence:
+      - {source: f27ce0a5-_x_y lines to point on curve animated_ How to animate _get_l, file: 20220918_linestopoint.py, line: 15}
+      - {source: 0058db42-_scanning a magnifier over a chip_ _manim _valuetracker _ima, file: 20230604_chipmagni.py, line: 22}
+    confidence: high
+    applies_to: "Obowiązuje, gdy bieżąca wartość trackera jednoznacznie wyznacza położenie lub kształt."
+
+  - id: stan-integratora
+    topic: updatery
+    rule: "W updaterze ruchu opartego na czasie przyjmuj `dt` i zapisuj postęp w polu stanu, zanim zaktualizujesz geometrię."
+    falsifiable: true
+    evidence:
+      - {source: 65d3a635-_NPN transistor_ Current flows in a common-emitter NPN trans, file: 20250916_npn.py, line: 161}
+      - {source: 5ba38183-_timer_ A Timer mobject_ _manim _animate _decimalnumber _tim, file: 20241119_timer.py, line: 30}
+      - {source: faec101e-_video inclusion in Manim_ Include video objects picture-in-, file: 20240309_opencv.py, line: 63}
+      - {source: 4939c503-_Better tracing_ Drawing a fading trace after an object_ _ma, file: 20230114_trace.py, line: 29}
+    confidence: high
+    applies_to: "Obowiązuje dla ruchu, zegara, odtwarzania mediów i efektów zależnych od wieku elementu."
+
+  - id: formy-updaterow
+    topic: updatery
+    rule: "Umieszczaj logikę współdzieloną w metodzie obiektu, logikę lokalną sceny w nazwanej funkcji, a krótkie przeliczenia zapisuj jako lambdy."
+    falsifiable: true
+    evidence:
+      - {source: 80eef467-_Analog meter_ A class object for analog meters_ _manim _ani, file: 20260128_meterclass.py, line: 126}
+      - {source: 0058db42-_scanning a magnifier over a chip_ _manim _valuetracker _ima, file: 20230604_chipmagni.py, line: 22}
+      - {source: f27ce0a5-_x_y lines to point on curve animated_ How to animate _get_l, file: 20220918_linestopoint.py, line: 15}
+    confidence: high
+    applies_to: "Obowiązuje przy wyborze formy updatera dla zależności wewnątrz klasy i dla prostych zależności sceny."
+
+  - id: natychmiastowa-inicjalizacja
+    topic: updatery
+    rule: "Wymuś pierwsze wykonanie updatera przy podpinaniu, gdy obiekt musi być poprawny przed pierwszą klatką animacji."
+    falsifiable: true
+    evidence:
+      - {source: 1998e084-_Zooming a chip_ Animated journey over a micrograph_ _manim, file: 20230605_zoomed.py, line: 33}
+      - {source: 80eef467-_Analog meter_ A class object for analog meters_ _manim _ani, file: 20260128_meterclass.py, line: 124}
+      - {source: 32496c61-_increasing a number in steps_ How to increase a DecimalNumb, file: 20250603_decnum.py, line: 15}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wartość początkowa ma od razu ustawić zależną geometrię lub tekst."
+
+  - id: become-dla-geometrii
+    topic: updatery
+    rule: "Odświeżaj zależną geometrię przez `become(...)`, gdy zmienia się jej kształt, zamiast ograniczać updater do przesunięcia."
+    falsifiable: true
+    evidence:
+      - {source: e14103d0-_Transition between two plotted functions_ How to smoothly t, file: 20221015_switchFunc.py, line: 27}
+      - {source: f27ce0a5-_x_y lines to point on curve animated_ How to animate _get_l, file: 20220918_linestopoint.py, line: 17}
+      - {source: a63e2e63-_rotating line with value of angle_ Showing the rotation ang, file: 20221011_rotline.py, line: 12}
+    confidence: high
+    applies_to: "Obowiązuje dla wykresów, linii pomocniczych i obiektów zmieniających punkty."
+
+  - id: osobna-fizyka-kolizje
+    topic: updatery
+    rule: "Rozdzielaj updater integrujący położenie pojedynczego obiektu od updatera grupowego obsługującego kolizje lub interakcje."
+    falsifiable: true
+    evidence:
+      - {source: 77020345-_dots in a box_ Randomly moving dots in a box_ _manim _dot _, file: 20230219_uwe_particles.py, line: 16}
+      - {source: 77020345-_dots in a box_ Randomly moving dots in a box_ _manim _dot _, file: 20230219_uwe_particles.py, line: 43}
+      - {source: 68a73399-_dots in a box with mass_ _manim _dot _mass, file: 20230219_uwe_particles_2.py, line: 44}
+    confidence: high
+    applies_to: "Obowiązuje dla wielu poruszających się obiektów, których stan zmienia się także wskutek kontaktu."
+
+  - id: animacja-interpolate
+    topic: klasy-animacji
+    rule: "Ograniczaj własną klasę `Animation` do parametrów w `__init__` i nadpisania `interpolate_mobject`, jeśli standardowy początek i koniec wystarczają."
+    falsifiable: true
+    evidence:
+      - {source: 3271ad9c-_Text animation_ Text sliding up letter by letter_ _manim _t, file: 20240731_slidingtext.py, line: 4}
+      - {source: 3271ad9c-_Text animation_ Text sliding up letter by letter_ _manim _t, file: 20240731_slidingtext.py, line: 22}
+      - {source: 3271ad9c-_Text animation_ Text sliding up letter by letter_ _manim _t, file: 20240731_slidingtext.py, line: 56}
+    confidence: high
+    applies_to: "Obowiązuje dla animacji, których logika sprowadza się do wyznaczenia stanu pośredniego."
+
+  - id: kopia-robocza-animacji
+    topic: klasy-animacji
+    rule: "Przechowuj parametry animacji i używaj kopii roboczej mobjectu, a obiekt przekazany do `super().__init__` traktuj jako cel aktualizacji."
+    falsifiable: true
+    evidence:
+      - {source: 3271ad9c-_Text animation_ Text sliding up letter by letter_ _manim _t, file: 20240731_slidingtext.py, line: 12}
+      - {source: 3271ad9c-_Text animation_ Text sliding up letter by letter_ _manim _t, file: 20240731_slidingtext.py, line: 19}
+      - {source: 3271ad9c-_Text animation_ Text sliding up letter by letter_ _manim _t, file: 20240731_slidingtext.py, line: 53}
+    confidence: high
+    applies_to: "Obowiązuje, gdy każda klatka ma być składana od niezależnej kopii stanu początkowego."
+
+  - id: skladanie-animation-group
+    topic: klasy-animacji
+    rule: "Buduj własną klasę `AnimationGroup` przez zebranie animacji składowych i przekazanie ich do konstruktora klasy bazowej."
+    falsifiable: true
+    evidence:
+      - {source: 7e270282-_transform glyph map_ Helper made by dudewaldo4 to animate L, file: 20240524_glyphmap.py, line: 25}
+      - {source: 7e270282-_transform glyph map_ Helper made by dudewaldo4 to animate L, file: 20240524_glyphmap.py, line: 58}
+      - {source: 0bccd47b-_TransformByGlyphMap_ Code by dudewaldo4 on Discord_ _manim, file: 20231110_dudewaldo_glyphmap.py, line: 21}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedna animacja ma równolegle obsłużyć wiele niezależnych podmobjectów."
+
+  - id: mapowanie-z-fallbackiem
+    topic: klasy-animacji
+    rule: "Dla elementów bez pary używaj FadeIn lub FadeOut z przesunięciem, a dla elementów sparowanych używaj Transform."
+    falsifiable: true
+    evidence:
+      - {source: 7e270282-_transform glyph map_ Helper made by dudewaldo4 to animate L, file: 20240524_glyphmap.py, line: 33}
+      - {source: 7e270282-_transform glyph map_ Helper made by dudewaldo4 to animate L, file: 20240524_glyphmap.py, line: 44}
+      - {source: 40d40158-_animated chemistry_ Using special animations on chemical fo, file: 20260124_benzene.py, line: 20}
+    confidence: high
+    applies_to: "Obowiązuje przy animowanym przejściu między strukturami z częściowo wspólnymi elementami."
+
+  - id: rate-func-parametru
+    topic: klasy-animacji
+    rule: "Ustawiaj `rate_func` liniowo dla parametrów oznaczających drogę lub czas, a nieliniowo tylko wtedy, gdy ma wyrażać akcent, stopniowanie albo lokalne wygładzenie."
+    falsifiable: true
+    evidence:
+      - {source: e8adc590-_Bezier racing_ Two Bezier curves on a path_ _manim _animati, file: 20260810_bezier.py, line: 57}
+      - {source: 18d76b23-_more nearest neighbors_ Animating the algorithm to find you, file: 20240308_pathfinder.py, line: 88}
+      - {source: 32496c61-_increasing a number in steps_ How to increase a DecimalNumb, file: 20250603_decnum.py, line: 42}
+      - {source: 3271ad9c-_Text animation_ Text sliding up letter by letter_ _manim _t, file: 20240731_slidingtext.py, line: 27}
+    confidence: high
+    applies_to: "Obowiązuje, gdy parametr animacji ma znaczenie fizyczne, dyskretne lub rytmiczne."
+
+  - id: rozdziel-wejscie
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj geometrię główną przez Create, a adnotacje przez Write, GrowFromCenter lub SpinInFromNothing."
+    falsifiable: true
+    evidence:
+      - {source: 4052b829-_Triangle in semicircle_ An animation of the construction of, file: 20230723_thales.py, line: 55}
+      - {source: 4052b829-_Triangle in semicircle_ An animation of the construction of, file: 20230723_thales.py, line: 56}
+      - {source: 344abdbb-_Braced slope_ Showing x- and y-braces along the slope of a, file: 20230323_braces.py, line: 47}
+      - {source: 40d40158-_animated chemistry_ Using special animations for chemical fo, file: 20260124_benzene.py, line: 21}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt główny ma osobne etykiety, znaczniki lub drobne elementy konstrukcyjne."
+
+  - id: kierunkowy-fade
+    topic: wejscie-i-sprzatanie
+    rule: "Dodawaj do FadeIn i FadeOut kierunek, przesunięcie albo punkt startowy, aby związać znikanie lub pojawianie z geometrią sceny."
+    falsifiable: true
+    evidence:
+      - {source: 0bccd47b-_TransformByGlyphMap_ Code by dudewaldo4 on Discord_ _manim, file: 20231110_dudewaldo_glyphmap.py, line: 30}
+      - {source: 32496c61-_increasing a number in steps_ How to increase a DecimalNumb, file: 20250603_decnum.py, line: 24}
+      - {source: 18d76b23-_more nearest neighbors_ Animating the algorithm to find you, file: 20240308_pathfinder.py, line: 57}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wejście lub wyjście ma wskazywać źródło, cel albo kierunek ruchu."
+
+  - id: transformuj-ciaglosc
+    topic: wejscie-i-sprzatanie
+    rule: "Przekształcaj obiekt w następny, gdy oba reprezentują tę samą ciągłość pojęciową, zamiast wygaszać pierwszy i tworzyć drugi osobno."
+    falsifiable: true
+    evidence:
+      - {source: cdfbde23-_Taylor series_ polynomial approximation_ Approximating exp_, file: 20221009_taylor.py, line: 38}
+      - {source: 5ba7cd54-_NumberLine from scratch_ Animated creation of a numberl, file: 20230307_numberline_from_scratch.py, line: 106}
+      - {source: cc4f8371-_pythagoras proof_ Animated tangram-style proof of Pythagora, file: 20221105_pyth.py, line: 100}
+    confidence: high
+    applies_to: "Obowiązuje dla kolejnych wersji wykresu, wzoru lub elementu konstrukcji."
+
+  - id: fazowe-sprzatanie
+    topic: wejscie-i-sprzatanie
+    rule: "Wygaszaj obiekty tymczasowe w osobnej, skoordynowanej fazie bezpośrednio przed wprowadzeniem kolejnej warstwy."
+    falsifiable: true
+    evidence:
+      - {source: 5ba7cd54-_NumberLine from scratch_ Animated creation of a numberl, file: 20230307_numberline_from_scratch.py, line: 37}
+      - {source: 5ba7cd54-_NumberLine from scratch_ Animated creation of a numberl, file: 20230307_numberline_from_scratch.py, line: 98}
+      - {source: 18d76b23-_more nearest neighbors_ Animating the algorithm to find you, file: 20240308_pathfinder.py, line: 67}
+      - {source: 4052b829-_Triangle in semicircle_ An animation of the construction of, file: 20230723_thales.py, line: 62}
+    confidence: high
+    applies_to: "Obowiązuje dla siatek, braców, kół pomocniczych i innych elementów tracących funkcję po kroku konstrukcji."
+
+  - id: rozbicie-przed-eksplozja
+    topic: wejscie-i-sprzatanie
+    rule: "Przy przejściu od jednego obiektu do wielu elementów zgraj wygaszenie źródła z pojawieniem części, a dopiero potem animuj ich rozproszenie."
+    falsifiable: true
+    evidence:
+      - {source: 33eeb2d5-_exploding text_ Splitting text into small pieces and explod, file: 20260605_explode.py, line: 12}
+      - {source: 33eeb2d5-_exploding text_ Splitting text into small pieces and explod, file: 20260605_explode.py, line: 13}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wizualna forma obiektu ma zostać rozłożona na niezależne fragmenty."
+
+  - id: parametry-w-init
+    topic: custom-mobject
+    rule: "Przyjmuj w `__init__` parametry geometrii, wyglądu i zachowania, a wartości potrzebne później zachowuj jako pola obiektu."
+    falsifiable: true
+    evidence:
+      - {source: 80eef467-_Analog meter_ A class object for analog meters_ _manim _ani, file: 20260128_meterclass.py, line: 4}
+      - {source: 80eef467-_Analog meter_ A class object for analog meters_ _manim _ani, file: 20260128_meterclass.py, line: 58}
+      - {source: f135b8a4-_Spring_ A spiral_spring_ _manim _spring _line, file: 20230627_spring.py, line: 6}
+      - {source: faec101e-_video inclusion in Manim_ Include video objects picture-in-, file: 20240309_opencv.py, line: 36}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów wielokrotnego użytku, których kształt lub zachowanie ma być konfigurowalne."
+
+  - id: nazwane-czesci
+    topic: custom-mobject
+    rule: "Nadaj istotnym częściom własne atrybuty i dodaj te same instancje do obiektu nadrzędnego."
+    falsifiable: true
+    evidence:
+      - {source: 80eef467-_Analog meter_ A class object for analog meters_ _manim _ani, file: 20260128_meterclass.py, line: 27}
+      - {source: 80eef467-_Analog meter_ A class object for analog meters_ _manim _ani, file: 20260128_meterclass.py, line: 116}
+      - {source: e8adc590-_Bezier racing_ Two Bezier curves on a path_ _manim _animati, file: 20260810_bezier.py, line: 5}
+      - {source: 55fd186f-_LinePolygon_ A polygon object with distince lines as edges_, file: 20230822_linepoly.py, line: 19}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów z częściami, które scena lub updater musi później modyfikować."
+
+  - id: aktualizacja-tozsamosci
+    topic: custom-mobject
+    rule: "Wystaw metodę aktualizacji danych, która odtwarza zmienny podzespół przez `become`, zachowując tożsamość obiektu zewnętrznego."
+    falsifiable: true
+    evidence:
+      - {source: ca16b0ba-_SuperBarChart_ A stacked barchart object using Pandas dataf, file: 20250210_superbarchart.py, line: 46}
+      - {source: ca16b0ba-_SuperBarChart_ A stacked barchart object using Pandas dataf, file: 20250210_superbarchart.py, line: 87}
+      - {source: ca16b0ba-_SuperBarChart_ A stacked barchart object using Pandas dataf, file: 20250210_superbarchart.py, line: 139}
+    confidence: high
+    applies_to: "Obowiązuje, gdy istniejący obiekt ma być animacyjnie przełączany na nowy zestaw danych."
+
+  - id: generuj-punkty
+    topic: custom-mobject
+    rule: "Dla własnego VMobjectu generuj punkty lub krzywe bezpośrednio w konstruktorze, zamiast składać geometrię wyłącznie w scenie."
+    falsifiable: true
+    evidence:
+      - {source: c4023d89-_arc in 3D_ placing an arc_angle between lines in 3D_, file: 20240524_arc3d.py, line: 9}
+      - {source: dfe01e7e-_Line from points_ Creating a line from a list of vertices_, file: 20251015_linefrompoints.py, line: 22}
+      - {source: f135b8a4-_Spring_ A spiral_spring_ _manim _spring _line, file: 20230627_spring.py, line: 11}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów, których podstawową reprezentacją są punkty VMobjectu."
+
+  - id: sterowanie-przez-pole
+    topic: custom-mobject
+    rule: "Trzymaj tracker lub stan sterujący wewnątrz obiektu i pozwól scenie zmieniać tę wartość zamiast odsłaniać jego wewnętrzne części."
+    falsifiable: true
+    evidence:
+      - {source: 80eef467-_Analog meter_ A class object for analog meters_ _manim _ani, file: 20260128_meterclass.py, line: 58}
+      - {source: 80eef467-_Analog meter_ A class object for analog meters_ _manim _ani, file: 20260128_meterclass.py, line: 137}
+      - {source: 5ba38183-_timer_ A Timer mobject_ _manim _animate _decimalnumber _tim, file: 20241119_timer.py, line: 18}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów, których stan ma być animowany z poziomu sceny."
+
+  - id: metody-o-roznych-rolach
+    topic: custom-mobject
+    rule: "Niech akcesory zwracają dane geometryczne, mutatory zmieniają istniejące części, a fabryki animacji zwracają obiekt Animation."
+    falsifiable: true
+    evidence:
+      - {source: 68b51e6a-_Compass_ A compass mobject for Manim_ _manim _geometry, file: 20260626_compass.py, line: 24}
+      - {source: 68b51e6a-_Compass_ A compass mobject for Manim_ _manim _geometry, file: 20260626_compass.py, line: 33}
+      - {source: b4a3aa53-_fancy bulleted list_ A fancy bulleted list in Manim_ _manim, file: 20250524_bulleted.py, line: 29}
+    confidence: high
+    applies_to: "Obowiązuje, gdy klasa ma być używana zarówno do odczytu geometrii, modyfikacji, jak i animowania."
+
+  - id: mutator-chain
+    topic: custom-mobject
+    rule: "Zwracaj `self` z metod mutujących, które mają być łączone w konstrukcji lub wywoływane jako element łańcucha."
+    falsifiable: true
+    evidence:
+      - {source: 570b831a-_Line through points_ Creates a line through several points_, file: 20251015_linethroughpoints.py, line: 39}
+      - {source: 570b831a-_Line through points_ Creates a line through several points_, file: 20251015_linethroughpoints.py, line: 60}
+      - {source: dfe01e7e-_Line from points_ Creating a line from a list of vertices_, file: 20251015_linefrompoints.py, line: 38}
+      - {source: dfe01e7e-_Line from points_ Creating a line from a list of vertices_, file: 20251015_linefrompoints.py, line: 59}
+    confidence: high
+    applies_to: "Obowiązuje dla pomocniczych mutatorów używanych bezpośrednio przy tworzeniu obiektu lub w scenie."
