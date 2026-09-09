@@ -20,8 +20,10 @@ images/
 Tex/
 texts/
 
-# Material referencyjny — nigdy w drzewie projektu (CC BY-NC-SA)
-reference/
+# Material referencyjny — nigdy w drzewie projektu (CC BY-NC-SA).
+# Wzorzec zakotwiczony w korzeniu: bez ukośnika na początku łapał też
+# `tooling/reference/`, przez co nowe skrypty narzędziowe znikały z gita.
+/reference/
 *.webm
 *.mp4
 *.vtt
