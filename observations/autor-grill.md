@@ -1,7 +1,7 @@
 # Grill autorski — runda 1: anty-wzorce
 
 Zapis ustaleń z sesji wydobywania technik manimowych od autora. Trzecie źródło
-obserwacji, obok mielenia kodu 3b1b (task/04) i analizy wideo (task/05).
+obserwacji, obok mielenia kodu 3b1b (task/04) i analizy wideo (task/06).
 
 Data sesji: 2026-09-08/09. Metoda: wywiad, pytania pojedynczo, przy każdym
 rekomendacja prowadzącego. Plan: dwa pełne przebiegi — runda 1 od anty-wzorców,
@@ -16,7 +16,7 @@ nie jest gotowa do awansu.
 materiału.** Minimalna scena łamiąca regułę plus minimalna przechodząca. Grill idzie
 bez dowodów dla szybkości, przykłady dorabiamy po nim. Uzasadnienie: falsyfikowalność
 wychodzi z konstrukcji, kod jest własny, więc ShareAlike nie dotyczy, a `TODO.md:189`
-(task/19) i tak wymaga dokładnie takiej pary do lintu.
+(task/20) i tak wymaga dokładnie takiej pary do lintu.
 
 **`idioms/` przyjmuje praktykę autora tam, gdzie nie rozjeżdża się z tym, co model
 generuje poprawnie.** Nie dodajemy pola `audience` do każdej reguły; oznaczamy tylko
@@ -292,7 +292,7 @@ i podpis nakłada wywołujący.
 jedna scena, jedna seria, dowolny projekt. Błędem nie jest napisanie czegoś wąsko,
 tylko umieszczenie tego na złym poziomie.
 
-Konsekwencja dla task/09: struktura `package/` plus `tooling/` nie przewiduje miejsca
+Konsekwencja dla task/10: struktura `package/` plus `tooling/` nie przewiduje miejsca
 na bibliotekę współdzieloną w obrębie jednej serii — a według autora to jest poziom,
 na którym powstaje najwięcej wartościowego kodu. **Autor zatwierdził dodanie poziomu
 serii do struktury repozytorium.**
@@ -338,8 +338,8 @@ na czym ogląda — a to zależy od materiału, nie od sztuki animacji.
 
 Konsekwencje:
 
-- `config.default.yaml` (task/10) dostaje klucze progowe.
-- Lint (task/19) czyta progi z konfiguracji, zamiast mieć je wpisane w regułę.
+- `config.default.yaml` (task/11) dostaje klucze progowe.
+- Lint (task/20) czyta progi z konfiguracji, zamiast mieć je wpisane w regułę.
 
 Punkt odniesienia dla wartości domyślnej, gdyby był potrzebny: kadr Manima ma
 8 jednostek wysokości, co przy 1080p daje 135 pikseli na jednostkę; granica komfortu
@@ -358,7 +358,7 @@ co film ma powiedzieć i w jakiej kolejności, należą do użytkownika i trafia
 
 Konsekwencje:
 
-- **Kryterium filtrujące dla kuratora (task/07):** reguła, której nie da się sprawdzić
+- **Kryterium filtrujące dla kuratora (task/08):** reguła, której nie da się sprawdzić
   bez wiedzy o zamyśle filmu, nie jest idiomem. Dotyczy to również filtrowania 324
   reguł wydobytych z kodu 3b1b.
 - **Kategoria `narracja` w większości wypada z `idioms/`.** Pozostałe kategorie ze
@@ -383,21 +383,21 @@ Zamknięte w trakcie rundy 1:
 Wyszły przy okazji grillu, nie należą do `idioms/`:
 
 **Strojenie czasu nie może wymagać pełnego renderu.** Iteracje przy scenach z wieloma
-updaterami trwają długie minuty nawet w niskiej rozdzielczości. Zakres task/15 i task/17.
+updaterami trwają długie minuty nawet w niskiej rozdzielczości. Zakres task/16 i task/18.
 
 **Blockout na prostokątach.** Agent układa scenę i przejścia między scenami na
 prostokątach w niskiej rozdzielczości; treść wchodzi dopiero po zatwierdzeniu układu
 i widoczności. Rozbraja trzy nazwane bóle naraz: relacje wielkości, koszt iteracji
-renderu oraz ocenę widoczności przez `visual-judge`. Zakres task/11, 12, 15, 16.
+renderu oraz ocenę widoczności przez `visual-judge`. Zakres task/12, 13, 16, 17.
 
-**Kompozycja czasowa sceny wymaga kontroli — logicznej i wizualnej.** Zakres task/16.
+**Kompozycja czasowa sceny wymaga kontroli — logicznej i wizualnej.** Zakres task/17.
 
 **Główna animacja jest ustalana z użytkownikiem, nie wyprowadzana z materiału.**
 Decyzja autora: sekcja może mieć więcej niż jedną główną animację, agent ma prawo
 proponować, ale rozstrzyga użytkownik podczas sesji planowania. Skutki:
 
-- `plan` (task/11) musi zadać to pytanie jawnie w trakcie samo-grillu.
-- `storyboard` (task/12) musi mieć na to pole, bo bez niego `scene-coder` nie wie,
+- `plan` (task/12) musi zadać to pytanie jawnie w trakcie samo-grillu.
+- `storyboard` (task/13) musi mieć na to pole, bo bez niego `scene-coder` nie wie,
   czemu przyznać pokrętła czasowe, a `visual-judge` nie wie, czego pilnować.
 
 Reguła „sekcja ma dokładnie jedną główną animację" została **odrzucona** — liczba

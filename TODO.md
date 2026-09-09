@@ -54,17 +54,6 @@ do drzewa projektu.
 - [ ] Test hooka: próba zapisu fragmentu kodu źródłowego 3b1b jest odrzucana
 - [ ] Rejestracja hooka w konfiguracji Claude Code
 
-### task/25-porzadek-repo
-
-Numer poza kolejnością toru: zadanie porządkowe, wykonane po task/04, żeby repozytorium
-dało się pokazać osobie dołączającej do projektu.
-
-- [x] Katalog `research/` na analizy poboczne, ze spisem treści
-- [x] `README.md` opisujący stan faktyczny: co jest, czego nie ma, mapa repozytorium
-- [x] `observations/README.md` — pochodzenie korpusu, schemat YAML, numeracja syntez
-- [x] Odhaczenie w `TODO.md` tego, co faktycznie zrobione
-- [x] `/local/` w `.gitignore` — katalog na pliki robocze poza gitem
-
 ## Etap 1A — pierwsza biblioteka idiomów (tor A)
 
 Skończone, gdy `idioms/` zawiera zestaw reguł falsyfikowalnych z uzasadnieniem,
@@ -91,7 +80,18 @@ a `VERSION` wynosi 0.1.
 - [x] Syntezy w dwóch niezależnych przebiegach plus porównania — `observations/synthesis/`
 - [ ] Domknięcie rozbieżności między syntezami; wymaga sesji z autorem
 
-### task/05-analiza-narracji
+### task/05-porzadek-repo
+
+Wykonane po task/04, żeby repozytorium dało się pokazać osobie dołączającej
+do projektu.
+
+- [x] Katalog `research/` na analizy poboczne, ze spisem treści
+- [x] `README.md` opisujący stan faktyczny: co jest, czego nie ma, mapa repozytorium
+- [x] `observations/README.md` — pochodzenie korpusu, schemat YAML, numeracja syntez
+- [x] Odhaczenie w `TODO.md` tego, co faktycznie zrobione
+- [x] `/local/` w `.gitignore` — katalog na pliki robocze poza gitem
+
+### task/06-analiza-narracji
 
 - [x] Prompt wg szablonu z `design-spec.md`, rozdział 9.4 — `prompt_template.md`
 - [x] Transkrypcje plus siatki klatek jako wejście dla zewnętrznego czatu
@@ -99,19 +99,19 @@ a `VERSION` wynosi 0.1.
 - [ ] Przejście pierwszego filmu przez czat i weryfikacja, czy prompt daje sprawdzalne reguły
 - [ ] Zakres obejmuje starsze klasyki, ale wyłącznie budowę wyjaśnienia
 
-### task/06-merge-observations
+### task/07-merge-observations
 
 - [ ] `merge_observations.py` — scalanie YAML-i do `observations/`
 - [ ] Wykrywanie duplikatów i konfliktów między obserwacjami
 - [ ] Zachowanie pochodzenia każdej obserwacji
 
-### task/07-idiom-curator
+### task/08-idiom-curator
 
 - [ ] Agent `idiom-curator` — kategoryzacja i ranking obserwacji
 - [ ] Falsyfikowalność jako warunek awansu
 - [ ] Wynik jako propozycja do przeglądu autorskiego, nie gotowy `idioms/`
 
-### task/08-idioms-0.1
+### task/09-idioms-0.1
 
 - [ ] Przegląd autorski propozycji kuratora
 - [ ] `idioms/` w wersji 0.1, każda reguła z uzasadnieniem
@@ -122,7 +122,7 @@ a `VERSION` wynosi 0.1.
 Skończone, gdy jedno realne zagadnienie fizyczne przechodzi całą drogę od opisu do
 sklejonego materiału, a wszystkie trzy bramki działają.
 
-### task/09-struktura-repozytorium
+### task/10-struktura-repozytorium
 
 - [ ] Katalogi `package/` i `tooling/`
 - [ ] Test zakazujący importów z `tooling/` do `package/`
@@ -130,13 +130,13 @@ sklejonego materiału, a wszystkie trzy bramki działają.
 - [ ] Bramki techniczne: `ruff check`, `ruff format --check`, `mypy`, `pytest`
 - [ ] GitHub Actions uruchamiające te bramki
 
-### task/10-config-default
+### task/11-config-default
 
 - [ ] `config.default.yaml` z pełnym zestawem kluczy
 - [ ] Modele, bramki, limity prób, limity czasu, wierność szkicu
 - [ ] Przydział modeli wyłącznie jako konfiguracja, nic zaszytego w kodzie
 
-### task/11-skill-plan
+### task/12-skill-plan
 
 **Bramka 1.**
 
@@ -145,45 +145,45 @@ sklejonego materiału, a wszystkie trzy bramki działają.
 - [ ] Interpretacja szkicu wg poziomu wierności z konfiguracji
 - [ ] Wynik: `plan.md`
 
-### task/12-storyboard
+### task/13-storyboard
 
 - [ ] Generator `storyboard.yaml` z `plan.md`
 - [ ] Wersjonowanie i archiwum poprzednich wersji
 - [ ] Hook `storyboard_integrity.py` — rozdział sekcji `generated` i `state`
 
-### task/13-scene-coder
+### task/14-scene-coder
 
 - [ ] Agent `scene-coder` — jedna klasa `Scene` z nazwanymi sekcjami na blok
 - [ ] Czytanie `idioms/` — punkt spotkania torów A i B
 - [ ] Pusty `idioms/` nie blokuje działania
 
-### task/14-check-scene-contract
+### task/15-check-scene-contract
 
 - [ ] Hook `check_scene_contract.py` — parsowanie pliku
 - [ ] Obecność klasy w storyboardzie
 - [ ] Nazwane sekcje zgodne ze storyboardem
 - [ ] Bez renderu i bez wywołania modelu
 
-### task/15-render-klatki
+### task/16-render-klatki
 
 **Bramka 2.**
 
 - [ ] Render klatki statycznej
 - [ ] `contact_sheet.py` — siatka klatek do przeglądu
 
-### task/16-visual-judge
+### task/17-visual-judge
 
 - [ ] Agent `visual-judge` — ocena klatek względem `plan.md`
 - [ ] Wynik jako konkretne poprawki, nie ogólna ocena
 - [ ] Rozdzielenie błędów technicznych od decyzji intencjonalnych
 - [ ] Sufit prób i limit czasu na blok
 
-### task/17-render-sekcji
+### task/18-render-sekcji
 
 - [ ] Render sekcji z `skip_animations`
 - [ ] `sections.py` — parser indeksu JSON sekcji
 
-### task/18-build
+### task/19-build
 
 **Bramka 3.**
 
@@ -197,18 +197,18 @@ sklejonego materiału, a wszystkie trzy bramki działają.
 Skończone, gdy złamanie reguły z biblioteki jest wychwytywane automatycznie przy zapisie
 pliku, a użytkownik może wskazać konkretny moment materiału jednym identyfikatorem.
 
-### task/19-lint-rules
+### task/20-lint-rules
 
 - [ ] `lint-rules.yaml` — reguły z `idioms/` przełożone na sprawdzenia
 - [ ] Podpięcie pod `check_scene_contract.py`
 - [ ] Test: każda reguła ma przykład łamiący i przykład przechodzący
 
-### task/20-skill-probe
+### task/21-skill-probe
 
 - [ ] Skill `probe` — izolowana brudna scena na jedno pytanie stylistyczne
 - [ ] Wynik `probe` może zasilić obserwacje toru A
 
-### task/21-znaczniki-sekcji
+### task/22-znaczniki-sekcji
 
 - [ ] Znaczniki `blok.sekcja` wypalane w rogu renderów roboczych
 - [ ] Znikają w renderze finalnym
@@ -218,18 +218,18 @@ pliku, a użytkownik może wskazać konkretny moment materiału jednym identyfik
 Skończone, gdy dziesiąty projekt tego samego użytkownika startuje z jego tempem
 i kolejnością tłumaczenia bez powtarzania ustawień.
 
-### task/22-skill-profile
+### task/23-skill-profile
 
 - [ ] Skill `profile` — ankieta plus presety typów filmu
 - [ ] Bez wymagania pisania prozy przez użytkownika
 - [ ] Wynik: `~/.manim-claude/narration-profile.md`
 
-### task/23-lessons
+### task/24-lessons
 
 - [ ] `lessons.yaml` — preferencje zbierane na bramkach
 - [ ] Obowiązują globalnie, z możliwością wyjątku projektowego
 
-### task/24-idioms-local
+### task/25-idioms-local
 
 - [ ] `idioms-local.yaml` — własne reguły użytkownika, czytane po rdzeniowych
 - [ ] Twarda zasada: preferencje użytkownika nigdy nie awansują do idiomów rdzeniowych
