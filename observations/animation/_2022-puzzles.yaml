@@ -1,0 +1,220 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "W updaterze sterowanym trackerem odczytuj bieżącą wartość trackera lub geometrię źródła i nie przyjmuj `dt`."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 2067}
+      - {source: _2022/puzzles, file: subsets.py, line: 2144}
+      - {source: _2022/puzzles, file: subsets.py, line: 3716}
+    confidence: high
+    applies_to: "Obowiązuje, gdy położenie obiektu wynika z zewnętrznego stanu, a nie z upływu czasu."
+
+  - id: dt-tylko-akumulacja
+    topic: updatery
+    rule: "Używaj `dt` tylko do integrowania przyrostu ruchu zależnego od czasu, takiego jak ciągły obrót ramki."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1620}
+    confidence: high
+    applies_to: "Obowiązuje dla updaterów, które mają kontynuować ruch bez trackera."
+
+  - id: geometry-from-source
+    topic: updatery
+    rule: "Przeliczaj geometrię wynikową z bieżącego stanu obiektów źródłowych zamiast opierać ją na poprzednim położeniu wynikowego obiektu."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 2747}
+      - {source: _2022/puzzles, file: subsets.py, line: 4042}
+      - {source: _2022/puzzles, file: subsets.py, line: 5091}
+    confidence: high
+    applies_to: "Obowiązuje dla linii, ścieżek i innych obiektów zależnych od ruchomych punktów."
+
+  - id: tracker-przebudowuje-stan
+    topic: updatery
+    rule: "Przechowuj stan dyskretny w trackerze, a w jednym updaterze aktualizuj liczby, listy submobjects i znaczniki zależne od tego stanu."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 650}
+      - {source: _2022/puzzles, file: subsets.py, line: 665}
+      - {source: _2022/puzzles, file: subsets.py, line: 677}
+    confidence: high
+    applies_to: "Obowiązuje dla animacji przeglądających kolejne konfiguracje dyskretne."
+
+  - id: grupuj-ruch-semantycznie
+    topic: klasy-animacji
+    rule: "Składaj ruch z osobnych animacji odpowiadających częściom semantycznym i zwracaj ich równoległą kompozycję z funkcji pomocniczej."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 60}
+      - {source: _2022/puzzles, file: subsets.py, line: 95}
+      - {source: _2022/puzzles, file: subsets.py, line: 123}
+    confidence: high
+    applies_to: "Obowiązuje dla przejść obejmujących jednocześnie strukturę, wartości i elementy pomocnicze."
+
+  - id: unikaj-wlasnej-podklasy-animation
+    topic: klasy-animacji
+    rule: "Zastępuj własną podklasę `Animation` kompozycją gotowych ruchów, gdy przejście składa się z niezależnych etapów lub części."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 60}
+      - {source: _2022/puzzles, file: subsets.py, line: 126}
+    confidence: medium
+    applies_to: "Obowiązuje w tym materiale, w którym nie zdefiniowano własnej klasy dziedziczącej po `Animation`."
+
+  - id: zachowuj-zrodlo-przy-transformacji
+    topic: klasy-animacji
+    rule: "Zachowuj obiekt źródłowy, gdy nowa reprezentacja ma być pokazana jako jego odpowiednik, i prowadź przejście z jego kopii."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1229}
+      - {source: _2022/puzzles, file: subsets.py, line: 3703}
+      - {source: _2022/puzzles, file: subsets.py, line: 5390}
+    confidence: high
+    applies_to: "Obowiązuje przy przechodzeniu od wzoru lub obiektu do jego przekształconej postaci."
+
+  - id: jawny-luk-rotacyjny
+    topic: klasy-animacji
+    rule: "Ustawiaj jawny łuk przejścia dla odpowiadających sobie punktów na okręgu i ograniczaj jego wartość w iterowanych ruchach."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 3331}
+      - {source: _2022/puzzles, file: subsets.py, line: 5271}
+      - {source: _2022/puzzles, file: subsets.py, line: 5288}
+    confidence: high
+    applies_to: "Obowiązuje dla ruchów przedstawiających obrót lub cykliczne przejście po okręgu."
+
+  - id: liniowe-skanowanie
+    topic: klasy-animacji
+    rule: "Ustawiaj liniową funkcję tempa, gdy parametr animacji ma równomiernie przechodzić przez indeksy lub punkty ścieżki."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 684}
+      - {source: _2022/puzzles, file: subsets.py, line: 1014}
+      - {source: _2022/puzzles, file: subsets.py, line: 3733}
+    confidence: high
+    applies_to: "Obowiązuje dla skanowania wartości, konfiguracji lub geometrii bez przyspieszania."
+
+  - id: opoznij-reorganizacje
+    topic: klasy-animacji
+    rule: "Opóźniaj reorganizację układu względem transformacji treści, gdy oba ruchy zachodzą w jednej kompozycji."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1317}
+      - {source: _2022/puzzles, file: subsets.py, line: 1321}
+    confidence: high
+    applies_to: "Obowiązuje przy przejściu z rozwinięcia krokowego do zwartego układu."
+
+  - id: wejscie-z-punktu-zrodla
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotacje z punktu istniejącego obiektu albo zgodnie z kierunkiem od obiektu, do którego się odnoszą."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 76}
+      - {source: _2022/puzzles, file: subsets.py, line: 2159}
+      - {source: _2022/puzzles, file: subsets.py, line: 4256}
+    confidence: high
+    applies_to: "Obowiązuje dla nowych etykiet, elementów wzoru i dopisywanych części zbioru."
+
+  - id: najpierw-kotwica-potem-etykieta
+    topic: wejscie-i-sprzatanie
+    rule: "Najpierw ujawniaj obiekt kotwiczący adnotację, a dopiero potem pokazuj jej tekst lub opis."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 3559}
+      - {source: _2022/puzzles, file: subsets.py, line: 3563}
+      - {source: _2022/puzzles, file: subsets.py, line: 4315}
+      - {source: _2022/puzzles, file: subsets.py, line: 4319}
+    confidence: high
+    applies_to: "Obowiązuje dla ramek, strzałek i opisów wskazujących konkretny fragment sceny."
+
+  - id: transformuj-zamiast-wymieniac
+    topic: wejscie-i-sprzatanie
+    rule: "Przekształcaj stary obiekt w jego kolejną reprezentację zamiast wygaszać go i tworzyć nowy niezależnie."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 3703}
+      - {source: _2022/puzzles, file: subsets.py, line: 5184}
+      - {source: _2022/puzzles, file: subsets.py, line: 5291}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ciągłość wizualna między kolejnymi reprezentacjami ma znaczenie."
+
+  - id: przygaszaj-kontekst
+    topic: wejscie-i-sprzatanie
+    rule: "Przygaszaj elementy pozostające w kontekście, lecz chwilowo nieistotne, zamiast usuwać je ze sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1110}
+      - {source: _2022/puzzles, file: subsets.py, line: 2968}
+      - {source: _2022/puzzles, file: subsets.py, line: 4189}
+    confidence: high
+    applies_to: "Obowiązuje dla wcześniejszych wyników, które nadal mają pozostać porównywalne z aktualnym wynikiem."
+
+  - id: sprzataj-kopie-przed-kolejnym-krokiem
+    topic: wejscie-i-sprzatanie
+    rule: "Po przejściu z kopii usuń kopię tymczasową i ustaw nową strukturę jako aktywny obiekt przed następną animacją."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1065}
+      - {source: _2022/puzzles, file: subsets.py, line: 1083}
+      - {source: _2022/puzzles, file: subsets.py, line: 5299}
+      - {source: _2022/puzzles, file: subsets.py, line: 5310}
+    confidence: high
+    applies_to: "Obowiązuje dla iteracyjnych przejść, które tworzą tymczasowe kopie obiektów."
+
+  - id: kierunkowe-wyjscie-adnotacji
+    topic: wejscie-i-sprzatanie
+    rule: "Usuwaj tymczasowe adnotacje ruchem zgodnym z ich rolą przestrzenną, pozostawiając obiekt główny na miejscu."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 1363}
+      - {source: _2022/puzzles, file: subsets.py, line: 1939}
+      - {source: _2022/puzzles, file: subsets.py, line: 4369}
+      - {source: _2022/puzzles, file: subsets.py, line: 4995}
+    confidence: high
+    applies_to: "Obowiązuje przy zwalnianiu miejsca po zakończeniu lokalnego wyjaśnienia."
+
+  - id: fabryka-vgroup
+    topic: custom-mobject
+    rule: "Buduj parametryzowane obiekty złożone jako fabryki zwracające `VGroup`, gdy potrzebujesz głównie geometrii i semantycznego składu."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 6}
+      - {source: _2022/puzzles, file: subsets.py, line: 17}
+      - {source: _2022/puzzles, file: subsets.py, line: 110}
+    confidence: high
+    applies_to: "Obowiązuje dla zbiorów, sum i wyróżnień budowanych z istniejących typów obiektów."
+
+  - id: wystawiaj-czesci-semantyczne
+    topic: custom-mobject
+    rule: "Wystawiaj funkcje zwracające grupy semantycznych części, aby późniejsze animacje mogły działać osobno na nawiasach, liczbach i przecinkach."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 39}
+      - {source: _2022/puzzles, file: subsets.py, line: 43}
+      - {source: _2022/puzzles, file: subsets.py, line: 53}
+      - {source: _2022/puzzles, file: subsets.py, line: 65}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów, których części mają niezależne znaczenie animacyjne."
+
+  - id: przechowuj-powiazania
+    topic: custom-mobject
+    rule: "Przechowuj dane modelu i uchwyty do części pochodnych bezpośrednio na obiekcie lub jego submobjects."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 28}
+      - {source: _2022/puzzles, file: subsets.py, line: 626}
+      - {source: _2022/puzzles, file: subsets.py, line: 1143}
+    confidence: high
+    applies_to: "Obowiązuje, gdy późniejsze fazy muszą odnaleźć odpowiadające sobie elementy bez ponownego wyszukiwania."
+
+  - id: parametryzuj-z-geometrii
+    topic: custom-mobject
+    rule: "Wyprowadzaj rozmiar, odstępy i położenie części pochodnych z geometrii obiektu wejściowego, a kolory i ograniczenia przyjmuj jako parametry fabryki."
+    falsifiable: true
+    evidence:
+      - {source: _2022/puzzles, file: subsets.py, line: 103}
+      - {source: _2022/puzzles, file: subsets.py, line: 110}
+      - {source: _2022/puzzles, file: subsets.py, line: 136}
+    confidence: high
+    applies_to: "Obowiązuje dla pomocniczych obiektów tworzonych wokół tekstu lub wzoru."

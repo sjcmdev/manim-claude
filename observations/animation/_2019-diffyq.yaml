@@ -1,0 +1,221 @@
+observations:
+  - id: updater-metoda-dynamiki
+    topic: updatery
+    rule: "Podpinaj updater jako metodę obiektu, gdy opisuje jego własną dynamikę."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 178}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 313}
+      - {source: _2019/diffyq, file: part3/discrete_case.py, line: 149}
+    confidence: high
+    applies_to: "Obowiązuje dla updaterów używanych jako część modelu lub wielokrotnie."
+
+  - id: tracker-jako-zegar
+    topic: updatery
+    rule: "Oddziel updater zwiększający tracker czasu od updaterów, które tylko odczytują jego wartość."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 40}
+      - {source: _2019/diffyq, file: part4/complex_functions.py, line: 42}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 1661}
+    confidence: high
+    applies_to: "Obowiązuje przy animowaniu czasu, pozycji lub parametru przez ValueTracker."
+
+  - id: dt-tylko-dla-calkowania
+    topic: updatery
+    rule: "Pomijaj dt w updaterze wyliczającym stan bezwzględnie z trackera lub referencji, a używaj go wyłącznie do całkowania ruchu."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 104}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 342}
+      - {source: _2019/diffyq, file: part3/discrete_case.py, line: 239}
+    confidence: high
+    applies_to: "Obowiązuje, gdy updater może odtworzyć bieżącą geometrię z aktualnego stanu."
+
+  - id: stan-na-mobcie
+    topic: updatery
+    rule: "Przechowuj stan wymagający pamięci między klatkami jako atrybut mobjectu i zamykaj parametry lokalne w fabryce updatera."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 333}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 850}
+      - {source: _2019/diffyq, file: part1/staging.py, line: 2308}
+    confidence: high
+    applies_to: "Obowiązuje dla trajektorii, symulacji i updaterów z własnym czasem lub parametrami."
+
+  - id: absolutne-ustawianie-geometrii
+    topic: updatery
+    rule: "Wyznaczaj geometrię absolutnie względem źródła przez move_to, put_start_and_end_on albo become zamiast kumulować przesunięcia."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 102}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 184}
+      - {source: _2019/diffyq, file: part4/complex_functions.py, line: 334}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, linii, wektorów i innych obiektów zależnych od referencji."
+
+  - id: callback-zamiast-podklasy
+    topic: klasy-animacji
+    rule: "Steruj prostą zmianą zależną od alpha przez callback UpdateFromAlphaFunc zamiast definiować podklasę Animation z własnym interpolate_mobject."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 1074}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 1961}
+      - {source: _2019/diffyq, file: part4/fourier_series_scenes.py, line: 350}
+    confidence: high
+    applies_to: "Obowiązuje dla zmian geometrii, opacity lub stylu sterowanych jednym parametrem alpha."
+
+  - id: kompozycja-stagger
+    topic: klasy-animacji
+    rule: "Składaj animacje równoległe w AnimationGroup, a powtarzalne wejścia lub wyjścia rozciągaj przez LaggedStart albo Succession."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 612}
+      - {source: _2019/diffyq, file: part4/three_d_graphs.py, line: 332}
+      - {source: _2019/diffyq, file: part4/fourier_series_scenes.py, line: 440}
+    confidence: high
+    applies_to: "Obowiązuje dla ruchu wielu podobnych elementów lub kilku efektów wykonywanych razem."
+
+  - id: proxy-przy-przelaczeniu
+    topic: klasy-animacji
+    rule: "Przy zmianie aktywnej reprezentacji zatrzymuj źródło czasu, animuj niezależną geometrię proxy, a następnie przywracaj updater i parametry."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part4/fourier_series_scenes.py, line: 91}
+      - {source: _2019/diffyq, file: part4/fourier_series_scenes.py, line: 103}
+      - {source: _2019/diffyq, file: part4/fourier_series_scenes.py, line: 135}
+    confidence: high
+    applies_to: "Obowiązuje przy przechodzeniu między dwiema dynamicznymi reprezentacjami tego samego zjawiska."
+
+  - id: linear-dla-czasu
+    topic: klasy-animacji
+    rule: "Ustawiaj rate_func na linear, gdy animacja ma reprezentować jednostajny upływ czasu lub fizyczną ewolucję."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 1683}
+      - {source: _2019/diffyq, file: part1/staging.py, line: 465}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 1094}
+    confidence: high
+    applies_to: "Obowiązuje dla trackerów czasu, trajektorii i symulacji numerycznych."
+
+  - id: rate-func-dla-akcentu
+    topic: klasy-animacji
+    rule: "Ograniczaj efekt do wybranego okna przez squish_rate_func, a krótkie podkreślenia steruj przez there_and_back."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 475}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 279}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 1961}
+    confidence: high
+    applies_to: "Obowiązuje dla wejść, wyjść i chwilowych wizualnych akcentów."
+
+  - id: wejscie-z-kotwica
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj główny obiekt przez rysowanie lub rozrost z jego naturalnego punktu, a adnotację przez kierunkowy fade albo wejście z offsetem."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 63}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 255}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 266}
+    confidence: high
+    applies_to: "Obowiązuje, gdy element główny i jego opis pojawiają się w tej samej fazie."
+
+  - id: transformuj-ciaglosc
+    topic: wejscie-i-sprzatanie
+    rule: "Transformuj obiekt w kolejną reprezentację przez TransformFromCopy albo ReplacementTransform, gdy zachowuje on ciągłość znaczeniową."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 240}
+      - {source: _2019/diffyq, file: part4/fourier_series_scenes.py, line: 124}
+      - {source: _2019/diffyq, file: part4/complex_functions.py, line: 400}
+    confidence: high
+    applies_to: "Obowiązuje, gdy odbiorca ma śledzić przejście tego samego obiektu lub pojęcia."
+
+  - id: chwilowa-adnotacja
+    topic: wejscie-i-sprzatanie
+    rule: "Pokazuj chwilową adnotację jako akcent tworzenia i zanikania, po czym usuń ją przed przejściem dalej."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 465}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 272}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 1773}
+    confidence: high
+    applies_to: "Obowiązuje dla ramek, znaków zapytania, etykiet i innych elementów użytych tylko do objaśnienia."
+
+  - id: posprzataj-dynamike
+    topic: wejscie-i-sprzatanie
+    rule: "Przed kolejnym stanem zatrzymuj lub odpinaj nieaktualne updatery i usuwaj tymczasowe obiekty pomocnicze."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 325}
+      - {source: _2019/diffyq, file: part4/fourier_series_scenes.py, line: 98}
+      - {source: _2019/diffyq, file: part3/discrete_case.py, line: 1681}
+    confidence: high
+    applies_to: "Obowiązuje po zakończeniu demonstracji dynamicznej przed zmianą jej reprezentacji."
+
+  - id: konfiguracja-obiektu
+    topic: custom-mobject
+    rule: "Umieszczaj parametry fizyczne, styl i opcjonalne części obiektu w CONFIG, a scenie pozwalaj nadpisywać zagnieżdżone konfiguracje."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 6}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 40}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 24}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów używanych w wielu scenach z różnymi parametrami."
+
+  - id: czesci-jako-atrybuty
+    topic: custom-mobject
+    rule: "Buduj złożony obiekt w __init__ przez osobne metody create_* i zapisuj jego części jako nazwane atrybuty."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 52}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 57}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 98}
+    confidence: high
+    applies_to: "Obowiązuje dla VGroupów, których części są później osobno animowane lub aktualizowane."
+
+  - id: stan-i-geometria-osobno
+    topic: custom-mobject
+    rule: "Oddziel API stanu od geometrii, udostępniając get/set dla parametrów i wykonując zmiany geometrii wewnątrz set."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 153}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 158}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 167}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektów symulacyjnych, których stan steruje położeniem części."
+
+  - id: referencja-zrodla
+    topic: custom-mobject
+    rule: "Przechowuj w obiekcie pochodnym referencję do źródła dynamicznego zamiast kopiować jego stan."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 209}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 215}
+      - {source: _2019/diffyq, file: part1/staging.py, line: 2313}
+    confidence: high
+    applies_to: "Obowiązuje dla wektorów, trajektorii i oznaczeń zależnych od innego mobjectu."
+
+  - id: rozroznienie-zwrotow
+    topic: custom-mobject
+    rule: "Zwracaj siebie z mutatorów, nowy mobject z fabryk geometrii i gotową animację z fabryk animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 68}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 158}
+      - {source: _2019/diffyq, file: part1/staging.py, line: 656}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 1028}
+    confidence: high
+    applies_to: "Obowiązuje dla publicznych metod pomocniczych używanych bezpośrednio przez scenę."
+
+  - id: lekki-model-na-mobjectach
+    topic: custom-mobject
+    rule: "Dla prostego modelu przechowuj mass, point i velocity jako atrybuty prymitywnych mobjectów zamiast tworzyć nową klasę."
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/staging.py, line: 2244}
+      - {source: _2019/diffyq, file: part1/staging.py, line: 2258}
+      - {source: _2019/diffyq, file: part1/staging.py, line: 2350}
+    confidence: high
+    applies_to: "Obowiązuje dla niewielkich modeli, których geometria może pozostać standardowym mobjectem."

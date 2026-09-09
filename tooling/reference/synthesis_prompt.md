@@ -1,7 +1,8 @@
-Dostajesz surowy zbiór obserwacji o konstrukcji scen w Manimie. Powstał tak: agent
-przeczytał 21 katalogów z repozytorium `3b1b/videos` — jeden katalog to jeden film
-lub jedna seria — i z każdego wyciągnął reguły w sztywnym schemacie YAML. Razem 324
-reguły. Każda ma dowód w postaci `plik:linia`.
+Dostajesz surowy zbiór obserwacji o pisaniu animacji w Manimie. Powstał tak: agent
+przeczytał po kolei katalogi źródłowe — jeden katalog to jeden film, jedna seria albo
+jedna biblioteka — i z każdego wyciągnął reguły w sztywnym schemacie YAML. Każda ma
+dowód w postaci `plik:linia`. Dokładny zakres i liczba reguł są podane na końcu tej
+instrukcji, razem ze ścieżką do pliku.
 
 Zbiór jest surowy: reguły z różnych źródeł powtarzają się, część jest banalna, część
 sprzeczna. Twoim zadaniem jest zamienić go w materiał, który człowiek może przejrzeć

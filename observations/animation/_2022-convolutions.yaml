@@ -1,0 +1,195 @@
+observations:
+  - id: czasowy-updater-czyta-dt
+    topic: updatery
+    rule: "W updaterze zależnym od czasu przyjmuj `dt` i wyliczaj z niego przyrost ruchu."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: supplements.py, line: 86}
+    confidence: high
+    applies_to: "Obowiązuje dla ruchu kamery lub obiektu wynikającego z upływu czasu."
+
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "W updaterze sterowanym trackerem odczytuj wartość trackera przez zamknięcie i nie dodawaj parametru `dt`."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 1344}
+      - {source: _2022/convolutions, file: discrete.py, line: 1351}
+    confidence: high
+    applies_to: "Obowiązuje, gdy pozycja lub widoczność obiektu zależy od `ValueTracker`."
+
+  - id: updater-relacyjny-bez-stanu
+    topic: updatery
+    rule: "Dla zależności geometrycznej zapisuj w updaterze wyłącznie bieżący stan obiektu docelowego wyliczony z obiektu źródłowego."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 1235}
+      - {source: _2022/convolutions, file: discrete.py, line: 1593}
+    confidence: high
+    applies_to: "Obowiązuje dla ramek, etykiet, powierzchni i innych elementów podążających za geometrią."
+
+  - id: wyczysc-updatery-przed-reuzyciem
+    topic: updatery
+    rule: "Przed użyciem obiektu jako statycznego elementu wyczyść jego aktywne updatery."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: supplements.py, line: 225}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt wcześniej podążał za innym obiektem."
+
+  - id: skladaj-animacje-z-komponentow
+    topic: klasy-animacji
+    rule: "Składaj równoległe ruchy w `AnimationGroup` lub `LaggedStart`, zamiast tworzyć własną klasę `Animation` bez własnej interpolacji."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 1969}
+    confidence: high
+    applies_to: "Obowiązuje dla animacji złożonych z niezależnych transformacji części."
+
+  - id: liniowa-rate-func-dla-skanowania
+    topic: klasy-animacji
+    rule: "Ustawiaj `rate_func=linear`, gdy animacja ma pokazywać równomierne przejście przez kolejne punkty lub elementy."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 284}
+      - {source: _2022/convolutions, file: discrete.py, line: 2125}
+    confidence: high
+    applies_to: "Obowiązuje dla przejazdu po wykresie, skanowania lub progresywnego ujawniania danych."
+
+  - id: overshoot-dla-wejscia
+    topic: klasy-animacji
+    rule: "Stosuj `overshoot` przy opóźnionym wejściu kolekcji, gdy elementy mają lekko przekroczyć pozycję docelową i wrócić."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 364}
+    confidence: high
+    applies_to: "Obowiązuje dla efektownego wejścia głównych grup obiektów."
+
+  - id: rate-func-powrotna-dla-akcentu
+    topic: klasy-animacji
+    rule: "Używaj funkcji typu `there_and_back_with_pause` dla chwilowego akcentu, który ma zakończyć się w stanie początkowym."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 1675}
+    confidence: high
+    applies_to: "Obowiązuje dla tymczasowego wygaszenia lub podświetlenia elementu."
+
+  - id: wejscie-glownych-grup-z-lag
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj główne kolekcje z przesunięciem, opóźnieniem podelementów i jedną wspólną animacją grupującą."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 363}
+      - {source: _2022/convolutions, file: discrete.py, line: 405}
+    confidence: high
+    applies_to: "Obowiązuje dla tablic, kości, siatek i innych głównych struktur kadru."
+
+  - id: adnotacje-z-jawnym-kierunkiem
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotacje z jawnym kierunkiem przesunięcia albo ograniczonym przedziałem czasu."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 794}
+      - {source: _2022/convolutions, file: discrete.py, line: 2415}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, opisów i pomocniczych napisów dołączanych do już widocznych obiektów."
+
+  - id: zachowuj-ciaglosc-transformacja
+    topic: wejscie-i-sprzatanie
+    rule: "Przekształcaj obiekt w jego logicznego następcę przez transformację kształtów lub kopii, gdy oba pełnią tę samą funkcję."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 813}
+      - {source: _2022/convolutions, file: discrete.py, line: 239}
+    confidence: high
+    applies_to: "Obowiązuje dla przejścia od danych wejściowych do wyniku, równania lub kolejnej reprezentacji."
+
+  - id: usuwaj-poprzedni-marker-przed-nowym
+    topic: wejscie-i-sprzatanie
+    rule: "W iteracji wygaszaj poprzedni marker przed pokazaniem markera dla bieżącego elementu."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 428}
+      - {source: _2022/convolutions, file: discrete.py, line: 1147}
+    confidence: high
+    applies_to: "Obowiązuje dla prostokątów, etykiet i innych wskaźników zmieniających się krok po kroku."
+
+  - id: markery-samoczyszczace
+    topic: wejscie-i-sprzatanie
+    rule: "Oznaczaj krótkotrwałe markery jako samoczyszczące przez `remover=True` albo wariant pokazujący i wygaszający obiekt."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 439}
+      - {source: _2022/convolutions, file: discrete.py, line: 2174}
+    confidence: high
+    applies_to: "Obowiązuje dla błysków, obrysów i śladów używanych tylko jako chwilowy akcent."
+
+  - id: przywracaj-stan-po-podgladzie
+    topic: wejscie-i-sprzatanie
+    rule: "Zapisuj stan obiektu przed czasowym przekształceniem i przywracaj go przy przejściu do następnej fazy."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 360}
+      - {source: _2022/convolutions, file: discrete.py, line: 453}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt jest chwilowo zmniejszany, przesuwany, wygaszany lub zastępowany podglądem."
+
+  - id: lacz-sprzatanie-z-przygotowaniem
+    topic: wejscie-i-sprzatanie
+    rule: "Łącz wygaszanie niepotrzebnych elementów z jednoczesnym przesunięciem lub przywróceniem elementów przechodzących do kolejnej reprezentacji."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 690}
+      - {source: _2022/convolutions, file: discrete.py, line: 714}
+    confidence: high
+    applies_to: "Obowiązuje na granicy faz, gdy scena ma od razu osiągnąć gotowy stan roboczy."
+
+  - id: vgroup-z-nazwanymi-czesciami
+    topic: custom-mobject
+    rule: "Buduj obiekt złożony jako grupę podmobjectów i wystaw jego semantyczne części przez nazwane atrybuty."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 1856}
+      - {source: _2022/convolutions, file: discrete.py, line: 2463}
+    confidence: high
+    applies_to: "Obowiązuje dla tablic, wieloczłonowych wyrażeń i struktur używanych później fragmentami."
+
+  - id: metadane-na-podmobjectach
+    topic: custom-mobject
+    rule: "Przypisuj podmobjectom metadane potrzebne do późniejszego dopasowania, filtrowania lub aktualizacji."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 809}
+      - {source: _2022/convolutions, file: discrete.py, line: 951}
+    confidence: high
+    applies_to: "Obowiązuje, gdy elementy grupy muszą być później identyfikowane po indeksie, wartości lub roli."
+
+  - id: rozdziel-fabryke-od-animacji
+    topic: custom-mobject
+    rule: "Niech metody budujące zwracają nowy obiekt, a metody sterujące ruchem zwracają przygotowaną animację."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 47}
+      - {source: _2022/convolutions, file: discrete.py, line: 1534}
+    confidence: high
+    applies_to: "Obowiązuje dla pomocników tworzących grupy oraz metod przygotowujących ruch istniejącego obiektu."
+
+  - id: parametry-wariantow-na-poziomie-klasy
+    topic: custom-mobject
+    rule: "Trzymaj parametry wariantu obiektu jako atrybuty klasy i zmieniaj je w podklasach zamiast kopiować konstrukcję."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 1304}
+      - {source: _2022/convolutions, file: discrete.py, line: 1539}
+      - {source: _2022/convolutions, file: discrete.py, line: 1643}
+    confidence: high
+    applies_to: "Obowiązuje dla rodzin obiektów różniących się obrazem, kernelem, kolorami lub parametrami prezentacji."
+
+  - id: publikuj-czesci-po-budowie
+    topic: custom-mobject
+    rule: "Po zbudowaniu złożonej struktury zapisz jej główne części na obiekcie nadrzędnym, aby kolejne metody nie musiały odtwarzać ich selekcji."
+    falsifiable: true
+    evidence:
+      - {source: _2022/convolutions, file: discrete.py, line: 1354}
+    confidence: high
+    applies_to: "Obowiązuje dla scen lub obiektów, których kolejne metody animują te same części w różnych fazach."

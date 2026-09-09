@@ -1,0 +1,266 @@
+observations:
+  - id: czas-w-dt
+    topic: updatery
+    rule: Prowadź czasowy ruch w updaterze przyjmującym `dt` i zapisuj narastający czas w stanie obiektu.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 181}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 12}
+    confidence: high
+    applies_to: Obowiązuje dla fal, pierścieni i innych obiektów poruszających się niezależnie od trackerów.
+
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: Dla geometrii sterowanej trackerem odczytuj jego wartość bez przyjmowania `dt` i przeliczaj obiekt bez akumulowania czasu.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 631}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 220}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 411}
+    confidence: high
+    applies_to: Obowiązuje dla etykiet, wektorów i elementów zależnych od ValueTrackerów.
+
+  - id: jawny-stan-poprzedniej-klatki
+    topic: updatery
+    rule: Trzymaj stan wymagany między klatkami jawnie na mobjectcie i aktualizuj go przed obliczeniem bieżącej geometrii.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 434}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 450}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 642}
+    confidence: high
+    applies_to: Obowiązuje, gdy updater potrzebuje historii położeń, czasu albo bufora śladów.
+
+  - id: male-kroki-integracji
+    topic: updatery
+    rule: Dziel większe `dt` na mniejsze kroki przed integracją ruchu fizycznego.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 37}
+    confidence: high
+    applies_to: Obowiązuje dla updaterów rozwiązujących równania ruchu.
+
+  - id: odtwarzaj-bazowe-punkty
+    topic: updatery
+    rule: Przed każdą aktualizacją punktów odtwarzaj bazowy kształt, aby rozciąganie i obrót nie kumulowały się z poprzedniej klatki.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 111}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 453}
+      - {source: _2023/optics_puzzles, file: annotations.py, line: 764}
+    confidence: high
+    applies_to: Obowiązuje dla obiektów wielokrotnie deformowanych przez updater.
+
+  - id: uporzadkuj-zalezne-updatery
+    topic: updatery
+    rule: Uruchamiaj updater przygotowujący dane wejściowe przed updaterem, który konsumuje te dane.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 808}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 671}
+    confidence: high
+    applies_to: Obowiązuje dla pól wektorowych i innych obiektów z wieloetapowym przeliczaniem.
+
+  - id: zatrzymuj-updatery-przed-przejściem
+    topic: updatery
+    rule: Zatrzymaj albo wyczyść updatery przed ręcznym przekształceniem obiektu, a następnie jawnie wznoẃ je lub usuń.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: bending_waves.py, line: 354}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 527}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 552}
+    confidence: high
+    applies_to: Obowiązuje na granicy faz, gdy obiekt dynamiczny staje się statycznym elementem przejścia.
+
+  - id: updatefromalpha-zamiast-klasy
+    topic: klasy-animacji
+    rule: Dla niestandardowej interpolacji istniejącego mobjectu używaj `UpdateFromAlphaFunc` lub `UpdateFromFunc` zamiast tworzyć własną klasę animacji.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 166}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 389}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 531}
+    confidence: high
+    applies_to: Obowiązuje, gdy interpolowany jest parametr wizualny albo stan pomocniczego obiektu.
+
+  - id: rownolegle-w-jednym-play
+    topic: klasy-animacji
+    rule: Uruchamiaj równoległe ruchy zależnych elementów w jednym `self.play`, a następstwa zamykaj w osobnych animacjach lub `Succession`.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: wave_machine.py, line: 83}
+      - {source: _2023/optics_puzzles, file: wave_machine.py, line: 99}
+      - {source: _2023/optics_puzzles, file: bending_waves.py, line: 232}
+    confidence: high
+    applies_to: Obowiązuje, gdy kilka części ma zachować wspólną fazę albo gdy jeden element wykonuje serię powtarzalnych przejść.
+
+  - id: animuj-parametr-nie-geometrie
+    topic: klasy-animacji
+    rule: Animuj ValueTrackery jako źródło zmiany i pozostaw geometrię do przeliczenia przez updater.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 133}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 345}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 431}
+    confidence: high
+    applies_to: Obowiązuje dla fal, fazy, amplitudy i położenia zależnego od wspólnego parametru.
+
+  - id: liniowy-czas-fizyczny
+    topic: klasy-animacji
+    rule: Ustawiaj `rate_func=linear` dla propagacji, przesuwania i zmiany czasu, gdy tempo ma odpowiadać modelowi fizycznemu.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 487}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 426}
+      - {source: _2023/optics_puzzles, file: ior_annotations.py, line: 1547}
+    confidence: high
+    applies_to: Obowiązuje dla ruchu o stałej prędkości i trackerów reprezentujących czas.
+
+  - id: wiggle-dla-akcentu
+    topic: klasy-animacji
+    rule: Używaj `wiggle` albo `there_and_back` do podkreślenia lub demonstracyjnego potrząśnięcia, nie do podstawowego odmierzania czasu modelu.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 386}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 345}
+      - {source: _2023/optics_puzzles, file: annotations.py, line: 1139}
+    confidence: high
+    applies_to: Obowiązuje dla wizualnych akcentów i chwilowego uwypuklenia zależności.
+
+  - id: nie-zawieszaj-updatera-bezposrednio
+    topic: klasy-animacji
+    rule: Przekazuj `suspend_mobject_updating=False`, gdy animacja ma współdziałać z updaterem aktualizującym ten sam obiekt.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 386}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 864}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 2044}
+    confidence: high
+    applies_to: Obowiązuje, gdy wejście lub wyjście obiektu ma następować równocześnie z jego ruchem zależnym od stanu.
+
+  - id: glowna-geometria-przez-rysowanie
+    topic: wejscie-i-sprzatanie
+    rule: Wprowadzaj główną geometrię przez `ShowCreation`, `GrowFromCenter` lub `VFadeIn`, a adnotacje przez `Write`, `FadeIn` i kierunkowy shift.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 48}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 80}
+      - {source: _2023/optics_puzzles, file: annotations.py, line: 20}
+    confidence: high
+    applies_to: Obowiązuje przy rozdzielaniu wejścia procesu od wejścia jego opisów i etykiet.
+
+  - id: transformuj-kontynuacje
+    topic: wejscie-i-sprzatanie
+    rule: Wprowadzaj nowy stan będący kontynuacją starego przez `TransformFromCopy`, `ReplacementTransform` lub `FadeTransform`.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: annotations.py, line: 33}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 374}
+      - {source: _2023/optics_puzzles, file: ior_annotations.py, line: 191}
+    confidence: high
+    applies_to: Obowiązuje, gdy nowy obiekt ma zachować wizualne lub semantyczne pochodzenie od poprzedniego.
+
+  - id: grupowe-wygaszanie
+    topic: wejscie-i-sprzatanie
+    rule: Wygaszaj zestawy pomocniczych obiektów jako grupę, używając opóźnienia, przesunięcia lub skali zamiast niezależnych nagłych usunięć.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: ior_annotations.py, line: 117}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 222}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 269}
+    confidence: high
+    applies_to: Obowiązuje dla etykiet, ramek, wykresów i tymczasowych wektorów.
+
+  - id: wygaszaj-i-wprowadzaj-razem
+    topic: wejscie-i-sprzatanie
+    rule: Łącz wygaszanie starego elementu z wejściem nowego i zmianą parametrów w jednym przejściu.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 427}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 870}
+    confidence: high
+    applies_to: Obowiązuje, gdy scena ma bezpośrednio przejść do kolejnego modelu lub poziomu szczegółowości.
+
+  - id: przenos-stan-miedzy-falami
+    topic: wejscie-i-sprzatanie
+    rule: Przy zamianie jednego obiektu dynamicznego na drugi przenieś jego czas lub stan przed dodaniem następcy.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: bending_waves.py, line: 397}
+      - {source: _2023/optics_puzzles, file: bending_waves.py, line: 409}
+    confidence: high
+    applies_to: Obowiązuje przy przejściu między reprezentacjami tej samej fali lub procesu.
+
+  - id: konstruktor-zaleznosci-i-parametry
+    topic: custom-mobject
+    rule: W `__init__` zapisuj zależności, parametry modelu i konfigurację, a następnie buduj wewnętrzną geometrię i podpinaj updater.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 144}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 20}
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 8}
+    confidence: high
+    applies_to: Obowiązuje dla własnych fal, pól, oscylatorów i grup złożonych.
+
+  - id: eksponuj-czesci-obiektu
+    topic: custom-mobject
+    rule: Po złożeniu grupy zapisz jej istotne części jako atrybuty dostępne dla sceny i późniejszych updaterów.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 413}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 746}
+      - {source: _2023/optics_puzzles, file: wave_machine.py, line: 56}
+    confidence: high
+    applies_to: Obowiązuje, gdy scena później animuje tylko wybrane podmobjects.
+
+  - id: konfiguracja-przez-nadpisania
+    topic: custom-mobject
+    rule: Zdefiniuj konfigurację domyślną i scalaj ją z lokalnymi nadpisaniami zamiast kodować osobne warianty konstrukcji.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 33}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 700}
+      - {source: _2023/optics_puzzles, file: wave_machine.py, line: 5}
+    confidence: high
+    applies_to: Obowiązuje dla stylu, gęstości, parametrów fal i wariantów scen.
+
+  - id: mutatory-zwracaja-self
+    topic: custom-mobject
+    rule: Zwracaj `self` z mutatorów zmieniających stan obiektu, aby można było łączyć ich wywołania w łańcuch.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 478}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 492}
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 150}
+    confidence: high
+    applies_to: Obowiązuje dla metod ustawiających siłę, parametry fizyczne albo resetujących geometrię.
+
+  - id: update-obsluguje-ksiegowanie
+    topic: custom-mobject
+    rule: Jeśli obiekt ma własny zegar i historię, nadpisz `update` do księgowania czasu zamiast wymagać wyłączania updaterów przy każdej animacji.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 434}
+    confidence: high
+    applies_to: Obowiązuje dla obiektów, których historia ruchu wpływa na późniejsze obliczenia pola.
+
+  - id: fabryki-zwracaja-obiekty
+    topic: custom-mobject
+    rule: Niech metody pomocnicze obiektu zwracają gotowe mobjecty lub grupy, a animacje pozostaw scenie.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 199}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 244}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 604}
+    confidence: high
+    applies_to: Obowiązuje dla fabryk elementów zależnych od osi, fali lub trackera.
+
+  - id: dane-opisuja-geometrie
+    topic: custom-mobject
+    rule: Buduj powtarzalne części obiektu z równoległych danych, map kolorów i promieni oraz list relacji zamiast osobno kodować każdy element.
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 723}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 732}
+    confidence: high
+    applies_to: Obowiązuje dla obiektów strukturalnych takich jak molekuły i sieci wiązań.

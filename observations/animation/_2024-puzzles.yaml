@@ -1,0 +1,202 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Czytaj tracker wprost w updaterach zależnych od jego bieżącej wartości i nie przyjmuj tam `dt`; używaj `dt` wyłącznie do ruchu kumulowanego klatka po klatce."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 60}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 3242}
+    confidence: high
+    applies_to: "Obowiązuje, gdy updater wylicza stan z trackera albo steruje ciągłą prędkością."
+
+  - id: nazwane-zaleznosci
+    topic: updatery
+    rule: "Wydzielaj nazwany updater dla zależności obejmującej kilka obiektów i zapisuj w nim wyłącznie stan obiektu zależnego."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 3006}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 3049}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2193}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden updater musi zsynchronizować kilka części z innymi obiektami."
+
+  - id: odbudowa-geometrii-zrodlowej
+    topic: updatery
+    rule: "Odbudowuj zależną geometrię przez `always_redraw` albo `become`, gdy zmienia się jej układ lub liczba elementów."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1996}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2829}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 3079}
+    confidence: high
+    applies_to: "Obowiązuje dla linii, grup i wykresów wyliczanych ponownie ze stanu źródeł."
+
+  - id: kontrola-cyklu-updaterow
+    topic: updatery
+    rule: "Zawieszaj updatery przed ręcznym ujawnieniem lub transformacją zależnych obiektów, wznawiaj je na czas ruchu źródła i czyść po ustabilizowaniu stanu."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1999}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2043}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2257}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1928}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt zależny ma być najpierw pokazany lub przekształcony w stanie zatrzymanym."
+
+  - id: animacja-wlasna-dla-logiki-klatkowej
+    topic: klasy-animacji
+    rule: "Twórz własną klasę `Animation`, gdy ruch wymaga własnej logiki wykonywanej w każdej klatce, a nie tylko interpolacji gotowego celu."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 4}
+      - {source: _2024/puzzles, file: max_rand.py, line: 32}
+    confidence: high
+    applies_to: "Obowiązuje dla losowania wartości albo budowania śladu punktu w czasie."
+
+  - id: stan-animacji-w-polach
+    topic: klasy-animacji
+    rule: "Przechowuj stan poprzedniej klatki w polach animacji i aktualizuj go różnicą kolejnych wartości `alpha`, gdy proces zależy od historii."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 11}
+      - {source: _2024/puzzles, file: max_rand.py, line: 22}
+    confidence: high
+    applies_to: "Obowiązuje dla animacji z częstotliwością, akumulacją albo progami czasowymi."
+
+  - id: parametry-i-przekazanie-kwargs
+    topic: klasy-animacji
+    rule: "Przyjmuj parametry źródłowe jako nazwane argumenty, zapisz je w instancji i przekaż pozostałe argumenty do bazowej klasy animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 5}
+      - {source: _2024/puzzles, file: max_rand.py, line: 13}
+      - {source: _2024/puzzles, file: max_rand.py, line: 33}
+      - {source: _2024/puzzles, file: max_rand.py, line: 38}
+    confidence: high
+    applies_to: "Obowiązuje dla każdej własnej klasy animacji z konfigurowalnym źródłem danych lub wyglądem."
+
+  - id: ograniczony-cykl-zycia-animacji
+    topic: klasy-animacji
+    rule: "Ograniczaj własne klasy animacji do `__init__` i `interpolate_mobject`, jeśli nie trzeba zmieniać początku, końca ani obiektu startowego."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 4}
+      - {source: _2024/puzzles, file: max_rand.py, line: 15}
+      - {source: _2024/puzzles, file: max_rand.py, line: 40}
+    confidence: high
+    applies_to: "Obowiązuje, gdy cała niestandardowa logika mieści się w aktualizacji stanu podczas interpolacji."
+
+  - id: skladanie-ruchow
+    topic: klasy-animacji
+    rule: "Łącz ruchy równoległe w `AnimationGroup` albo pojedynczym `play`, a kolejne etapy układaj w `LaggedStart` lub `LaggedStartMap`."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: supplements.py, line: 584}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 706}
+      - {source: _2024/puzzles, file: supplements.py, line: 787}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka części ma wejść razem, ale z kontrolowanym opóźnieniem między nimi."
+
+  - id: rate-func-dla-powrotu
+    topic: klasy-animacji
+    rule: "Ustawiaj `there_and_back` albo `there_and_back_with_pause` na ruchach, które mają chwilowo podkreślić stan i wrócić do położenia bazowego."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 463}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1086}
+      - {source: _2024/puzzles, file: max_rand.py, line: 395}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2174}
+    confidence: high
+    applies_to: "Obowiązuje dla chwilowego powiększenia, odchylenia, migotania albo sprawdzenia kształtu."
+
+  - id: rozne-wejscia-geometrii-i-adnotacji
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj geometrię przez rysowanie, wzrost lub transformację z kopii, a adnotacje przez `Write` albo `FadeIn` z kierunkiem, przesunięciem lub skalą."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 37}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1252}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 540}
+      - {source: _2024/puzzles, file: supplements.py, line: 584}
+    confidence: high
+    applies_to: "Obowiązuje, gdy główny obiekt i jego opis mają różną hierarchię wizualną."
+
+  - id: wejscie-przez-stan-wstepny
+    topic: wejscie-i-sprzatanie
+    rule: "Buduj wejście z obiektu w stanie wstępnym, przekształć go do geometrii docelowej, a dopiero potem wygaszaj pomocniczy stan."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1463}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1488}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1790}
+    confidence: high
+    applies_to: "Obowiązuje dla pasków, powierzchni i innych obiektów, których rozmiar ma narastać przestrzennie."
+
+  - id: transformacja-zamiast-przypadkowego-usuniecia
+    topic: wejscie-i-sprzatanie
+    rule: "Zastępuj obiekt następnym przez `Transform`, `ReplacementTransform` albo `FadeTransform`, gdy oba reprezentują ciągłość tego samego pojęcia."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2202}
+      - {source: _2024/puzzles, file: max_rand.py, line: 327}
+      - {source: _2024/puzzles, file: max_rand.py, line: 548}
+      - {source: _2024/puzzles, file: supplements.py, line: 512}
+    confidence: high
+    applies_to: "Obowiązuje dla przejścia między odpowiadającymi sobie kształtami, etykietami lub konstrukcjami."
+
+  - id: duch-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Zachowuj kontekst w postaci kopii o niskiej przezroczystości i bez testu głębokości, gdy pierwszy plan ma zostać rozłożony lub przekształcony."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1002}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2222}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2427}
+    confidence: high
+    applies_to: "Obowiązuje, gdy poprzednia forma ma pozostać czytelna jako tło dla nowej interpretacji."
+
+  - id: grupowanie-czesci-obiektu
+    topic: custom-mobject
+    rule: "Składaj złożony obiekt z `Group` albo `VGroup` i zwracaj grupę, zamiast definiować osobną klasę mobject dla samej kompozycji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 50}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1450}
+      - {source: _2024/puzzles, file: supplements.py, line: 719}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt składa się z istniejących mobjectów i nie potrzebuje własnego cyklu życia."
+
+  - id: referencje-do-czesci
+    topic: custom-mobject
+    rule: "Eksponuj semantycznie ważne części jako atrybuty grupy, aby późniejsze animacje mogły zmieniać je niezależnie."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1467}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2331}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2880}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 159}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt ma części pomocnicze używane później przez updater albo animację."
+
+  - id: parametryzowana-fabryka-geometrii
+    topic: custom-mobject
+    rule: "Parametryzuj fabryki obiektów przez rozmiar, położenie, kąt, kolor, krycie i opcjonalne elementy zamiast kodować jeden wariant."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1450}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 174}
+      - {source: _2024/puzzles, file: supplements.py, line: 719}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam typ obiektu pojawia się w kilku rozmiarach, orientacjach lub stylach."
+
+  - id: rozdzielenie-fabryki-i-choreografii
+    topic: custom-mobject
+    rule: "Rozdzielaj metody zwracające nowy obiekt od metod sceny wykonujących `play`, dodających element do sceny i aktualizujących stan pomocniczy."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1486}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 194}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 157}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2305}
+    confidence: high
+    applies_to: "Obowiązuje, gdy konstrukcja obiektu ma być używana w wielu scenach, ale sposób wejścia zależy od sceny."

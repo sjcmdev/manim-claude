@@ -1,0 +1,201 @@
+observations:
+  - id: tracker-updater-without-dt
+    topic: updatery
+    rule: "Podpinaj updater zależny od trackera bez parametru dt i odczytuj w nim aktualną wartość trackera."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 479}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 21}
+    confidence: high
+    applies_to: "Obowiązuje, gdy położenie, etykieta lub wartość liczbowa wynika bezpośrednio z ValueTracker."
+
+  - id: dt-driven-tracker
+    topic: updatery
+    rule: "Dla ruchu zależnego od upływu czasu aktualizuj tracker przyrostowo przez dt."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 1230}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt ma poruszać się samoczynnie podczas oczekiwania sceny."
+
+  - id: restore-before-deformation
+    topic: updatery
+    rule: "Przed każdym przeliczeniem deformowanego obiektu przywracaj jego zapisany stan bazowy."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: misc_scenes.py, line: 175}
+      - {source: _2026/print_gallery, file: exponential.py, line: 943}
+    confidence: high
+    applies_to: "Obowiązuje, gdy updater wielokrotnie nakłada transformację geometryczną na ten sam obiekt."
+
+  - id: bind-loop-index
+    topic: updatery
+    rule: "W updaterach tworzonych w pętli wiąż indeks jako argument domknięcia."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: misc_scenes.py, line: 158}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 676}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wiele podobnych obiektów otrzymuje updatery wewnątrz pętli."
+
+  - id: rebuild-derived-geometry
+    topic: updatery
+    rule: "Dla geometrii pochodnej buduj nowy wynik w funkcji obliczającej i podmieniaj nim mobject przez become."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 2608}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3374}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wygląd obiektu zależy od kilku zmiennych parametrów i łatwiej go odtworzyć niż modyfikować punkt po punkcie."
+
+  - id: explicit-updater-lifecycle
+    topic: updatery
+    rule: "Czyść, wstrzymuj i wznawiaj updatery jawnie na granicach transformacji."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 700}
+      - {source: _2026/print_gallery, file: exponential.py, line: 1577}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 177}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt przechodzi z trybu sterowanego updaterem do ręcznej transformacji lub odwrotnie."
+
+  - id: compose-animations
+    topic: klasy-animacji
+    rule: "Składaj równoległe i sekwencyjne ruchy przez AnimationGroup oraz LaggedStart."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: supplements.py, line: 428}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 101}
+      - {source: _2026/print_gallery, file: exponential.py, line: 581}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden krok ma sterować kilkoma obiektami lub etapami o kontrolowanym opóźnieniu."
+
+  - id: preserve-visual-correspondence
+    topic: klasy-animacji
+    rule: "Przenoś obiekt między reprezentacjami przez TransformFromCopy, ReplacementTransform albo FadeTransform, gdy obie formy mają wspólne znaczenie."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 705}
+      - {source: _2026/print_gallery, file: exponential.py, line: 758}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 1130}
+    confidence: high
+    applies_to: "Obowiązuje, gdy widz powinien śledzić ciągłość między obiektem źródłowym a jego następną postacią."
+
+  - id: precompute-animation-target
+    topic: klasy-animacji
+    rule: "Przy złożonej deformacji przygotuj target przez generate_target i wykonuj ruch przez MoveToTarget."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 523}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 600}
+      - {source: _2026/print_gallery, file: exponential.py, line: 1009}
+    confidence: high
+    applies_to: "Obowiązuje, gdy stan końcowy wymaga wcześniejszego wyliczenia wielu punktów lub stylów."
+
+  - id: choose-rate-function
+    topic: klasy-animacji
+    rule: "Ustawiaj rate_func jawnie zgodnie z rolą ruchu, używając liniowego przebiegu dla synchronizacji i przebiegu tam-i-z-powrotem dla podkreślenia."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 178}
+      - {source: _2026/print_gallery, file: exponential.py, line: 1348}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2295}
+    confidence: high
+    applies_to: "Obowiązuje, gdy tempo ruchu ma znaczenie wyjaśniające, a nie tylko techniczne."
+
+  - id: stage-primary-entry
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj obiekt główny przez kierunkowy FadeIn albo ShowCreation, a jego otoczenie odsłaniaj w osobnych przedziałach czasu."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 2120}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2158}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 532}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wejście obiektu ma ustanowić nowy punkt skupienia sceny."
+
+  - id: attach-annotations-to-motion
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotacje razem z ruchem obiektu, wiążąc je z nim przez FadeTransform, GrowArrow albo TransformFromCopy."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 704}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2245}
+      - {source: _2026/print_gallery, file: supplements.py, line: 339}
+    confidence: high
+    applies_to: "Obowiązuje, gdy etykieta, strzałka lub komentarz opisuje właśnie wprowadzany element."
+
+  - id: morph-before-removing
+    topic: wejscie-i-sprzatanie
+    rule: "Przekształcaj reprezentację w następną, zanim usuniesz ją ze sceny, gdy między nimi istnieje ciągłość pojęciowa."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 758}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2158}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 1070}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejny obiekt ma wyglądać jak wynik poprzedniego, a nie jak niezależny element."
+
+  - id: keep-ghost-context
+    topic: wejscie-i-sprzatanie
+    rule: "Zostawiaj poprzednią reprezentację jako półprzezroczysty ghost, gdy ma służyć za punkt odniesienia dla aktualnego ruchu."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 749}
+      - {source: _2026/print_gallery, file: exponential.py, line: 798}
+      - {source: _2026/print_gallery, file: supplements.py, line: 288}
+    confidence: high
+    applies_to: "Obowiązuje, gdy nowy obiekt jest porównywany z położeniem, skalą lub kształtem poprzedniego."
+
+  - id: grouped-cleanup
+    topic: wejscie-i-sprzatanie
+    rule: "Sprzątaj elementy tymczasowe jako grupę z opóźnieniem i jednocześnie przywracaj pełną widoczność elementów stałych."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 821}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2573}
+    confidence: high
+    applies_to: "Obowiązuje, gdy zakończenie etapu ma pozostawić kadr gotowy do następnej demonstracji."
+
+  - id: parameterized-factories
+    topic: custom-mobject
+    rule: "Buduj powtarzalne obiekty przez parametryzowane funkcje lub metody zwracające gotowy obiekt."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 19}
+      - {source: _2026/print_gallery, file: exponential.py, line: 83}
+      - {source: _2026/print_gallery, file: supplements.py, line: 445}
+    confidence: high
+    applies_to: "Obowiązuje, gdy konstrukcja obiektu ma być użyta w kilku scenach albo z różnymi rozmiarami i parametrami."
+
+  - id: preserve-composite-parts
+    topic: custom-mobject
+    rule: "Łącz warstwy obiektu w Group albo VGroup i zachowuj osobne uchwyty do części, które będą później animowane."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 2071}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2833}
+      - {source: _2026/print_gallery, file: conformal_maps.py, line: 18}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt składa się z kilku warstw wizualnych lub gdy części mają różne zachowania."
+
+  - id: separate-geometry-from-animation
+    topic: custom-mobject
+    rule: "Oddzielaj funkcję przeliczającą geometrię od animacji i zwracaj z niej zmodyfikowany obiekt."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 74}
+      - {source: _2026/print_gallery, file: exponential.py, line: 626}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ta sama transformacja geometryczna ma być użyta zarówno statycznie, jak i podczas animacji."
+
+  - id: track-animatable-parameters
+    topic: custom-mobject
+    rule: "Trzymaj parametry podlegające animacji w trackerach, a kształt obiektu wyprowadzaj z ich aktualnych wartości."
+    falsifiable: true
+    evidence:
+      - {source: _2026/print_gallery, file: exponential.py, line: 2068}
+      - {source: _2026/print_gallery, file: exponential.py, line: 2787}
+      - {source: _2026/print_gallery, file: exponential.py, line: 3386}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedna konstrukcja ma płynnie reagować na zmianę stałej, punktu stałego lub skali."

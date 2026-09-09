@@ -1,0 +1,245 @@
+observations:
+  - id: czytaj-geometrie-zrodla
+    topic: updatery
+    rule: Odczytuj bieżącą geometrię obiektu źródłowego przy każdej aktualizacji zamiast sterować zależnością przez dt.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter2.py, line: 332}
+      - {source: _2016/eola, file: chapter2.py, line: 337}
+    confidence: high
+    applies_to: Gdy jeden obiekt ma podążać za aktualnym położeniem lub końcem innego obiektu.
+
+  - id: zwracaj-animacje-zaleznosci
+    topic: updatery
+    rule: Zależności krótkotrwałe zwracaj z metod pomocniczych jako osobne animacje i dołączaj je do wspólnego play.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter2.py, line: 312}
+      - {source: _2016/eola, file: chapter2.py, line: 324}
+      - {source: _2016/eola, file: chapter2.py, line: 331}
+    confidence: high
+    applies_to: Gdy synchronizacja obowiązuje tylko podczas konkretnego ruchu.
+
+  - id: trzymaj-poprzedni-stan
+    topic: updatery
+    rule: Przechowuj poprzedni stan w jawnym atrybucie i aktualizuj go dopiero po zakończeniu odcinka animacji.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter2.py, line: 245}
+      - {source: _2016/eola, file: chapter2.py, line: 299}
+      - {source: _2016/eola, file: chapter2.py, line: 329}
+    confidence: high
+    applies_to: Gdy następny ruch zależy od wartości uzyskanej w poprzednim ruchu.
+
+  - id: animacja-zalezna-od-alpha
+    topic: klasy-animacji
+    rule: Pisz własną klasę Animation wtedy, gdy stan obiektu trzeba wyliczać bezpośrednio z alpha, a gotowe animacje nie opisują tej geometrii.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter11.py, line: 847}
+      - {source: _2016/eola, file: chapter11.py, line: 860}
+    confidence: high
+    applies_to: Ruchów zależnych od próbkowania krzywej lub innej funkcji w trakcie animacji.
+
+  - id: ogranicz-interpolate
+    topic: klasy-animacji
+    rule: Ogranicz własną klasę Animation do interpolate_mobject, jeśli nie trzeba zmieniać cyklu życia ani obiektu startowego.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter11.py, line: 854}
+      - {source: _2016/eola, file: chapter11.py, line: 860}
+    confidence: medium
+    applies_to: Niestandardowych animacji operujących na jednym generowanym mobject.
+
+  - id: parametry-animacji-przez-config
+    topic: klasy-animacji
+    rule: Przekazuj obiekt źródłowy przez argument konstruktora, a parametry strojenia animacji przez CONFIG i kwargs.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter11.py, line: 848}
+      - {source: _2016/eola, file: chapter11.py, line: 854}
+      - {source: _2016/eola, file: chapter11.py, line: 855}
+    confidence: high
+    applies_to: Własnych klas animacji wymagających zarówno danych wejściowych, jak i parametrów wizualnych.
+
+  - id: skladaj-ruchy-z-list
+    topic: klasy-animacji
+    rule: Buduj równoległe animacje listami tworzonymi z równoległych danych, a następnie przekazuj je razem do play.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter2.py, line: 282}
+      - {source: _2016/eola, file: chapter2.py, line: 296}
+      - {source: _2016/eola, file: chapter2.py, line: 313}
+      - {source: _2016/eola, file: chapter2.py, line: 324}
+    confidence: high
+    applies_to: Animacji wielu odpowiadających sobie obiektów wykonywanych w jednej fazie.
+
+  - id: opozniaj-elementy-rate-func
+    topic: klasy-animacji
+    rule: Twórz osobną funkcję rate_func z przesunięciem dla każdego elementu, gdy grupa ma pojawiać się progresywnie w jednym czasie trwania.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter0.py, line: 76}
+      - {source: _2016/eola, file: chapter0.py, line: 79}
+      - {source: _2016/eola, file: chapter0.py, line: 84}
+    confidence: high
+    applies_to: Powtarzalnych ikon, punktów, wektorów i innych elementów ujawnianych sekwencyjnie.
+
+  - id: wycinaj-okna-czasowe
+    topic: klasy-animacji
+    rule: Wycinaj okna czasowe przez squish_rate_func, gdy kilka pod-ruchów ma następować w ramach jednego wspólnego runtime.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter2.py, line: 276}
+      - {source: _2016/eola, file: chapter2.py, line: 285}
+      - {source: _2016/eola, file: chapter8.py, line: 1073}
+      - {source: _2016/eola, file: chapter8.py, line: 1080}
+    confidence: high
+    applies_to: Równoległych transformacji, które powinny startować w różnych częściach tej samej animacji.
+
+  - id: podkreslaj-ruch-powrotem
+    topic: klasy-animacji
+    rule: Używaj there_and_back lub wiggle dla chwilowego podkreślenia, które ma zakończyć się w stanie wyjściowym.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter6.py, line: 292}
+      - {source: _2016/eola, file: chapter6.py, line: 299}
+      - {source: _2016/eola, file: chapter8.py, line: 190}
+      - {source: _2016/eola, file: chapter8.py, line: 193}
+    confidence: high
+    applies_to: Krótkiego zaakcentowania skali, obrotu lub fragmentu wzoru bez pozostawiania zmiany.
+
+  - id: rozdzielaj-geometrie-od-adnotacji
+    topic: wejscie-i-sprzatanie
+    rule: Wprowadzaj główną geometrię przez rysowanie lub transformację, a adnotacje przez pisanie albo wzrost od środka.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter1.py, line: 78}
+      - {source: _2016/eola, file: chapter1.py, line: 83}
+      - {source: _2016/eola, file: chapter1.py, line: 143}
+      - {source: _2016/eola, file: chapter1.py, line: 144}
+    confidence: high
+    applies_to: Scen, w których etykieta objaśnia już widoczny obiekt.
+
+  - id: pokazuj-obraz-warstwami
+    topic: wejscie-i-sprzatanie
+    rule: Ujawniaj złożoną ilustrację kolejno od konturu, przez wnętrze, do elementów merytorycznych i etykiet.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter5.py, line: 30}
+      - {source: _2016/eola, file: chapter5.py, line: 813}
+      - {source: _2016/eola, file: chapter5.py, line: 815}
+      - {source: _2016/eola, file: chapter5.py, line: 822}
+      - {source: _2016/eola, file: chapter5.py, line: 823}
+    confidence: high
+    applies_to: Ilustracji z wyraźną sylwetką i osobnymi detalami wewnętrznymi.
+
+  - id: opozniaj-grupy-elementow
+    topic: wejscie-i-sprzatanie
+    rule: Grupuj powtarzalne elementy i ustawiaj lag_ratio, aby ich wejście miało rytm zamiast pojawiać się jednocześnie.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter1.py, line: 166}
+      - {source: _2016/eola, file: chapter5.py, line: 297}
+      - {source: _2016/eola, file: chapter6.py, line: 180}
+    confidence: high
+    applies_to: Siatek, zbiorów wektorów, kwadratów i innych serii podobnych obiektów.
+
+  - id: przygaszaj-kontekst
+    topic: wejscie-i-sprzatanie
+    rule: Przygaszaj tło i nieaktywne elementy, a aktywne obiekty przenoś do warstwy pierwszoplanowej.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter2.py, line: 565}
+      - {source: _2016/eola, file: chapter10.py, line: 1622}
+      - {source: _2016/eola, file: chapter10.py, line: 1630}
+      - {source: _2016/eola, file: chapter11.py, line: 1194}
+      - {source: _2016/eola, file: chapter11.py, line: 1202}
+    confidence: high
+    applies_to: Przejść, w których wcześniejsza konstrukcja pozostaje potrzebna jako kontekst.
+
+  - id: transformuj-w-nastepny-koncept
+    topic: wejscie-i-sprzatanie
+    rule: Przekształcaj obiekt w jego następną reprezentację, gdy ciągłość kształtu lub znaczenia ma być widoczna.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter1.py, line: 242}
+      - {source: _2016/eola, file: chapter1.py, line: 252}
+      - {source: _2016/eola, file: chapter2.py, line: 657}
+      - {source: _2016/eola, file: chapter2.py, line: 661}
+      - {source: _2016/eola, file: chapter2.py, line: 699}
+    confidence: high
+    applies_to: Przejść między obiektem wyjściowym a jego kolejną interpretacją.
+
+  - id: sprzataj-transienty-po-handoff
+    topic: wejscie-i-sprzatanie
+    rule: Po transformacji usuń obiekt tymczasowy i dodaj kanoniczny obiekt docelowy, zanim rozpocznie się kolejny krok.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter11.py, line: 306}
+      - {source: _2016/eola, file: chapter11.py, line: 308}
+      - {source: _2016/eola, file: chapter11.py, line: 310}
+      - {source: _2016/eola, file: chapter10.py, line: 187}
+      - {source: _2016/eola, file: chapter10.py, line: 194}
+    confidence: high
+    applies_to: Ruchów wykorzystujących kopie lub obiekty pośrednie.
+
+  - id: trzymaj-parametry-w-konfiguracji-obiektu
+    topic: custom-mobject
+    rule: Umieszczaj domyślne kolory, rozmiary, ziarna losowe i amplitudy perturbacji w CONFIG, a normalizację geometrii w konstruktorze.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter5.py, line: 5}
+      - {source: _2016/eola, file: chapter5.py, line: 14}
+      - {source: _2016/eola, file: chapter5.py, line: 20}
+    confidence: high
+    applies_to: Parametryzowanych obiektów wielokrotnie używanych przez różne sceny.
+
+  - id: generuj-punkty-w-init-points
+    topic: custom-mobject
+    rule: Generuj geometrię opartą na punktach w init_points i steruj jej złożonością przez parametry CONFIG.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter6.py, line: 152}
+      - {source: _2016/eola, file: chapter6.py, line: 157}
+      - {source: _2016/eola, file: chapter6.py, line: 162}
+      - {source: _2016/eola, file: chapter11.py, line: 251}
+      - {source: _2016/eola, file: chapter11.py, line: 257}
+    confidence: high
+    applies_to: Własnych wykresów, wielokątów i obiektów składanych z segmentów.
+
+  - id: nazwij-czesci-obiektu
+    topic: custom-mobject
+    rule: Przechowuj istotne części obiektu jako nazwane atrybuty, jeśli scena ma animować je niezależnie.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter5.py, line: 33}
+      - {source: _2016/eola, file: chapter5.py, line: 34}
+      - {source: _2016/eola, file: chapter5.py, line: 37}
+      - {source: _2016/eola, file: chapter5.py, line: 814}
+      - {source: _2016/eola, file: chapter5.py, line: 815}
+    confidence: high
+    applies_to: Złożonych ilustracji, których kontur i detale mają różne animacje wejścia.
+
+  - id: udostepniaj-akcesory-zalezne
+    topic: custom-mobject
+    rule: Udostępniaj metody semantyczne, które tworzą i zwracają nowy obiekt zależny od właściciela.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter11.py, line: 12}
+      - {source: _2016/eola, file: chapter11.py, line: 13}
+      - {source: _2016/eola, file: chapter11.py, line: 16}
+    confidence: high
+    applies_to: Obiektów, które mają dostarczać scenie etykiety lub inne pomocnicze reprezentacje.
+
+  - id: tworz-warianty-przez-config
+    topic: custom-mobject
+    rule: Twórz warianty obiektu przez nadpisanie CONFIG w podklasie, jeśli zmieniają tylko parametry lub orientację.
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter1.py, line: 13}
+      - {source: _2016/eola, file: chapter1.py, line: 18}
+      - {source: _2016/eola, file: chapter5.py, line: 826}
+      - {source: _2016/eola, file: chapter5.py, line: 828}
+    confidence: high
+    applies_to: Wariantów kolorystycznych, lustrzanych i konfiguracyjnych bez zmiany algorytmu geometrii.

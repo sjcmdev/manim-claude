@@ -1,0 +1,221 @@
+observations:
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Updater sterowany przez ValueTracker nie przyjmuj `dt`, tylko odczytuj bieżącą wartość trackera."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: entropy.py, line: 1272}
+      - {source: _2026/cross_entropy, file: entropy.py, line: 1284}
+      - {source: _2026/cross_entropy, file: robot.py, line: 2437}
+    confidence: high
+    applies_to: "Obowiązuje, gdy położenie, wygląd lub liczba są bezpośrednią funkcją trackera."
+
+  - id: ruch-przez-dt
+    topic: updatery
+    rule: "Updater realizujący ruch w czasie przyjmuj `dt` i skaluj przesunięcie przez `dt`."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: entropy.py, line: 509}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 142}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 156}
+    confidence: high
+    applies_to: "Obowiązuje dla ciągłego przepływu lub ruchu o zadanej prędkości."
+
+  - id: stan-w-mobject
+    topic: updatery
+    rule: "Stan potrzebny między klatkami przechowuj jako atrybut mobjectu i aktualizuj go przed zmianą jego położenia."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 754}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 838}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 840}
+    confidence: high
+    applies_to: "Obowiązuje dla integracji fizycznej, akumulacji prędkości lub innego ruchu zależnego od poprzedniej klatki."
+
+  - id: domkniecie-petli
+    topic: updatery
+    rule: "W updaterze tworzonym w pętli przechwytuj wartości iteracji przez argumenty domyślne domknięcia."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 417}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7921}
+      - {source: _2026/cross_entropy, file: robot.py, line: 8652}
+    confidence: high
+    applies_to: "Obowiązuje, gdy każdy updater w pętli ma pamiętać inny indeks, obiekt lub parametr."
+
+  - id: geometria-zawsze-redraw
+    topic: updatery
+    rule: "Geometrię zależną od innych obiektów buduj przez `always_redraw`, jeśli jej kształt musi być tworzony ponownie po każdej zmianie."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: entropy.py, line: 1291}
+      - {source: _2026/cross_entropy, file: robot.py, line: 8530}
+      - {source: _2026/cross_entropy, file: part2_supplements.py, line: 318}
+    confidence: high
+    applies_to: "Obowiązuje dla linii, ramek, wykresów i etykiet zależnych od zmiennej geometrii."
+
+  - id: animacja-jako-metoda
+    topic: custom-mobject
+    rule: "Wystawiaj na obiekcie metody opisujące czynność, które konfigurują części obiektu i zwracają gotową animację do `self.play`."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 39}
+      - {source: _2026/cross_entropy, file: robot.py, line: 53}
+      - {source: _2026/cross_entropy, file: robot.py, line: 42}
+      - {source: _2026/cross_entropy, file: robot.py, line: 43}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7700}
+    confidence: high
+    applies_to: "Obowiązuje dla wieloczęściowych obiektów posiadających własne wejście, ruch lub prezentację."
+
+  - id: wrapper-wlasnej-animacji
+    topic: klasy-animacji
+    rule: "Własną klasę animacji ograniczaj do opakowania istniejącej animacji z parametryzowanym mobjectem wejściowym."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 9}
+      - {source: _2026/cross_entropy, file: robot.py, line: 11}
+      - {source: _2026/cross_entropy, file: robot.py, line: 14}
+    confidence: high
+    applies_to: "Obowiązuje dla efektu, którego nowość polega na przygotowaniu geometrii, a nie na nowym algorytmie interpolacji."
+
+  - id: reczne-interpolate
+    topic: klasy-animacji
+    rule: "Ręcznie sterowaną transformację powiąż z trackerem przez `begin()` i wywołanie `interpolate_mobject` w updaterze."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 7916}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7923}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7949}
+    confidence: high
+    applies_to: "Obowiązuje, gdy progres transformacji ma być sterowany niezależnie od czasu animacji."
+
+  - id: warstwowe-animation-group
+    topic: klasy-animacji
+    rule: "Animację złożoną buduj jako zagnieżdżone `AnimationGroup`, rozdzielając równoległe elementy od kolejnych etapów."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 7700}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7710}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7727}
+      - {source: _2026/cross_entropy, file: robot.py, line: 5270}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jeden obiekt ma wejść etapami, ale części w obrębie etapu mają działać równolegle."
+
+  - id: rate-func-zgodna-z-ruchem
+    topic: klasy-animacji
+    rule: "Dobieraj `rate_func` do znaczenia ruchu: `linear` dla przepływu, `there_and_back` dla chwilowego flashu, a niestandardową krzywą dla ściskania lub przeregulowania."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: transformer_render.py, line: 400}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 90}
+      - {source: _2026/cross_entropy, file: entropy.py, line: 579}
+      - {source: _2026/cross_entropy, file: part2_supplements.py, line: 206}
+    confidence: high
+    applies_to: "Obowiązuje, gdy tempo interpolacji ma komunikować charakter zjawiska."
+
+  - id: wejscie-adnotacji
+    topic: wejscie-i-sprzatanie
+    rule: "Adnotacje wprowadzaj krótkim przesunięciem lub skalą, często z `lag_ratio`, zamiast traktować je jak główny obiekt sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: entropy.py, line: 398}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 962}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 967}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 124}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet, komentarzy, pytań, ramek i krótkich dopowiedzeń."
+
+  - id: wejscie-przez-zrodlo
+    topic: wejscie-i-sprzatanie
+    rule: "Element wynikowy wyprowadzaj wizualnie z elementu źródłowego przez `TransformFromCopy`, `ReplacementTransform` lub transformację częściową z `path_arc`."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_models.py, line: 155}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 368}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 507}
+      - {source: _2026/cross_entropy, file: supplements.py, line: 755}
+    confidence: high
+    applies_to: "Obowiązuje, gdy nowy obiekt ma być odczytany jako konsekwencja lub przekształcenie poprzedniego."
+
+  - id: transform-zamiast-fade
+    topic: wejscie-i-sprzatanie
+    rule: "Obiekty współdzielące znaczenie lub części przekształcaj bezpośrednio, zamiast jednocześnie wygaszać stary i wprowadzać nowy."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: arithmetic_coding.py, line: 242}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1280}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 951}
+    confidence: high
+    applies_to: "Obowiązuje przy zmianie podpisu, układu, wzoru lub reprezentacji tego samego pojęcia."
+
+  - id: przygaszanie-kontekstu
+    topic: wejscie-i-sprzatanie
+    rule: "Kontekst nadal potrzebny do orientacji przygaszaj przez zmianę opacity, zamiast usuwać go ze sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1570}
+      - {source: _2026/cross_entropy, file: robot.py, line: 7996}
+      - {source: _2026/cross_entropy, file: robot.py, line: 8269}
+    confidence: high
+    applies_to: "Obowiązuje dla tła porównania, wcześniejszych przykładów i drugorzędnych wykresów."
+
+  - id: sprzatanie-z-restore
+    topic: wejscie-i-sprzatanie
+    rule: "Kończąc etap, wygaszaj tymczasowe oznaczenia kierunkowym ruchem i równocześnie przywracaj lub centruj obiekt bazowy."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: entropy.py, line: 588}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 931}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 973}
+    confidence: high
+    applies_to: "Obowiązuje, gdy scena ma po przejściu zachować podstawowy obiekt w stanie gotowym do następnej operacji."
+
+  - id: cykl-zycia-updatera
+    topic: updatery
+    rule: "Zawieszaj lub czyść updater tymczasowego obiektu przed transformacją albo usunięciem jego kotwicy."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: entropy.py, line: 560}
+      - {source: _2026/cross_entropy, file: entropy.py, line: 597}
+      - {source: _2026/cross_entropy, file: arithmetic_coding.py, line: 295}
+      - {source: _2026/cross_entropy, file: language_models.py, line: 1132}
+    confidence: high
+    applies_to: "Obowiązuje dla ramek, etykiet i linii zależnych od elementu, który właśnie znika lub zmienia układ."
+
+  - id: czesci-jako-atrybuty
+    topic: custom-mobject
+    rule: "Części własnego obiektu zapisuj jako nazwane atrybuty, dodawaj je w stabilnej hierarchii i udostępniaj metody dostępu do istotnych podelementów."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: robot.py, line: 21}
+      - {source: _2026/cross_entropy, file: robot.py, line: 34}
+      - {source: _2026/cross_entropy, file: entropy.py, line: 54}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 383}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 394}
+    confidence: high
+    applies_to: "Obowiązuje dla obiektu z częściami, które scena ma później animować, stylować lub odpytywać."
+
+  - id: konfiguracja-w-init
+    topic: custom-mobject
+    rule: "Parametry konstrukcji, dane wejściowe i ustawienia wizualne przyjmuj w `__init__` i zapisuj na `self`, a operacje etapowe umieszczaj w metodach."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: language_models.py, line: 40}
+      - {source: _2026/cross_entropy, file: transformer_render.py, line: 116}
+      - {source: _2026/cross_entropy, file: distribution.py, line: 9}
+      - {source: _2026/cross_entropy, file: language_tree.py, line: 369}
+    confidence: high
+    applies_to: "Obowiązuje dla parametryzowanych diagramów, modeli i obiektów z wieloma wariantami wyglądu."
+
+  - id: kontrakt-zwrotu
+    topic: custom-mobject
+    rule: "Mutatory zwracające zmodyfikowany obiekt niech zwracają `self`, fabryki niech zwracają nowy mobject, a metody czynności niech zwracają animację."
+    falsifiable: true
+    evidence:
+      - {source: _2026/cross_entropy, file: distribution.py, line: 52}
+      - {source: _2026/cross_entropy, file: distribution.py, line: 86}
+      - {source: _2026/cross_entropy, file: entropy.py, line: 66}
+      - {source: _2026/cross_entropy, file: arithmetic_coding.py, line: 150}
+      - {source: _2026/cross_entropy, file: robot.py, line: 55}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt ma jednocześnie konfigurację, pomocnicze fabryki geometrii i własne animacje."

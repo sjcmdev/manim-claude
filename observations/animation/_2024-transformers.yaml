@@ -1,0 +1,249 @@
+observations:
+  - id: zegar-w-updaterze
+    topic: updatery
+    rule: "Trzymaj parametry per element na obiekcie i wyliczaj wygląd z `self.time`, zamiast kumulować zmianę w każdej klatce."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "supplements.py", line: 1580}
+      - {source: "_2024/transformers", file: "chm.py", line: 1746}
+    confidence: high
+    applies_to: "Updatery okresowych zmian koloru, krycia lub intensywności."
+
+  - id: dt-dla-przyrostu
+    topic: updatery
+    rule: "Przyjmuj `dt` wtedy, gdy updater wykonuje przyrost kąta lub innej wielkości."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "embedding.py", line: 1404}
+      - {source: "_2024/transformers", file: "attention.py", line: 3066}
+    confidence: high
+    applies_to: "Updatery ciągłego obrotu kamery lub obiektu."
+
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Dla zależności od trackera odczytuj bieżącą wartość źródła i ustawiaj obiekt zależny bez argumentu `dt`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "ml_basics.py", line: 1075}
+      - {source: "_2024/transformers", file: "embedding.py", line: 1791}
+    confidence: high
+    applies_to: "Updatery obliczające geometrię lub liczby z `ValueTracker` albo innych mobjectów."
+
+  - id: warstwowe-updatery
+    topic: updatery
+    rule: "Rozdzielaj updater wartości od updatera geometrii i podpinaj je jako zależność źródło–wizualizacja."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "ml_basics.py", line: 2213}
+      - {source: "_2024/transformers", file: "ml_basics.py", line: 2219}
+    confidence: high
+    applies_to: "Wizualizacje, w których najpierw zmieniają się dane, a dopiero potem ich reprezentacja."
+
+  - id: stan-poprzedniej-klatki
+    topic: updatery
+    rule: "Dla iteracyjnego ruchu przechowuj stan i optymalizator poza mobjectem, aktualizuj je, a następnie przepisuj wynik do obiektu."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "mlp.py", line: 2483}
+      - {source: "_2024/transformers", file: "mlp.py", line: 2503}
+      - {source: "_2024/transformers", file: "mlp.py", line: 2506}
+    confidence: high
+    applies_to: "Updatery wykonujące optymalizację lub symulację zależną od poprzedniego kroku."
+
+  - id: referencja-na-zrodlo
+    topic: updatery
+    rule: "Przechowuj referencję do źródłowego mobjectu jako atrybut obiektu śledzącego."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "embedding.py", line: 1068}
+      - {source: "_2024/transformers", file: "embedding.py", line: 1757}
+      - {source: "_2024/transformers", file: "embedding.py", line: 2895}
+    confidence: high
+    applies_to: "Etykiety, liczby i oznaczenia, które mają podążać za innym obiektem."
+
+  - id: przebudowa-always-redraw
+    topic: updatery
+    rule: "Używaj fabryki `always_redraw`, gdy zależny kształt ma być każdorazowo zbudowany z aktualnej geometrii źródeł."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "embedding.py", line: 934}
+      - {source: "_2024/transformers", file: "embedding.py", line: 2877}
+      - {source: "_2024/transformers", file: "mlp.py", line: 1830}
+    confidence: high
+    applies_to: "Bąble, linie projekcji i inne obiekty zależne od zmiennej geometrii."
+
+  - id: zawieszaj-na-transformacje
+    topic: updatery
+    rule: "Zawieszaj updater zależnego obiektu na czas ręcznej transformacji i wznawiaj go dopiero po ustawieniu nowego stanu."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "embedding.py", line: 2898}
+      - {source: "_2024/transformers", file: "embedding.py", line: 2905}
+      - {source: "_2024/transformers", file: "embedding.py", line: 2909}
+    confidence: high
+    applies_to: "Obiekty, których updater kolidowałby z animowanym przejściem."
+
+  - id: interpolacja-w-interpolate-mobject
+    topic: klasy-animacji
+    rule: "Dla animacji zmieniającej dane podmobjectów ogranicz własną klasę do przechowania wartości początkowych i nadpisania `interpolate_mobject`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "helpers.py", line: 630}
+      - {source: "_2024/transformers", file: "helpers.py", line: 642}
+    confidence: high
+    applies_to: "Animacje, których stan końcowy jest wyliczany przez interpolację wielu elementów."
+
+  - id: animacja-z-kompozycji
+    topic: klasy-animacji
+    rule: "Buduj własną animację z pomocniczej geometrii i gotowych animacji składowych, zamiast implementować przebieg klatka po klatce."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "helpers.py", line: 413}
+      - {source: "_2024/transformers", file: "helpers.py", line: 434}
+    confidence: high
+    applies_to: "Animacje wizualizujące przepływ między wieloma źródłami i jednym celem."
+
+  - id: parallelne-z-lag-ratio
+    topic: klasy-animacji
+    rule: "Składaj niezależne ruchy w `AnimationGroup` lub `LaggedStart`, a kolejność i rozłożenie w czasie steruj przez `lag_ratio`."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "network_flow.py", line: 373}
+      - {source: "_2024/transformers", file: "network_flow.py", line: 375}
+      - {source: "_2024/transformers", file: "helpers.py", line: 748}
+    confidence: high
+    applies_to: "Równoległych zmian wielu połączeń, wskaźników lub elementów grupy."
+
+  - id: sukcesja-krotkiego-cyklu
+    topic: klasy-animacji
+    rule: "Dla obiektu tymczasowego łącz wejście, zmianę i wyjście w `Succession`, a całą serię uruchamiaj z opóźnieniem."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "mlp.py", line: 89}
+      - {source: "_2024/transformers", file: "chm.py", line: 213}
+    confidence: high
+    applies_to: "Powtarzanych faktów, fragmentów tekstu i innych krótkotrwałych elementów."
+
+  - id: rate-funcja-semantyczna
+    topic: klasy-animacji
+    rule: "Dobieraj `rate_func` do znaczenia ruchu: `there_and_back` dla chwilowego podświetlenia, a `linear` dla progresji wartości."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "auto_regression.py", line: 221}
+      - {source: "_2024/transformers", file: "helpers.py", line: 152}
+      - {source: "_2024/transformers", file: "mlp.py", line: 565}
+    confidence: high
+    applies_to: "Animacji akcentujących stan oraz animacji przedstawiających obliczenia."
+
+  - id: ruch-z-punktu-znaczeniowego
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj główny obiekt z punktu odpowiadającego jego źródłu lub przepływowi, zachowując kierunek i łuk ruchu."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "auto_regression.py", line: 238}
+      - {source: "_2024/transformers", file: "ml_basics.py", line: 426}
+      - {source: "_2024/transformers", file: "ml_basics.py", line: 428}
+    confidence: high
+    applies_to: "Danych wchodzących do maszyny oraz wyników wychodzących z niej."
+
+  - id: osobne-wejscie-adnotacji
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj adnotację osobnym gestem pisania, wzrostu lub przesunięcia, zamiast animować ją tak samo jak obiekt główny."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "chm.py", line: 95}
+      - {source: "_2024/transformers", file: "chm.py", line: 99}
+      - {source: "_2024/transformers", file: "chm.py", line: 107}
+    confidence: high
+    applies_to: "Tytułów, etykiet, strzałek i prostokątów objaśniających."
+
+  - id: transformuj-adnotacje
+    topic: wejscie-i-sprzatanie
+    rule: "Transformuj adnotację w kolejną semantycznie powiązaną adnotację, zanim usuniesz ją jako zbędną."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "chm.py", line: 1187}
+      - {source: "_2024/transformers", file: "chm.py", line: 1193}
+      - {source: "_2024/transformers", file: "chm.py", line: 1198}
+    confidence: high
+    applies_to: "Prostokątów i oznaczeń, które zmieniają wskazywany element."
+
+  - id: wymieniaj-obiekt-po-przejsciu
+    topic: wejscie-i-sprzatanie
+    rule: "Po zakończeniu przejścia usuń obiekt fazy pośredniej i dodaj stabilny obiekt następnej fazy."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "auto_regression.py", line: 309}
+      - {source: "_2024/transformers", file: "auto_regression.py", line: 313}
+      - {source: "_2024/transformers", file: "network_flow.py", line: 504}
+    confidence: high
+    applies_to: "Przejść od animowanych kopii lub diagramów pomocniczych do docelowego modelu."
+
+  - id: zostawiaj-wygaszona-historie
+    topic: wejscie-i-sprzatanie
+    rule: "Przy cyklicznej prezentacji podobnych elementów zostawiaj poprzedni jako przygaszoną kopię zamiast czyścić całą historię."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "embedding.py", line: 1657}
+      - {source: "_2024/transformers", file: "embedding.py", line: 1662}
+      - {source: "_2024/transformers", file: "embedding.py", line: 1670}
+    confidence: high
+    applies_to: "Sekwencji sąsiadów, przykładów lub kolejnych stanów tego samego pojęcia."
+
+  - id: eksponuj-czesci-skladowe
+    topic: custom-mobject
+    rule: "Przechowuj istotne części obiektu jako atrybuty, aby późniejsza scena mogła animować je niezależnie."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "helpers.py", line: 372}
+      - {source: "_2024/transformers", file: "helpers.py", line: 373}
+      - {source: "_2024/transformers", file: "helpers.py", line: 374}
+      - {source: "_2024/transformers", file: "helpers.py", line: 611}
+    confidence: high
+    applies_to: "Własnych grup złożonych z części o różnych rolach wizualnych."
+
+  - id: parametry-w-init
+    topic: custom-mobject
+    rule: "Umieszczaj w `__init__` parametry geometrii, zakresów wartości i stylu, a konstruktor niech od razu buduje kompletny obiekt."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "helpers.py", line: 471}
+      - {source: "_2024/transformers", file: "helpers.py", line: 489}
+      - {source: "_2024/transformers", file: "helpers.py", line: 655}
+      - {source: "_2024/transformers", file: "helpers.py", line: 769}
+    confidence: high
+    applies_to: "Reużywalnych macierzy, wskaźników i kontenerów obiektów."
+
+  - id: hierarchiczna-tablica
+    topic: custom-mobject
+    rule: "Trzymaj równolegle kontener elementów, kontener zastępników i kontener nawiasów, jeśli obiekt ma zmieniać reprezentację bez utraty układu."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "helpers.py", line: 608}
+      - {source: "_2024/transformers", file: "helpers.py", line: 610}
+      - {source: "_2024/transformers", file: "helpers.py", line: 620}
+    confidence: high
+    applies_to: "Tablic i sekwencji, w których część elementów jest zastępowana wielokropkiem lub innym skrótem."
+
+  - id: mutator-kontra-animacja
+    topic: custom-mobject
+    rule: "Niech mutator ustawia stan obiektu, a osobna metoda zwraca gotową animację obejmującą zmianę stanu i dekoracyjny efekt."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "helpers.py", line: 713}
+      - {source: "_2024/transformers", file: "helpers.py", line: 725}
+      - {source: "_2024/transformers", file: "helpers.py", line: 748}
+      - {source: "_2024/transformers", file: "helpers.py", line: 800}
+    confidence: high
+    applies_to: "Wskaźników i maszyn, których zmiana wartości ma własny język wizualny."
+
+  - id: konfiguracja-domyslna-kompozycji
+    topic: custom-mobject
+    rule: "Definiuj domyślną konfigurację części składowych i pozwalaj konstruktorowi nadpisywać ją lokalnym słownikiem."
+    falsifiable: true
+    evidence:
+      - {source: "_2024/transformers", file: "helpers.py", line: 762}
+      - {source: "_2024/transformers", file: "helpers.py", line: 788}
+      - {source: "_2024/transformers", file: "helpers.py", line: 789}
+    confidence: high
+    applies_to: "Obiektów składających wiele instancji tego samego komponentu."

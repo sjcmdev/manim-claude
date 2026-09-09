@@ -1,0 +1,161 @@
+observations:
+  - id: stan-sekwencji-w-domknieciu
+    topic: updatery
+    rule: "Przechowuj bieżącą animację i jej updater w stanie domknięcia, a po zakończeniu przełączaj je na następny element listy."
+    falsifiable: true
+    evidence:
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "sequences.py", line: 1}
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "sequences.py", line: 14}
+    confidence: high
+    applies_to: "Updatery realizujące sekwencję animacji działającą poza self.play."
+
+  - id: tracker-bez-dt
+    topic: updatery
+    rule: "Updater oparty na ValueTrackerze definiuj bez parametru dt i odczytuj wartość trackera bezpośrednio podczas każdej rekonstrukcji."
+    falsifiable: true
+    evidence:
+      - {source: "5115dbb6-Concise syntax for manim_s ValueTrackers", file: "value_trackers.py", line: 26}
+      - {source: "5115dbb6-Concise syntax for manim_s ValueTrackers", file: "value_trackers.py", line: 12}
+    confidence: high
+    applies_to: "Updatery, których pozycja wynika ze stanu ValueTrackera, a nie z całkowania czasu."
+
+  - id: domknij-animacje-sekwencji
+    topic: updatery
+    rule: "Po wykryciu końca animacji wywołuj finish i clean_up_from_scene, a po opróżnieniu kolejki usuń updater sceny."
+    falsifiable: true
+    evidence:
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "sequences.py", line: 8}
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "sequences.py", line: 11}
+    confidence: high
+    applies_to: "Własne sterowniki, które podpinają animacje jako updatery."
+
+  - id: idz-w-creation-target
+    topic: klasy-animacji
+    rule: "Dla animacji będącej odmianą transformacji zmieniaj wynik przez create_target zamiast nadpisywać interpolate_mobject, begin lub finish."
+    falsifiable: true
+    evidence:
+      - {source: "4537d5f2-How Animation works _more or less_", file: "Animations.md", line: 31}
+      - {source: "4537d5f2-How Animation works _more or less_", file: "Animations.md", line: 45}
+      - {source: "4537d5f2-How Animation works _more or less_", file: "Animations.md", line: 52}
+    confidence: high
+    applies_to: "Własne animacje, których ruch można opisać jako transformację do wyliczonego obiektu docelowego."
+
+  - id: slice-map-przed-super
+    topic: klasy-animacji
+    rule: "Przed wywołaniem konstruktora klasy bazowej przygotuj jawne grupy fragmentów źródła i celu oraz przypisz im wspólne klucze dopasowania."
+    falsifiable: true
+    evidence:
+      - {source: "e3547d78-Generic formula transformation under control", file: "transform_matching_slices.py", line: 18}
+      - {source: "e3547d78-Generic formula transformation under control", file: "transform_matching_slices.py", line: 25}
+      - {source: "e3547d78-Generic formula transformation under control", file: "transform_matching_slices.py", line: 37}
+    confidence: high
+    applies_to: "Animacje transformujące wybrane części złożonego obiektu tekstowego."
+
+  - id: liniowy-ruler-czasu
+    topic: klasy-animacji
+    rule: "Ustawiaj rate_func na linear, gdy animowany obiekt ma wizualnie mierzyć upływ czasu innych animacji."
+    falsifiable: true
+    evidence:
+      - {source: "edda4f8d-Play animations in given timeline", file: "timeline_of_animations.py", line: 53}
+      - {source: "edda4f8d-Play animations in given timeline", file: "timeline_of_animations.py", line: 44}
+    confidence: high
+    applies_to: "Paski postępu i inne elementy pełniące funkcję odniesienia czasowego."
+
+  - id: sekwencje-z-gotowych-ruchow
+    topic: klasy-animacji
+    rule: "Buduj ruch następujący po sobie jako listę gotowych animacji, a równoległość uzyskuj przez uruchamianie kilku niezależnych sekwencji."
+    falsifiable: true
+    evidence:
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "example.py", line: 7}
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "example.py", line: 14}
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "sequences.py", line: 14}
+    confidence: high
+    applies_to: "Złożone przebiegi, w których kilka obiektów ma własne kolejki ruchów."
+
+  - id: geometria-wchodzi-przez-ruch
+    topic: wejscie-i-sprzatanie
+    rule: "Wprowadzaj główną geometrię przez ujawnienie lub wzrost, a tekstowe adnotacje przez rysowanie znaków."
+    falsifiable: true
+    evidence:
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "example.py", line: 9}
+      - {source: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_", file: "example.py", line: 17}
+      - {source: "edda4f8d-Play animations in given timeline", file: "timeline_of_animations.py", line: 57}
+    confidence: medium
+    applies_to: "Czytelne wejście figur i napisów, gdy różnią się one rolą wizualną."
+
+  - id: przejscie-zamiast-utraty
+    topic: wejscie-i-sprzatanie
+    rule: "Gdy treść ma przejść w następną postać, transformuj dopasowane fragmenty zamiast usuwać cały obiekt i tworzyć go od nowa."
+    falsifiable: true
+    evidence:
+      - {source: "e3547d78-Generic formula transformation under control", file: "example.py", line: 12}
+      - {source: "e3547d78-Generic formula transformation under control", file: "example2.py", line: 14}
+      - {source: "1419b181-How to fix objects and transforms in a manim 3D scene", file: "fixed_fixing.py", line: 45}
+    confidence: high
+    applies_to: "Formuł i innych obiektów, których kolejny stan zachowuje część znaczenia poprzedniego."
+
+  - id: konstruktor-normalizuje-trase
+    topic: custom-mobject
+    rule: "Normalizuj różne warianty parametrów wejściowych do jednej reprezentacji ścieżki przed zbudowaniem punktów obiektu."
+    falsifiable: true
+    evidence:
+      - {source: "fc74f5d6-Orthogonal connections", file: "orthogonal_connection.py", line: 33}
+      - {source: "fc74f5d6-Orthogonal connections", file: "orthogonal_connection.py", line: 43}
+      - {source: "fc74f5d6-Orthogonal connections", file: "orthogonal_connection.py", line: 46}
+    confidence: high
+    applies_to: "Obiektów geometrycznych obsługujących zarówno skrócony zapis, jak i rozbudowaną konfigurację."
+
+  - id: metoda-buduje-geometrie
+    topic: custom-mobject
+    rule: "Wydziel obliczanie geometrii do metody obiektu, a metody pomocnicze niech zwracają dane geometryczne potrzebne do kotwiczenia innych elementów."
+    falsifiable: true
+    evidence:
+      - {source: "fc74f5d6-Orthogonal connections", file: "orthogonal_connection.py", line: 48}
+      - {source: "fc74f5d6-Orthogonal connections", file: "orthogonal_connection.py", line: 66}
+      - {source: "fc74f5d6-Orthogonal connections", file: "orthogonal_connection.py", line: 68}
+    confidence: high
+    applies_to: "Własnych Mobjectach, których sceny potrzebują punktów referencyjnych bez przejmowania ich budowy."
+
+  - id: fabryka-udostepnia-czesc
+    topic: custom-mobject
+    rule: "Gdy scena potrzebuje zarówno części składowej, jak i całego kontenera, zwracaj je jawnie z fabryki obiektu."
+    falsifiable: true
+    evidence:
+      - {source: "3a349b2f-Text box for manim", file: "manim_textbox.py", line: 23}
+      - {source: "3a349b2f-Text box for manim", file: "manim_textbox.py", line: 25}
+      - {source: "3a349b2f-Text box for manim", file: "manim_textbox.py", line: 42}
+    confidence: high
+    applies_to: "Fabryk zwracających złożony obiekt, którego wewnętrzny tekst lub inna część będzie później stylizowana albo animowana."
+
+  - id: punkty-jako-zrodlo-geometrii
+    topic: custom-mobject
+    rule: "Przechowuj kanoniczny kształt niestandardowej końcówki jako punkty, a rozmiar i punkty charakterystyczne wystawiaj przez właściwości."
+    falsifiable: true
+    evidence:
+      - {source: "c096930d-New LatexTip for latex-style arrows", file: "latex_tip.py", line: 16}
+      - {source: "c096930d-New LatexTip for latex-style arrows", file: "latex_tip.py", line: 74}
+      - {source: "c096930d-New LatexTip for latex-style arrows", file: "latex_tip.py", line: 82}
+    confidence: high
+    applies_to: "Własnych obiektów wektorowych odtwarzających zewnętrzny kształt geometryczny."
+
+  - id: stan-i-dzieci-w-polach
+    topic: custom-mobject
+    rule: "Trzymaj parametry źródłowe i grupy dzieci w atrybutach obiektu, a późniejsze zmiany geometrii wykonuj przez te istniejące dzieci."
+    falsifiable: true
+    evidence:
+      - {source: "e41aa1f1-Landscape barchart for manim", file: "landscapebarchart.py", line: 82}
+      - {source: "e41aa1f1-Landscape barchart for manim", file: "landscapebarchart.py", line: 109}
+      - {source: "e41aa1f1-Landscape barchart for manim", file: "landscapebarchart.py", line: 306}
+    confidence: high
+    applies_to: "Złożonych obiektów, których elementy mają być później aktualizowane bez wymiany całej struktury."
+
+  - id: konfiguracja-renderera-w-init
+    topic: custom-mobject
+    rule: "Umieszczaj parametry wpływające na składanie renderowanego obiektu w __init__, zbuduj tam konfigurację i deleguj końcową inicjalizację do klasy bazowej."
+    falsifiable: true
+    evidence:
+      - {source: "475577ef-Latex items environment", file: "latex_items.py", line: 12}
+      - {source: "475577ef-Latex items environment", file: "latex_items.py", line: 35}
+      - {source: "475577ef-Latex items environment", file: "latex_items.py", line: 42}
+    confidence: high
+    applies_to: "Własnych klasach będących cienką warstwą nad istniejącym typem Mobject."

@@ -18,7 +18,7 @@ from pathlib import Path
 
 from common import reference_root
 
-PROMPT = Path(__file__).with_name("code_miner_prompt.md")
+DEFAULT_PROMPT = Path(__file__).with_name("code_miner_prompt.md")
 
 
 def codex_argv() -> list[str]:
@@ -131,6 +131,18 @@ def main() -> None:
         help="katalogi doproszone spoza skanowanych roczników, np. _2017/eoc",
     )
     parser.add_argument(
+        "--prompt",
+        type=Path,
+        default=DEFAULT_PROMPT,
+        help="instrukcja dla agenta; różne analizy tego samego materiału różnią się"
+        " wyłącznie tym plikiem",
+    )
+    parser.add_argument(
+        "--out",
+        default="code",
+        help="podkatalog w _observations, do którego trafiają wyniki",
+    )
+    parser.add_argument(
         "--effort",
         default="high",
         help="model_reasoning_effort dla przebiegu; abstrahowanie wzorców z kilkunastu "
@@ -145,9 +157,9 @@ def main() -> None:
     if not clone.is_dir():
         raise SystemExit(f"brak klonu w {clone}; sklonuj 3b1b/videos zanim uruchomisz miner")
 
-    out_dir = root / "_observations" / "code"
+    out_dir = root / "_observations" / args.out
     out_dir.mkdir(parents=True, exist_ok=True)
-    prompt = PROMPT.read_text(encoding="utf-8")
+    prompt = args.prompt.read_text(encoding="utf-8")
 
     topics = topic_dirs(clone, args.years, args.min_lines, args.skip, args.extra)
     print(f"katalogów do zmielenia: {len(topics)}")
