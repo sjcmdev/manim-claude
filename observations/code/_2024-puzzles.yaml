@@ -1,0 +1,179 @@
+observations:
+  - id: osobne-ujecia-jako-sceny
+    topic: dekompozycja
+    rule: "Wydzielaj każde niezależne ujęcie do osobnej klasy sceny, a krótkie plansze i wstawki grupuj w osobnym pliku."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: supplements.py, line: 4}
+      - {source: _2024/puzzles, file: supplements.py, line: 75}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 13}
+    confidence: high
+    applies_to: "Obowiązuje, gdy materiał składa się z wielu niezależnie renderowanych ujęć."
+
+  - id: wspolny-setup-w-bazie
+    topic: dekompozycja
+    rule: "Przenoś wspólną geometrię początkową i konfigurację kamery do setup(), a construct() zostaw dla przebiegu konkretnego ujęcia."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 103}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 276}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 303}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen korzysta z tej samej geometrii początkowej."
+
+  - id: warianty-przez-dziedziczenie
+    topic: ponowne-uzycie
+    rule: "Twórz warianty scen przez dziedziczenie po klasie bazowej z getterami geometrii, zamiast kopiować jej konfigurację i obliczenia."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 218}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 810}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1498}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2412}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ujęcia różnią się głównie parametrami lub kolejnymi etapami tej samej konstrukcji."
+
+  - id: tracker-jako-zrodlo-stanu
+    topic: stan-i-updatery
+    rule: "Trzymaj zmienną sterującą w ValueTracker, obiekty zależne aktualizuj z jego wartości i animuj sam tracker."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1264}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1276}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1290}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1843}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2820}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wiele elementów kadru ma reagować na jedną zmienną liczbową."
+
+  - id: cykl-zycia-updaterow
+    topic: stan-i-updatery
+    rule: "Zawieszaj updatery zależnych obiektów przed ręcznym etapowaniem, wznawiaj je przed zmianą źródła i czyść po zakończeniu sekwencji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1996}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2017}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2043}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1849}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1861}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam obiekt ma najpierw pokazać statyczny etap, a później śledzić zmiany geometrii."
+
+  - id: wspolne-animacje-czasowe
+    topic: ponowne-uzycie
+    rule: "Wspólną dynamikę czasową, taką jak losowanie wartości lub ślady ruchu, enkapsuluj w parametryzowanej klasie Animation i używaj jej w wielu scenach."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 4}
+      - {source: _2024/puzzles, file: max_rand.py, line: 32}
+      - {source: _2024/puzzles, file: max_rand.py, line: 139}
+      - {source: _2024/puzzles, file: max_rand.py, line: 197}
+      - {source: _2024/puzzles, file: max_rand.py, line: 333}
+    confidence: high
+    applies_to: "Obowiązuje, gdy identyczny efekt czasowy występuje w więcej niż jednym ujęciu."
+
+  - id: parametryzowane-gettery-geometrii
+    topic: ponowne-uzycie
+    rule: "Parametryzuj getter geometrii tak, aby ten sam kod obsługiwał pojedynczy obiekt, warianty i wielokrotne instancje."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1450}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1302}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1423}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1969}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1948}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ta sama figura jest tworzona z różnymi rozmiarami, kolorami lub położeniami."
+
+  - id: relatywna-kompozycja-etykiet
+    topic: kompozycja
+    rule: "Pozycjonuj etykiety względem obiektów, a układy wieloelementowe buduj przez arrange(), next_to(), to_edge() i to_corner()."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 104}
+      - {source: _2024/puzzles, file: supplements.py, line: 162}
+      - {source: _2024/puzzles, file: supplements.py, line: 453}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2603}
+    confidence: high
+    applies_to: "Obowiązuje dla tekstu, oznaczeń i paneli, których układ zależy od geometrii sceny."
+
+  - id: warstwa-stala-kadru
+    topic: kompozycja
+    rule: "W scenach 3D trzymaj objaśnienia ekranowe jako osobną warstwę fixed-in-frame, a do świata przenoś kopie tylko podczas wymaganej transformacji."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 871}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 876}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 933}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 950}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kamera porusza się w przestrzeni 3D, a tekst ma pozostać czytelny."
+
+  - id: obliczenia-zamkniete-w-getterach
+    topic: dane-a-obraz
+    rule: "Zamykaj obliczenia numeryczne w metodach zwracających gotowy mobject, a zmianę obrazu podpinaj przez become(), UpdateFromFunc() lub always_redraw()."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2829}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2840}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2851}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 3079}
+    confidence: high
+    applies_to: "Obowiązuje, gdy dane numeryczne mają zmieniać geometrię lub wykres w trakcie ujęcia."
+
+  - id: jawne-czasy-ujec
+    topic: czas-i-tempo
+    rule: "Podawaj jawne czasy dla długich zmian i wyprowadzaj tempo powtarzalnej pętli ze wspólnych stałych."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 140}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2837}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2955}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2961}
+    confidence: high
+    applies_to: "Obowiązuje dla animacji trwających wiele sekund lub składających się z wielu identycznych kroków."
+
+  - id: deterministyczne-losowanie
+    topic: dane-a-obraz
+    rule: "Ustalaj seed przed generowaniem losowych układów, gdy rerender ujęcia ma dawać ten sam obraz."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1320}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1591}
+      - {source: _2024/puzzles, file: max_rand.py, line: 805}
+    confidence: high
+    applies_to: "Obowiązuje dla losowych figur, podziałów i sekwencji, które muszą być powtarzalne przy kolejnych renderach."
+
+  - id: usuwanie-kopiowania
+    topic: anty-wzorce
+    rule: "Gdy dwie sceny powielają układ trackerów, etykiet i animacji, wydziel wspólny builder zamiast utrzymywać kopiowanie."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: max_rand.py, line: 69}
+      - {source: _2024/puzzles, file: max_rand.py, line: 148}
+    confidence: high
+    applies_to: "Obowiązuje, gdy sąsiednie sceny mają ten sam schemat budowy z innymi tylko nazwami lub liczbą elementów."
+
+  - id: usuwanie-prototypow
+    topic: anty-wzorce
+    rule: "Usuń puste sceny, wyłączone fragmenty testowe i tymczasowe alternatywy przed uznaniem katalogu za gotową konstrukcję materiału."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 1231}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 303}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2799}
+      - {source: _2024/puzzles, file: supplements.py, line: 953}
+    confidence: high
+    applies_to: "Obowiązuje, gdy katalog jest źródłem produkcyjnego filmu, a nie roboczym szkicownikiem."
+
+  - id: oznaczanie-prowizorek
+    topic: anty-wzorce
+    rule: "Nie przenoś do współdzielonych konstrukcji geometrii zależnej od niezweryfikowanych obejść lub komentarzy typu tymczasowego."
+    falsifiable: true
+    evidence:
+      - {source: _2024/puzzles, file: added_dimension.py, line: 23}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 187}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 2104}
+      - {source: _2024/puzzles, file: added_dimension.py, line: 3000}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kod ma być ponownie używany poza pierwotnym ujęciem."

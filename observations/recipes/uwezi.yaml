@@ -1,0 +1,201 @@
+techniques:
+  - id: scale-to-fit-scene
+    nazwa: "Scale to fit scene"
+    problem: "Ręczne dobieranie skali łatwo przycina obiekt, ponieważ ograniczeniem może być szerokość albo wysokość kadru."
+    zamiast: "Wypiera zgadywanie wartości scale i poprawianie jej po kolejnych renderach."
+    kiedy: "Sięgnij po nią, gdy dowolny obiekt lub grupa ma wypełnić kadr z zachowaniem proporcji i opcjonalnego marginesu."
+    dotyczy_bolaczki: relacje-wielkosci
+    zrodlo: {file: "51d8e0f4-_Scale to fit scene_ Automatically chooses the max scaling_/20230814_scale_to_fit_scene.py", line: 2}
+    przenosnosc: wysoka
+  - id: scale-ze-stroke
+    nazwa: "Scale including stroke width"
+    problem: "Zwykłe skalowanie geometrii pozostawia nieproporcjonalną grubość obrysu, przez co powiększony lub pomniejszony obiekt wygląda obco."
+    zamiast: "Wypiera osobne, ręczne przeliczanie stroke_width po każdej zmianie skali."
+    kiedy: "Sięgnij po nią, gdy grubość linii ma być częścią wizualnej skali obiektu."
+    dotyczy_bolaczki: relacje-wielkosci
+    zrodlo: {file: "25ad34f1-_Scale including stroke width_ Scaling VMobjects with propor/20230907_scale.py", line: 2}
+    przenosnosc: wysoka
+  - id: autozoom-do-zawartosci
+    nazwa: "autozoomed scene"
+    problem: "Ruchome lub rosnące obiekty mogą wypaść poza kadr, jeśli kamera ma wcześniej ustalone położenie i skalę."
+    zamiast: "Wypiera ręczne dopisywanie ruchów kamery po każdej zmianie granic kompozycji."
+    kiedy: "Sięgnij po nią, gdy kamera ma stale obejmować wszystkie aktualnie widoczne obiekty z niewielkim zapasem."
+    dotyczy_bolaczki: relacje-wielkosci
+    zrodlo: {file: "65e842a7-_autozoomed scene_ A scene which adapts the camera frame to/20241001_autozoom.py", line: 11}
+    przenosnosc: wysoka
+  - id: ramka-zoomu-bez-wciecia
+    nazwa: "Reasonable Zoom Window"
+    problem: "Przy dużym powiększeniu obrys ramki kamery wchodzi do wnętrza powiększanego obrazu i zasłania zawartość."
+    zamiast: "Wypiera kompensowanie artefaktu coraz cieńszym stroke_width dobranym do konkretnego poziomu zoomu."
+    kiedy: "Sięgnij po nią, gdy widoczna ramka ZoomedScene ma pozostać na zewnątrz właściwego obszaru podglądu."
+    dotyczy_bolaczki: relacje-wielkosci
+    zrodlo: {file: "3b638229-_Reasonable Zoom Window_ Keeping the stroke width outside of/20241014_zoomed.py", line: 23}
+    przenosnosc: wysoka
+  - id: obiekt-staly-wzgledem-kamery
+    nazwa: "fixed_zoomed_mob"
+    problem: "Napisy i elementy interfejsu zmieniają ekranowy rozmiar oraz położenie podczas zoomowania ruchomą kamerą."
+    zamiast: "Wypiera ręczne animowanie odwrotnej skali i przesunięcia każdego elementu razem z kamerą."
+    kiedy: "Sięgnij po nią, gdy obiekt świata sceny ma zachowywać stałą relację rozmiaru i pozycji względem kadru."
+    dotyczy_bolaczki: relacje-wielkosci
+    zrodlo: {file: "ed999e0f-_static object under zoom_ Fixates a Mobject in place and si/20230715_fixedmobject.py", line: 27}
+    przenosnosc: wysoka
+  - id: reset-kamery-ze-stanu
+    nazwa: "Prezi like zooming"
+    problem: "Powrót z kolejnych zbliżeń do identycznego kadru bazowego jest podatny na dryf i wizualne przeskoki."
+    zamiast: "Wypiera odtwarzanie odwrotnych przesunięć i skal kamery za pomocą ręcznie powtórzonych liczb."
+    kiedy: "Sięgnij po nią, gdy sekwencja zbliżeń ma za każdym razem płynnie wracać do zapamiętanego kadru odniesienia."
+    dotyczy_bolaczki: reset
+    zrodlo: {file: "e968a8e6-_Prezi like zooming_ Moving and zooming the camera into smal/20230326_roof.py", line: 20}
+    przenosnosc: wysoka
+  - id: wizualizowany-wait
+    nazwa: "Animated wait"
+    problem: "Zwykła pauza nie komunikuje widzowi, ile oczekiwania jeszcze zostało."
+    zamiast: "Wypiera niemy self.wait oraz osobne, niesynchronizowane animowanie wskaźnika postępu."
+    kiedy: "Sięgnij po nią, gdy czas pauzy ma być parametrem i jednocześnie widocznym elementem narracji."
+    dotyczy_bolaczki: pokretla-czasowe
+    zrodlo: {file: "01fec147-_Animated wait_ An animated circle indicating the duration o/20230830_justwait.py", line: 2}
+    przenosnosc: wysoka
+  - id: wspolny-zegar-symulacji
+    nazwa: "Standing waves with value tracker"
+    problem: "Wiele dynamicznych obiektów łatwo traci synchronizację, gdy każdy utrzymuje własne pojęcie czasu."
+    zamiast: "Wypiera przekazywanie ręcznie zwiększanego czasu do każdego generatora lub powielanie lokalnych liczników."
+    kiedy: "Sięgnij po nią, gdy kilka updaterów ma obliczać stan z jednego zegara sceny działającego także podczas wait."
+    dotyczy_bolaczki: pokretla-czasowe
+    zrodlo: {file: "488594bb-_Standing waves with value tracker_ A scene clock in the for/20230326_standingwave01.py", line: 7}
+    przenosnosc: wysoka
+  - id: predkosc-wideo-niezalezna-od-sceny
+    nazwa: "VideoMobject"
+    problem: "Tempo materiału wideo nie powinno zależeć od długości animacji, podczas której jego obiekt jest przesuwany lub skalowany."
+    zamiast: "Wypiera ręczne przeliczanie klatek albo dopasowywanie run_time całej sceny do długości klipu."
+    kiedy: "Sięgnij po nią, gdy klip picture-in-picture ma mieć własną prędkość odtwarzania i opcjonalną pętlę."
+    dotyczy_bolaczki: szybkosc-vs-dlugosc
+    zrodlo: {file: "faec101e-_video inclusion in Manim_ Include video objects picture-in-/20240309_opencv.py", line: 36}
+    przenosnosc: srednia
+  - id: interpolacja-wykresow
+    nazwa: "Transition between two plotted functions"
+    problem: "Bezpośredni Transform między wykresami może dać geometrycznie przypadkowe przejście, które nie pokazuje zmiany wartości funkcji."
+    zamiast: "Wypiera morfowanie punktów dwóch gotowych krzywych albo nagłe zastępowanie jednego wykresu drugim."
+    kiedy: "Sięgnij po nią, gdy przejście ma przedstawiać ciągłą interpolację wartości dwóch funkcji dla każdego argumentu."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "e14103d0-_Transition between two plotted functions_ How to smoothly t/20221015_switchFunc.py", line: 29}
+    przenosnosc: wysoka
+  - id: semantyczne-czesci-wzoru
+    nazwa: "reshape equation"
+    problem: "Automatyczne dopasowanie wzorów jest nieprzewidywalne, gdy logiczne składniki nie są wydzielone jako stabilne fragmenty TeX."
+    zamiast: "Wypiera animowanie całych wzorów jako niepodzielnych obiektów albo ręczne transformowanie każdego glifu."
+    kiedy: "Sięgnij po nią, gdy kolejne kroki algebraiczne zachowują część składników, ale zmieniają ich kolejność."
+    dotyczy_bolaczki: przeksztalcanie-wzorow
+    zrodlo: {file: "6eecb4c5-_reshape equation_ Animated reshaping of an equation_ _manim/20221030_algebra.py", line: 12}
+    przenosnosc: wysoka
+  - id: jawna-mapa-glifow
+    nazwa: "TransformByGlyphMap"
+    problem: "Automatyczny matcher nie wystarcza, gdy jeden symbol ma się rozdzielić, zniknąć albo trafić w dokładnie wskazane miejsce nowego wzoru."
+    zamiast: "Wypiera długi zestaw ręcznie skoordynowanych Transform, FadeIn i FadeOut opartych na tych samych indeksach."
+    kiedy: "Sięgnij po nią, gdy przejście między wzorami wymaga jawnej relacji wiele-do-wielu pomiędzy glifami."
+    dotyczy_bolaczki: przeksztalcanie-wzorow
+    zrodlo: {file: "7e270282-_transform glyph map_ Helper made by dudewaldo4 to animate L/20240524_glyphmap.py", line: 12}
+    przenosnosc: wysoka
+  - id: wyszukiwanie-ksztaltu-w-tex
+    nazwa: "shape in TeX"
+    problem: "Indeksy glifów w złożonym MathTex są kruche i trudne do ustalenia na podstawie samego tekstu źródłowego."
+    zamiast: "Wypiera ręczne liczenie indeksów oraz poprawianie ich po każdej zmianie wzoru."
+    kiedy: "Sięgnij po nią, gdy trzeba znaleźć, pokolorować lub animować wszystkie wystąpienia wizualnie określonego fragmentu wzoru."
+    dotyczy_bolaczki: przeksztalcanie-wzorow
+    zrodlo: {file: "7c13298b-_shape in TeX_ Abulafia_s smart search routine_ _manim _late/20240217_abulafia_latex.py", line: 3}
+    przenosnosc: wysoka
+  - id: transformacja-tex-do-code
+    nazwa: "Exchange characters between Tex and Code"
+    problem: "Glify pochodzące z MathTex i Code mają różne układy współrzędnych oraz rozmiary, więc bezpośrednia zamiana wygląda jak skok."
+    zamiast: "Wypiera ukrycie jednego obiektu i niezależne pokazanie drugiego bez wizualnej ciągłości."
+    kiedy: "Sięgnij po nią, gdy symbol z zapisu matematycznego ma wizualnie przejść do odpowiadającego mu znaku kodu."
+    dotyczy_bolaczki: relacje-wielkosci
+    zrodlo: {file: "d0b7baa4-_Exchange characters between Tex and Code_ Performing replac/20230718_textocode.py", line: 36}
+    przenosnosc: srednia
+  - id: kopiuj-przed-replacement-transform
+    nazwa: "Copy then transform"
+    problem: "ReplacementTransform konsumuje obiekt źródłowy, choć narracja może wymagać pozostawienia jego oryginału na ekranie."
+    zamiast: "Wypiera ponowne konstruowanie i pozycjonowanie identycznego obiektu po transformacji."
+    kiedy: "Sięgnij po nią, gdy transformacja ma wyglądać jak wyprowadzenie nowej treści z nadal widocznego źródła."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "a2e26ac7-_Copy then transform_ You cannot eat the cookie and keep it_/20221015_soh.py", line: 12}
+    przenosnosc: wysoka
+  - id: wykres-przycinany-do-osi
+    nazwa: "ClippedPlot"
+    problem: "Wykresy wychodzące poza zakres osi zaśmiecają kadr, a wrapper przycinający łatwo traci opcje stylowania właściwego plot."
+    zamiast: "Wypiera ręczne wyznaczanie przedziałów widoczności i kopiowanie rozrastającej się sygnatury funkcji plot."
+    kiedy: "Sięgnij po nią, gdy funkcja przekracza pionowe granice układu lub ma asymptoty, a wywołujący nadal potrzebuje pełnego zestawu opcji wykresu."
+    dotyczy_bolaczki: przekazywanie-parametrow
+    zrodlo: {file: "1bac36c5-_ClippedPlot_ A plot function which clips at the limits of t/20230604_clippedplot.py", line: 1}
+    przenosnosc: wysoka
+  - id: kreskowana-krzywa-z-oryginalna-parametryzacja
+    nazwa: "Improved DashedVMobject"
+    problem: "Opakowanie krzywej w DashedVMobject może zmienić znaczenie punktu o zadanej proporcji i oderwać obliczenia od pierwotnego kształtu."
+    zamiast: "Wypiera wyszukiwanie odpowiadającego punktu na poszczególnych kreskach albo przechowywanie równoległej, niewidocznej krzywej."
+    kiedy: "Sięgnij po nią, gdy kreskowany obiekt nadal ma służyć jako ścieżka lub źródło punktów proporcjonalnych."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "851384eb-_Improved DashedVMobject_ The original dashed VMobject does/20230324_dashed.py", line: 28}
+    przenosnosc: wysoka
+  - id: grot-bez-deformacji-polilinii
+    nazwa: "better tipped lines"
+    problem: "Standardowe dodanie grotu skraca całą ścieżkę, co zniekształca linie z narożnikami."
+    zamiast: "Wypiera ręczne przesuwanie punktów polilinii lub rysowanie grotu jako niezależnego, osobno orientowanego obiektu."
+    kiedy: "Sięgnij po nią, gdy grot ma być dopasowany do końcowego odcinka bez naruszania wcześniejszych segmentów."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "e4393857-_better tipped lines_ Adding a tip to a line without distort/20250510_tipped.py", line: 8}
+    przenosnosc: wysoka
+  - id: lacznik-ruchomych-obiektow
+    nazwa: "A string between dots"
+    problem: "Statycznie utworzona linia przestaje łączyć obiekty, gdy którykolwiek z jej końców się porusza."
+    zamiast: "Wypiera ręczne odtwarzanie linii po każdej animacji położenia."
+    kiedy: "Sięgnij po nią, gdy krawędź, cięciwa lub przewód ma stale wynikać z aktualnych pozycji dwóch obiektów."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "c5c08616-_A string between dots_ Keep a line connecting moving dots_/20221015_linebetweendots.py", line: 10}
+    przenosnosc: wysoka
+  - id: slad-wygaszany-wiekiem
+    nazwa: "Better tracing"
+    problem: "Zwykły ślad może rosnąć bez końca albo zanikać bez kontroli nad profilem szerokości i przezroczystości."
+    zamiast: "Wypiera okresowe kasowanie całej ścieżki lub ręczne zarządzanie osobnymi, zanikającymi odcinkami."
+    kiedy: "Sięgnij po nią, gdy ogon ruchu ma mieć określony czas życia i konfigurowalny sposób wygaszania."
+    dotyczy_bolaczki: pokretla-czasowe
+    zrodlo: {file: "4939c503-_Better tracing_ Drawing a fading trace after an object_ _ma/20230114_trace.py", line: 9}
+    przenosnosc: wysoka
+  - id: gif-jako-mobject
+    nazwa: "GifImageMobject"
+    problem: "Import GIF jako zwykłego obrazu zatrzymuje go na jednej klatce i gubi zapisane czasy klatek."
+    zamiast: "Wypiera wcześniejsze rozbijanie GIF-a na pliki i ręczne podmienianie ich w osi czasu sceny."
+    kiedy: "Sięgnij po nią, gdy animowany GIF ma zachowywać własny rytm podczas równoległych animacji Manima."
+    dotyczy_bolaczki: pokretla-czasowe
+    zrodlo: {file: "87a65edf-_Animated GIF images in Manim_ Including GIF images with the/gifimagemobject.py", line: 16}
+    przenosnosc: srednia
+  - id: licznik-z-dyskretnymi-skokami
+    nazwa: "increasing a number in steps"
+    problem: "Płynna interpolacja licznika wygląda błędnie, gdy wartość ma zmieniać się dopiero po zakończeniu kolejnych dyskretnych zdarzeń."
+    zamiast: "Wypiera serię osobnych play i ręcznie wpisanych wartości po każdym elemencie."
+    kiedy: "Sięgnij po nią, gdy licznik ma skakać zgodnie z rytmem LaggedStart lub innej sekwencji etapowej."
+    dotyczy_bolaczki: pokretla-czasowe
+    zrodlo: {file: "32496c61-_increasing a number in steps_ How to increase a DecimalNumb/20250603_decnum.py", line: 33}
+    przenosnosc: srednia
+  - id: kwargs-do-klasy-bazowej
+    nazwa: "Spring"
+    problem: "Własny Mobject szybko zyskuje rozrastającą się sygnaturę, jeśli kopiuje każdy parametr stylu obsługiwany przez klasę bazową."
+    zamiast: "Wypiera jawne powtarzanie i ręczne przekazywanie wszystkich możliwych opcji konstruktora nadrzędnego."
+    kiedy: "Sięgnij po nią, gdy nowa klasa dodaje kilka parametrów domenowych, ale ma nadal przyjmować standardowe opcje wyglądu Manima."
+    dotyczy_bolaczki: przekazywanie-parametrow
+    zrodlo: {file: "f135b8a4-_Spring_ A spiral_spring_ _manim _spring _line/20230627_spring.py", line: 6}
+    przenosnosc: wysoka
+  - id: szybki-podglad-skryptowy
+    nazwa: "command line arguments"
+    problem: "Sprawdzanie wariantów sceny jest powolne, gdy każdy wymaga edycji kodu i pełnego renderu w jakości docelowej."
+    zamiast: "Wypiera zakodowane na stałe warianty oraz uruchamianie kompletnego pipeline'u renderowania przy każdej próbie."
+    kiedy: "Sięgnij po nią, gdy scena ma być parametryzowana argumentami procesu i szybko otwierana w niskiej jakości."
+    dotyczy_bolaczki: iteracja-bez-renderu
+    zrodlo: {file: "7a722dc9-_command line arguments_ How to use command line arguments i/20250712_cli.py", line: 12}
+    przenosnosc: wysoka
+  - id: billboard-3d-do-kamery
+    nazwa: "3D objects face camera"
+    problem: "Tekst lub znacznik umieszczony w przestrzeni 3D staje się ukośny albo nieczytelny po obrocie kamery."
+    zamiast: "Wypiera ręczne dobieranie przeciwnych obrotów obiektu dla każdego ruchu kamery."
+    kiedy: "Sięgnij po nią, gdy obiekt 3D ma stale zwracać swoją płaszczyznę i orientację poziomą ku kamerze."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "de800cf3-_3D objects face camera_ Lets objects automatically face the/20260806_look.py", line: 14}
+    przenosnosc: srednia

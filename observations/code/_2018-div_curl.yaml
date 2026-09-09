@@ -1,0 +1,155 @@
+observations:
+  - id: fazy-w-construct
+    topic: dekompozycja
+    rule: "Dziel scenę wieloetapową na nazwane fazy i wywołuj je sekwencyjnie z construct()."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 404}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1122}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2913}
+    confidence: high
+    applies_to: "Gdy scena zawiera kilka następujących po sobie ujęć lub etapów."
+
+  - id: stan-jako-atrybut-sceny
+    topic: stan-i-updatery
+    rule: "Zapisuj obiekty przekazywane między fazami jako atrybuty sceny."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 413}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1840}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 3015}
+    confidence: high
+    applies_to: "Gdy obiekt utworzony w jednej metodzie jest animowany lub modyfikowany w kolejnej."
+
+  - id: warianty-przez-dziedziczenie
+    topic: ponowne-uzycie
+    rule: "Buduj warianty scen przez dziedziczenie i nadpisywanie wąskich punktów rozszerzeń zamiast kopiowania całego przebiegu."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 679}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2035}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 3530}
+    confidence: high
+    applies_to: "Gdy kilka scen dzieli układ obiektów i kolejność faz, ale różni się funkcją lub oprawą."
+
+  - id: fabryki-powtarzalnych-obiektow
+    topic: ponowne-uzycie
+    rule: "Umieszczaj powtarzalne obiekty w małych fabrykach parametryzowanych kolorem, znakiem lub rozmiarem."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 120}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 711}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2605}
+    confidence: high
+    applies_to: "Gdy ten sam typ elementu występuje w wielu scenach lub w dużych grupach."
+
+  - id: updatery-dla-wartosci-pochodnych
+    topic: stan-i-updatery
+    rule: "Aktualizuj etykiety i liczniki updaterem, gdy ich wartość lub położenie wynika z ruchomej geometrii."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 834}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2826}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2974}
+    confidence: high
+    applies_to: "Gdy tekst lub liczba ma stale podążać za obiektem albo odzwierciedlać jego bieżący stan."
+
+  - id: jedna-funkcja-pola
+    topic: dane-a-obraz
+    rule: "Przekazuj tę samą funkcję numeryczną do obiektu pola, linii przepływu i obliczeń pochodnych."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1144}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1164}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1540}
+    confidence: high
+    applies_to: "Gdy obraz sceny i wyświetlane wartości wynikają z tego samego modelu numerycznego."
+
+  - id: flaga-jakosci-renderu
+    topic: czas-i-tempo
+    rule: "Steruj kosztownym próbkowaniem i klasą animacji jedną flagą jakości renderu."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 399}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 621}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 646}
+    confidence: high
+    applies_to: "Gdy ta sama scena ma mieć szybki wariant developerski i droższy wariant produkcyjny."
+
+  - id: nazwany-czas-fazy
+    topic: czas-i-tempo
+    rule: "Przechowuj wspólny czas fazy w lokalnej stałej albo CONFIG i używaj go we wszystkich zależnych animacjach."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 426}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 450}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1453}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 3159}
+    confidence: high
+    applies_to: "Gdy kilka animacji lub oczekiwań ma tworzyć jedną wspólną jednostkę czasową."
+
+  - id: uklad-relacyjny
+    topic: kompozycja
+    rule: "Buduj hierarchię grup i ustawiaj elementy względem innych obiektów za pomocą operacji relacyjnych."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2741}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2878}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2460}
+    confidence: high
+    applies_to: "Gdy elementy kadru tworzą podpisane grupy, kolumny, układy lub zależności przestrzenne."
+
+  - id: wspolne-anchory-modelu
+    topic: dane-a-obraz
+    rule: "Nadaj wspólnym punktom sceny nazwane zmienne i używaj ich jednocześnie do pozycjonowania obiektów oraz budowy modelu."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1187}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1192}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2951}
+    confidence: high
+    applies_to: "Gdy położenie obiektu wizualnego jest także parametrem obliczenia."
+
+  - id: jawny-setup-wielodziedziczenia
+    topic: dekompozycja
+    rule: "Przy wielodziedziczeniu scen wywołuj jawnie setup każdego rodzica dostarczającego niezależny stan."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2909}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 3305}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 4008}
+    confidence: high
+    applies_to: "Gdy scena dziedziczy jednocześnie po kilku klasach scen lub miksinach."
+
+  - id: deprecated-continual-changing
+    topic: anty-wzorce
+    rule: "Nie używaj mechanizmu oznaczonego w pliku jako przestarzały; zastąp go updaterem obiektu."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 20}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1560}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 3502}
+    confidence: high
+    applies_to: "Gdy kod korzysta z biblioteki lub mechanizmu, który sam dokumentuje jako deprecated."
+
+  - id: nieaktywne-stuby
+    topic: anty-wzorce
+    rule: "Nie pozostawiaj w materiale pustych scen, klas pass ani scen oznaczonych TODO."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1289}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1345}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 2695}
+    confidence: high
+    applies_to: "W kodzie przeznaczonym do odtwarzania kompletnego materiału."
+
+  - id: zakomentowane-sprzatanie-updaterow
+    topic: anty-wzorce
+    rule: "Po zakończeniu fazy aktywnie usuwaj updatery zamiast zostawiać zakomentowane instrukcje sprzątające."
+    falsifiable: true
+    evidence:
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1572}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1583}
+      - {source: "_2018/div_curl.py", file: "_2018/div_curl.py", line: 1589}
+    confidence: high
+    applies_to: "Gdy updater ma obowiązywać tylko w jednej fazie sceny."

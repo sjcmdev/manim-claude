@@ -1,0 +1,211 @@
+observations:
+  - id: warianty-przez-dziedziczenie
+    topic: dekompozycja
+    rule: "Organizuj warianty tego samego ujęcia jako klasy potomne zmieniające parametry klasy bazowej zamiast kopiować cały przebieg sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 80}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 150}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 960}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 96}
+    confidence: high
+    applies_to: "Stosuj, gdy sceny różnią się głównie parametrami wizualizacji lub symulacji."
+
+  - id: obiekty-w-objects
+    topic: ponowne-uzycie
+    rule: "Przenoś obiekty używane przez wiele scen do objects.py, a sceny importuj je zamiast odtwarzać lokalnie."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 2}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 2}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 144}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 391}
+    confidence: high
+    applies_to: "Stosuj dla fal, cząstek, pól, molekuł i innych konstrukcji pojawiających się w kilku plikach."
+
+  - id: konfiguracja-bazowego-obiektu
+    topic: ponowne-uzycie
+    rule: "Buduj warianty przez scalanie bazowej konfiguracji z lokalnymi nadpisaniami zamiast rozgałęziać konstruktor."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 6}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 33}
+      - {source: _2023/optics_puzzles, file: bending_waves.py, line: 294}
+    confidence: high
+    applies_to: "Stosuj, gdy warianty zachowują tę samą hierarchię obiektów, lecz zmieniają styl lub parametry."
+
+  - id: pakiet-zaleznych-obiektow
+    topic: ponowne-uzycie
+    rule: "Zwracaj pakiet zależnych obiektów jako grupę i zachowuj nazwane odwołania do jej części."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 199}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 208}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 604}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 663}
+    confidence: high
+    applies_to: "Stosuj dla elementów, które mają wspólny cykl życia, ale wymagają osobnego sterowania podczas sceny."
+
+  - id: zegar-fali
+    topic: stan-i-updatery
+    rule: "Trzymaj czas symulacji wewnątrz obiektu fali i udostępniaj jawne zatrzymanie oraz wznowienie zegara."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 178}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 181}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 325}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 422}
+    confidence: high
+    applies_to: "Stosuj, gdy scena przechodzi między ciągłą symulacją a zatrzymanym diagramem."
+
+  - id: historia-czastki-w-update
+    topic: stan-i-updatery
+    rule: "Aktualizuj zegar i historię obiektu fizycznego w nadpisanym update, jeśli stan ma pozostać spójny także podczas jawnych animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 432}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 434}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 478}
+    confidence: high
+    applies_to: "Stosuj dla cząstek, których przeszłe położenia lub przyspieszenia są używane przez inne obiekty."
+
+  - id: stan-na-warstwe
+    topic: stan-i-updatery
+    rule: "Przechowuj niezależny stan powtarzalnych elementów w równoległych trackerach indeksowanych tak samo jak elementy grupy."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 39}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 43}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 70}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 389}
+    confidence: high
+    applies_to: "Stosuj, gdy każda warstwa, cząstka lub linia ma własną fazę, amplitudę albo tłumienie."
+
+  - id: tracker-jako-zrodlo-prawdy
+    topic: stan-i-updatery
+    rule: "Steruj wartością wpływającą jednocześnie na geometrię i tekst jednym ValueTrackerem."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 229}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 238}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 556}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 557}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 118}
+    confidence: high
+    applies_to: "Stosuj, gdy parametr musi zmieniać równocześnie obiekt, etykietę i wartości numeryczne."
+
+  - id: synchronizacja-reprezentacji
+    topic: stan-i-updatery
+    rule: "Przed przełączeniem między reprezentacjami tej samej symulacji wyrównuj ich pola czasu."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 628}
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 649}
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 676}
+    confidence: high
+    applies_to: "Stosuj przed crossfadem lub zmianą kamery między alternatywnymi widokami procesu."
+
+  - id: kotwiczenie-kompozycji
+    topic: kompozycja
+    rule: "Pozycjonuj etykiety i wskaźniki względem obiektów, osi lub grup zamiast ustalać ich położenie niezależnie od kadru."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 133}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 151}
+      - {source: _2023/optics_puzzles, file: cylinder.py, line: 61}
+      - {source: _2023/optics_puzzles, file: ior_annotations.py, line: 187}
+    confidence: high
+    applies_to: "Stosuj dla napisów, strzałek, nawiasów i wskaźników zależnych od geometrii sceny."
+
+  - id: rozdzielenie-overlayu-3d
+    topic: kompozycja
+    rule: "Oddzielaj obiekty świata 3D od napisów ekranowych przez osobną grupę z fix_in_frame."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: annotations.py, line: 1081}
+      - {source: _2023/optics_puzzles, file: annotations.py, line: 1123}
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 546}
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 552}
+    confidence: high
+    applies_to: "Stosuj, gdy kamera porusza się w scenie 3D, ale tytuł lub równanie ma pozostać stabilne na ekranie."
+
+  - id: funkcja-jako-wejscie-obrazu
+    topic: dane-a-obraz
+    rule: "Przekazuj funkcję obliczeniową do grafu lub pola, a aktualizację geometrii wiąż z tą funkcją."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 1075}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 1967}
+      - {source: _2023/optics_puzzles, file: e_field.py, line: 1997}
+      - {source: _2023/optics_puzzles, file: bending_waves.py, line: 22}
+    confidence: high
+    applies_to: "Stosuj, gdy obraz wynika z modelu numerycznego zmieniającego się w czasie lub zależnego od parametrów."
+
+  - id: dane-strukturalne-w-klasie
+    topic: dane-a-obraz
+    rule: "Trzymaj duże dane strukturalne obiektu jako deklaratywne tablice klasowe, a scenę ogranicz do wyboru elementów i ich animowania."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: objects.py, line: 700}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 723}
+      - {source: _2023/optics_puzzles, file: objects.py, line: 751}
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 1025}
+    confidence: high
+    applies_to: "Stosuj dla molekuł, siatek i innych dużych, statycznych struktur numerycznych."
+
+  - id: czas-zaleznosci-od-gestosci
+    topic: czas-i-tempo
+    rule: "Wyprowadzaj czas animacji z liczby elementów, gdy tempo ma skalować się z gęstością sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 879}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 947}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 951}
+    confidence: high
+    applies_to: "Stosuj dla scen, w których warianty mają różną liczbę warstw, linii lub cząstek."
+
+  - id: absolutne-sciezki-zasobow
+    topic: anty-wzorce
+    rule: "Nie zapisuj absolutnych ścieżek autora w scenach; rozwiązuj zasoby przez nazwę logiczną lub ścieżkę repozytorium."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: annotations.py, line: 7}
+      - {source: _2023/optics_puzzles, file: annotations.py, line: 1002}
+      - {source: _2023/optics_puzzles, file: ior_annotations.py, line: 527}
+      - {source: _2023/optics_puzzles, file: ior_annotations.py, line: 1272}
+    confidence: high
+    applies_to: "Stosuj zawsze, gdy scena korzysta z obrazów, miniaturek lub materiałów wideo."
+
+  - id: duplikat-pliku-sceny
+    topic: anty-wzorce
+    rule: "Nie utrzymuj niemal identycznej kopii pliku scen jako osobnego wariantu; wydziel różnicę do podklasy lub parametru."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 654}
+      - {source: _2023/optics_puzzles, file: slowing_waves_insert_embed.py, line: 654}
+      - {source: _2023/optics_puzzles, file: slowing_waves.py, line: 683}
+      - {source: _2023/optics_puzzles, file: slowing_waves_insert_embed.py, line: 674}
+    confidence: high
+    applies_to: "Stosuj, gdy drugi plik powtarza większość rodzin scen i różni się tylko pojedynczym insertem."
+
+  - id: pozostalosci-prototypow
+    topic: anty-wzorce
+    rule: "Usuwaj z modułu produkcyjnego pozostałości testów, złomu, kodu po return oraz puste ciała scen."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 84}
+      - {source: _2023/optics_puzzles, file: adding_waves.py, line: 101}
+      - {source: _2023/optics_puzzles, file: driven_harmonic_oscillator.py, line: 938}
+      - {source: _2023/optics_puzzles, file: ior_annotations.py, line: 1566}
+    confidence: high
+    applies_to: "Stosuj przed oznaczeniem katalogu jako gotowego źródła scen do renderowania."
+
+  - id: niedzialajacy-insert
+    topic: anty-wzorce
+    rule: "Nie wstrzykuj poleceń wykonawczych do deklaracji słownika konfiguracyjnego; każdy wariant insertowy musi pozostać poprawnym składniowo modułem."
+    falsifiable: true
+    evidence:
+      - {source: _2023/optics_puzzles, file: slowing_waves_insert_embed.py, line: 674}
+      - {source: _2023/optics_puzzles, file: slowing_waves_insert_embed.py, line: 676}
+    confidence: high
+    applies_to: "Stosuj dla plików przygotowanych jako osobne warianty lub inserty montażowe."

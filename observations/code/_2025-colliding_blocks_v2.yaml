@@ -1,0 +1,189 @@
+observations:
+  - id: osobne-ujecia
+    topic: dekompozycja
+    rule: "Wydzielaj każde samodzielne ujęcie lub wstawkę do osobnej klasy sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 4}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 127}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 222}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1535}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ujęcie ma własny cykl tworzenia, animowania i wygaszania."
+
+  - id: warianty-przez-dziedziczenie
+    topic: dekompozycja
+    rule: "Buduj serię wariantów tego samego ujęcia przez dziedziczenie i atrybuty klasowe zamiast kopiowania konstrukcji sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1124}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1186}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1240}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1271}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen różni się głównie parametrami obiektów lub symulacji."
+
+  - id: rozdzielone-trackery
+    topic: stan-i-updatery
+    rule: "Trzymaj czas symulacji, stan fizyczny i stan prezentacji w oddzielnych trackerach połączonych updaterami."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 118}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 120}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 179}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 392}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedna wartość steruje symulacją, a inna ma być chwilowo animowana niezależnie."
+
+  - id: jawny-reset-stanu
+    topic: stan-i-updatery
+    rule: "Przy zmianie warunków początkowych jawnie odłącz stare updatery i zastąp tracker stanu nowym."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 302}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 307}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 309}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kolejne części jednego ujęcia przedstawiają tę samą scenę od innego stanu początkowego."
+
+  - id: kontrola-updaterow
+    topic: stan-i-updatery
+    rule: "Zawieszaj updatery przed ręcznym przestawieniem obiektu i wznawiaj je dopiero po zakończeniu animacji wyjaśniającej."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 525}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 539}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 820}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 836}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1706}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1707}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt jest normalnie związany z symulacją, ale chwilowo ma służyć jako element demonstracyjny."
+
+  - id: synchronizacja-zdarzen
+    topic: stan-i-updatery
+    rule: "Wyznaczaj czas zdarzenia ze stanu analitycznego i używaj go do synchronizacji efektów wizualnych oraz dźwiękowych."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 69}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1099}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1103}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1109}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1118}
+    confidence: high
+    applies_to: "Obowiązuje, gdy zdarzenie może wystąpić między kolejnymi klatkami renderu."
+
+  - id: fabryki-geometrii
+    topic: ponowne-uzycie
+    rule: "Wydzielaj powtarzalną geometrię, etykiety i efekty do metod pomocniczych bazowej sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 81}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 925}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 980}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 986}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1045}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam element występuje w kilku wariantach sceny lub jest tworzony w wielu miejscach."
+
+  - id: relacyjne-pozycjonowanie
+    topic: kompozycja
+    rule: "Pozycjonuj podpisy, równania i elementy pomocnicze względem istniejących kotwic zamiast nadawać każdemu niezależne współrzędne."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 158}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 160}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 228}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 362}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 290}
+    confidence: high
+    applies_to: "Obowiązuje, gdy element ma stabilną relację przestrzenną z innym obiektem."
+
+  - id: nakladki-przypiete-do-ekranu
+    topic: kompozycja
+    rule: "Przypinaj równania i etykiety ekranowe do kadru, gdy główna scena używa ruchomej kamery 3D."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 161}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 231}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 279}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1153}
+    confidence: high
+    applies_to: "Obowiązuje, gdy adnotacja ma pozostać czytelna mimo obrotu lub przesunięcia kamery."
+
+  - id: czas-symulacji-w-run-time
+    topic: czas-i-tempo
+    rule: "Wiąż długość animacji z parametrem czasu symulacji zamiast powtarzać niezależne wartości czasu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 165}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 170}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1130}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1144}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1145}
+    confidence: high
+    applies_to: "Obowiązuje, gdy animacja ma odtwarzać ciągły przebieg symulacji w czasie rzeczywistym."
+
+  - id: tracker-predkosci
+    topic: czas-i-tempo
+    rule: "Steruj zwolnieniem przez osobny tracker prędkości czasu i pokazuj jego aktualną wartość jako element sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1280}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1281}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1287}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1302}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1306}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedno ujęcie przechodzi między normalnym tempem a wieloma poziomami slow motion."
+
+  - id: dane-w-pliku
+    topic: dane-a-obraz
+    rule: "Wczytuj długie dane tekstowe z pliku obok sceny i generuj z nich obiekty wizualne dopiero podczas budowy ujęcia."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 922}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 924}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 955}
+      - {source: _2025/colliding_blocks_v2, file: digits_of_pi.txt, line: 1}
+    confidence: high
+    applies_to: "Obowiązuje, gdy scena prezentuje długi lub często zmieniany tekstowy zbiór danych."
+
+  - id: dane-proceduralne-w-setupie
+    topic: dane-a-obraz
+    rule: "Generuj kosztowne dane geometryczne w setupie bazowej sceny i udostępniaj je scenom potomnym jako gotowe obiekty."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 1223}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 1226}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 1240}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 1251}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 1266}
+      - {source: _2025/colliding_blocks_v2, file: supplements.py, line: 1301}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka scen korzysta z tego samego dużego zbioru punktów lub połączeń."
+
+  - id: usuwanie-martwych-galezi
+    topic: anty-wzorce
+    rule: "Usuwaj wyłączone gałęzie eksperymentalne i pozostałe po wcześniejszych wersjach metody przed utrwaleniem sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 418}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 659}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1524}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kod zawiera nieosiągalne bloki lub metody oznaczone jako dawna wersja ujęcia."
+
+  - id: niedublowanie-slow-motion
+    topic: anty-wzorce
+    rule: "Nie kopiuj całego construct dla wariantów slow motion; przenieś wspólny przebieg do parametryzowanej metody bazowej."
+    falsifiable: true
+    evidence:
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1271}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1294}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1316}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1325}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1364}
+      - {source: _2025/colliding_blocks_v2, file: blocks.py, line: 1370}
+    confidence: high
+    applies_to: "Obowiązuje, gdy warianty różnią się tempem, masą lub punktami czasowymi, ale zachowują ten sam przebieg ujęcia."

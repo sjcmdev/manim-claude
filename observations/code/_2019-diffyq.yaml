@@ -1,0 +1,205 @@
+observations:
+  - id: manifest-czesci
+    topic: dekompozycja
+    rule: Trzymaj kolejność ujęć i katalog wyjściowy w osobnym module `all_partN_scenes.py`, a sceny importuj z modułów tematycznych.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: all_part1_scenes.py, line: 1}
+      - {source: _2019/diffyq, file: all_part1_scenes.py, line: 8}
+      - {source: _2019/diffyq, file: all_part2_scenes.py, line: 1}
+      - {source: _2019/diffyq, file: all_part2_scenes.py, line: 8}
+      - {source: _2019/diffyq, file: all_part4_scenes.py, line: 1}
+      - {source: _2019/diffyq, file: all_part4_scenes.py, line: 12}
+    confidence: high
+    applies_to: Obowiązuje, gdy jeden film lub rozdział składa się z wielu modułów scen.
+
+  - id: fazy-construct
+    topic: dekompozycja
+    rule: Rozbij `construct` na nazwane metody faz i wywołuj je w kolejności montażu.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 384}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 390}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 178}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 184}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 474}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 481}
+    confidence: high
+    applies_to: Obowiązuje dla scen zawierających kilka kolejnych etapów budowy lub animacji kadru.
+
+  - id: wspolne-konstrukcje
+    topic: ponowne-uzycie
+    rule: Umieszczaj współdzielone obiekty, formuły i funkcje obliczeniowe w `shared_constructs.py` i importuj je do modułów scen.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/shared_constructs.py, line: 19}
+      - {source: _2019/diffyq, file: part1/shared_constructs.py, line: 48}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 2}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 298}
+      - {source: _2019/diffyq, file: part1/wordy_scenes.py, line: 256}
+      - {source: _2019/diffyq, file: part2/shared_constructs.py, line: 11}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 2}
+    confidence: high
+    applies_to: Obowiązuje dla konstrukcji używanych przez co najmniej dwie sceny tego samego rozdziału.
+
+  - id: warianty-przez-dziedziczenie
+    topic: ponowne-uzycie
+    rule: Parametryzuj różnice wariantów przez `CONFIG` i dziedzicz gotowy przebieg sceny zamiast kopiować `construct`.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 737}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 830}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 849}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 263}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 295}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 2476}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 2533}
+    confidence: high
+    applies_to: Obowiązuje, gdy kilka ujęć ma ten sam układ i animację, ale inne parametry, kształt lub tempo.
+
+  - id: parametry-na-poziomie-klasy
+    topic: kompozycja
+    rule: Trzymaj parametry geometrii, stylu i wariantu ujęcia w konfiguracji klasy zamiast rozpraszać je w `construct`.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 6}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 45}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 738}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 6}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 267}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 155}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 173}
+    confidence: high
+    applies_to: Obowiązuje dla parametrów, które mają być zmieniane między renderami lub klasami scen.
+
+  - id: tempo-z-konfiguracji
+    topic: czas-i-tempo
+    rule: Wyznaczaj czas ujęcia jednym atrybutem konfiguracji i przekazuj go do `wait` lub wspólnego helpera animacji.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 267}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 283}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 173}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 320}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 325}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 327}
+    confidence: high
+    applies_to: Obowiązuje dla scen, w których kilka elementów animacji musi podążać za tym samym czasem symulacji.
+
+  - id: symulacja-w-updaterze
+    topic: stan-i-updatery
+    rule: Włączaj ciągłą symulację updaterem komponentu i udostępniaj osobne metody jej uruchamiania oraz zatrzymywania.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 178}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 181}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 184}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 196}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 405}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 810}
+    confidence: high
+    applies_to: Obowiązuje dla obiektów, których stan ma ewoluować przez cały czas trwania ujęcia.
+
+  - id: tracker-jako-stan
+    topic: stan-i-updatery
+    rule: Trzymaj sterowalny skalar w `ValueTracker`, twórz zależną geometrię przez updater lub `always_redraw`, a animuj tracker.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 1023}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 1024}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 1041}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 1158}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 36}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 40}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 101}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 2413}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 2422}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 2526}
+    confidence: high
+    applies_to: Obowiązuje dla scen, w których kilka obiektów wizualnych zależy od wspólnego parametru zmienianego w czasie.
+
+  - id: jawne-wiazanie-stanu
+    topic: stan-i-updatery
+    rule: Rozdzielaj jawne metody wiążące stan modelu z obrazem oraz obraz z modelem.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 451}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 456}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 461}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 474}
+    confidence: high
+    applies_to: Obowiązuje, gdy interakcja lub animacja może sterować stanem matematycznym w więcej niż jednym kierunku.
+
+  - id: stan-miedzy-fazami
+    topic: kompozycja
+    rule: Zapisuj długowieczne obiekty i grupy jako atrybuty sceny, aby kolejne fazy korzystały z tego samego stanu.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 404}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 470}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 538}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 196}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 209}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 231}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 265}
+    confidence: high
+    applies_to: Obowiązuje, gdy późniejsza faza modyfikuje lub ponownie wykorzystuje obiekty z wcześniejszej fazy.
+
+  - id: layout-relacyjny
+    topic: kompozycja
+    rule: Ustalaj układ kadru relacyjnie przez `next_to`, `arrange` i `to_edge`, a ruchome etykiety dowiązuj updaterem.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 452}
+      - {source: _2019/diffyq, file: part1/pendulum.py, line: 453}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 227}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 252}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 280}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 682}
+      - {source: _2019/diffyq, file: part3/temperature_graphs.py, line: 698}
+    confidence: high
+    applies_to: Obowiązuje dla etykiet, grup i elementów zależnych od położenia innych obiektów.
+
+  - id: obliczenia-w-scenie
+    topic: dane-a-obraz
+    rule: Wprowadzaj wynik obliczeń numerycznych jako funkcję próbkowaną podczas budowy lub aktualizacji obrazu zamiast jako statyczną tablicę danych.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 240}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 245}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 258}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 342}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 365}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 373}
+      - {source: _2019/diffyq, file: solve_pendulum_ode_sample_code.py, line: 22}
+    confidence: high
+    applies_to: Obowiązuje dla pól, wykresów i trajektorii wyznaczanych przez jawny model matematyczny.
+
+  - id: svg-jako-parametr
+    topic: dane-a-obraz
+    rule: Traktuj zewnętrzny kształt SVG jako parametr sceny i nadpisuj tylko metodę dostarczającą kształt lub ścieżkę.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 479}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 484}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 488}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 492}
+      - {source: _2019/diffyq, file: part4/long_fourier_scenes.py, line: 84}
+      - {source: _2019/diffyq, file: part4/long_fourier_scenes.py, line: 97}
+      - {source: _2019/diffyq, file: part4/long_fourier_scenes.py, line: 128}
+    confidence: high
+    applies_to: Obowiązuje dla serii ujęć wykonujących tę samą animację na wielu zewnętrznych kształtach.
+
+  - id: niedokonczone-szkice
+    topic: anty-wzorce
+    rule: Usuwaj z modułów produkcyjnych puste sceny, metody `pass` i zaległe znaczniki TODO albo przenoś je do osobnego szkicownika.
+    falsifiable: true
+    evidence:
+      - {source: _2019/diffyq, file: part2/shared_constructs.py, line: 7}
+      - {source: _2019/diffyq, file: part2/heat_equation.py, line: 147}
+      - {source: _2019/diffyq, file: part2/wordy_scenes.py, line: 220}
+      - {source: _2019/diffyq, file: part1/staging.py, line: 3028}
+      - {source: _2019/diffyq, file: part2/fourier_series.py, line: 156}
+      - {source: _2019/diffyq, file: part1/phase_space.py, line: 6}
+    confidence: high
+    applies_to: Obowiązuje dla kodu wskazywanego przez manifest renderowania lub importowanego przez sceny produkcyjne.

@@ -1,0 +1,144 @@
+observations:
+  - id: construct-orchestrator
+    topic: dekompozycja
+    rule: "Dziel dłuższą sekwencję ujęć na nazwane metody i utrzymuj construct jako ich kolejnościowy orkiestrator."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter1.py, line: 711}
+      - {source: _2017/eoc, file: chapter8.py, line: 1506}
+      - {source: _2017/eoc, file: chapter10.py, line: 175}
+    confidence: high
+    applies_to: "Stosuj, gdy scena zawiera więcej niż kilka kolejnych etapów animacji."
+
+  - id: chapter-module-boundaries
+    topic: dekompozycja
+    rule: "Trzymaj sceny jednego rozdziału w jednym module, a współdzielone elementy udostępniaj przez jawne importy między modułami."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter1.py, line: 2}
+      - {source: _2017/eoc, file: chapter3.py, line: 2}
+      - {source: _2017/eoc, file: chapter5.py, line: 2}
+      - {source: _2017/eoc, file: chapter8.py, line: 3}
+    confidence: high
+    applies_to: "Stosuj, gdy kilka rozdziałów używa tego samego obiektu, ruchu lub bazowej sceny."
+
+  - id: config-driven-variants
+    topic: ponowne-uzycie
+    rule: "Umieszczaj parametry wariantu w CONFIG i twórz podobne sceny przez dziedziczenie zamiast kopiowania całego construct."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter8.py, line: 1406}
+      - {source: _2017/eoc, file: chapter10.py, line: 464}
+      - {source: _2017/eoc, file: chapter10.py, line: 476}
+      - {source: _2017/eoc, file: chapter1.py, line: 2247}
+    confidence: high
+    applies_to: "Stosuj, gdy wariant zmienia głównie tekst, zakresy, kolory lub parametry liczbowej animacji."
+
+  - id: persistent-state-in-setup
+    topic: stan-i-updatery
+    rule: "Inicjalizuj w setup i przypisuj do self obiekty używane przez wiele etapów, a elementy jednorazowe pozostaw lokalnie w metodzie."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter1.py, line: 80}
+      - {source: _2017/eoc, file: chapter1.py, line: 97}
+      - {source: _2017/eoc, file: chapter8.py, line: 1497}
+      - {source: _2017/eoc, file: chapter8.py, line: 1513}
+    confidence: high
+    applies_to: "Stosuj, gdy późniejsze metody sceny muszą modyfikować ten sam obiekt lub grupę."
+
+  - id: reversible-layout-state
+    topic: stan-i-updatery
+    rule: "Przed zmianą układu obiektu, do którego wrócisz, zachowuj jego stan albo przygotowuj target i wykonuj przejście przez MoveToTarget."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter7.py, line: 195}
+      - {source: _2017/eoc, file: chapter7.py, line: 423}
+      - {source: _2017/eoc, file: chapter9.py, line: 724}
+      - {source: _2017/eoc, file: chapter10.py, line: 268}
+    confidence: high
+    applies_to: "Stosuj, gdy ten sam element przechodzi przez kilka reprezentacji lub układów kadru."
+
+  - id: explicit-dependent-motion
+    topic: stan-i-updatery
+    rule: "Dla ruchu zależnych elementów definiuj callback aktualizujący geometrię względem alpha i uruchamiaj go jako UpdateFromAlphaFunc."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter2.py, line: 1096}
+      - {source: _2017/eoc, file: chapter2.py, line: 1107}
+      - {source: _2017/eoc, file: chapter7.py, line: 1183}
+      - {source: _2017/eoc, file: chapter10.py, line: 1939}
+    confidence: high
+    applies_to: "Stosuj, gdy położenie jednego obiektu zależy w trakcie animacji od położenia lub parametru innego."
+
+  - id: grouped-visual-units
+    topic: kompozycja
+    rule: "Buduj logiczne elementy kadru jako grupy zawierające geometrię, oznaczenia i linie pomocnicze, aby animować je jako jedną jednostkę."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter2.py, line: 995}
+      - {source: _2017/eoc, file: chapter2.py, line: 1002}
+      - {source: _2017/eoc, file: chapter9.py, line: 1147}
+      - {source: _2017/eoc, file: chapter8.py, line: 1332}
+    confidence: high
+    applies_to: "Stosuj, gdy element składa się z obiektu głównego oraz jego etykiet, nawiasów lub prowadnic."
+
+  - id: relative-label-layout
+    topic: kompozycja
+    rule: "Pozycjonuj etykiety względem obiektów przez next_to, arrange i to_edge, a współrzędne bezwzględne rezerwuj dla globalnych kotwic sceny lub wykresu."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter10.py, line: 80}
+      - {source: _2017/eoc, file: chapter10.py, line: 87}
+      - {source: _2017/eoc, file: chapter9.py, line: 1451}
+      - {source: _2017/eoc, file: chapter3.py, line: 2336}
+    confidence: high
+    applies_to: "Stosuj, gdy położenie elementu wynika z relacji do innego elementu, a nie z niezależnej kompozycji całego kadru."
+
+  - id: parameterized-tempo
+    topic: czas-i-tempo
+    rule: "Parametryzuj tempo powtarzalnego ruchu jednym parametrem lub helperem i wyprowadzaj z niego czasy składowe."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter2.py, line: 12}
+      - {source: _2017/eoc, file: chapter2.py, line: 19}
+      - {source: _2017/eoc, file: chapter1.py, line: 130}
+      - {source: _2017/eoc, file: chapter10.py, line: 454}
+    confidence: high
+    applies_to: "Stosuj, gdy jedna animacja składa się z wielu powtarzanych zmian lub ruchów."
+
+  - id: computed-visual-data
+    topic: dane-a-obraz
+    rule: "Trzymaj funkcje źródłowe i parametry próbkowania w module lub CONFIG, a wykresy i dane wizualne generuj z nich podczas budowy sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter10.py, line: 3}
+      - {source: _2017/eoc, file: chapter10.py, line: 48}
+      - {source: _2017/eoc, file: chapter8.py, line: 8}
+      - {source: _2017/eoc, file: chapter9.py, line: 1438}
+    confidence: high
+    applies_to: "Stosuj, gdy obraz przedstawia wynik funkcji lub obliczenia numerycznego, a nie zewnętrzny materiał źródłowy."
+
+  - id: avoid-repeated-integration
+    topic: anty-wzorce
+    rule: "Nie wywołuj kosztownej całki numerycznej wewnątrz funkcji przekazywanej do get_graph lub callbacku tempa; policz albo cache'uj wartości przed wielokrotnym próbkowaniem."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: chapter8.py, line: 1396}
+      - {source: _2017/eoc, file: chapter8.py, line: 1402}
+      - {source: _2017/eoc, file: chapter9.py, line: 1761}
+      - {source: _2017/eoc, file: chapter9.py, line: 1762}
+    confidence: high
+    applies_to: "Stosuj, gdy renderer wielokrotnie wywołuje tę samą funkcję numeryczną dla kolejnych punktów lub klatek."
+
+  - id: quarantine-stale-scenes
+    topic: anty-wzorce
+    rule: "Usuwaj z aktywnego katalogu albo wyraźnie odseparuj nieaktualne kopie scen i klasy stagingowe udające renderowalne sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2017/eoc, file: old_chapter1.py, line: 4}
+      - {source: _2017/eoc, file: old_chapter1.py, line: 6}
+      - {source: _2017/eoc, file: chapter1.py, line: 65}
+      - {source: _2017/eoc, file: chapter3.py, line: 1195}
+      - {source: _2017/eoc, file: chapter5.py, line: 66}
+    confidence: high
+    applies_to: "Stosuj, gdy katalog zawiera duplikat wcześniejszej wersji, placeholder construct albo scenę przeznaczoną wyłącznie dla skryptu pomocniczego."

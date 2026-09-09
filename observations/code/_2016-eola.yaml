@@ -1,0 +1,173 @@
+observations:
+  - id: osobna-scena-na-ujecie
+    topic: dekompozycja
+    rule: "Dziel kolejne niezależne ujęcia na osobne klasy `Scene`, zamiast łączyć je w jeden długi przebieg."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter0.py, line: 64}
+      - {source: _2016/eola, file: chapter0.py, line: 89}
+      - {source: _2016/eola, file: chapter10.py, line: 160}
+      - {source: _2016/eola, file: chapter10.py, line: 197}
+    confidence: high
+    applies_to: "Obowiązuje, gdy materiał składa się z krótkich ujęć o osobnych stanach początkowych i końcowych."
+
+  - id: fazy-w-construct
+    topic: dekompozycja
+    rule: "Rozbij wieloetapowe ujęcie na nazwane metody fazowe wywoływane sekwencyjnie z `construct`."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter8.py, line: 113}
+      - {source: _2016/eola, file: chapter8.py, line: 118}
+      - {source: _2016/eola, file: chapter11.py, line: 1499}
+      - {source: _2016/eola, file: chapter11.py, line: 1506}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedno ujęcie ma kilka kolejnych przemian współdzielących obiekty."
+
+  - id: stan-na-self
+    topic: stan-i-updatery
+    rule: "Przechowuj obiekty używane przez kolejne fazy jako atrybuty sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter8.py, line: 129}
+      - {source: _2016/eola, file: chapter8.py, line: 383}
+      - {source: _2016/eola, file: chapter11.py, line: 1514}
+      - {source: _2016/eola, file: chapter11.py, line: 1538}
+    confidence: high
+    applies_to: "Obowiązuje, gdy metody fazowe muszą modyfikować lub przywracać obiekty utworzone wcześniej."
+
+  - id: jawne-stany-docelowe
+    topic: stan-i-updatery
+    rule: "Buduj jawny stan docelowy przez kopię obiektu i animuj przejście do niego, gdy kilka elementów ma zmienić się razem."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter8.py, line: 205}
+      - {source: _2016/eola, file: chapter8.py, line: 243}
+      - {source: _2016/eola, file: chapter10.py, line: 1087}
+      - {source: _2016/eola, file: chapter10.py, line: 1089}
+      - {source: _2016/eola, file: chapter11.py, line: 378}
+      - {source: _2016/eola, file: chapter11.py, line: 390}
+    confidence: high
+    applies_to: "Obowiązuje przy synchronicznym przesuwaniu, skalowaniu lub transformowaniu geometrii i etykiet."
+
+  - id: petla-po-klatkach-dla-zaleznosci
+    topic: stan-i-updatery
+    rule: "Dla ciągłej zmiany wielu zależnych wyników użyj jawnej pętli po klatkach, która ponownie wylicza geometrię, etykiety i wartości pochodne."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter10.py, line: 1081}
+      - {source: _2016/eola, file: chapter10.py, line: 1100}
+      - {source: _2016/eola, file: chapter10.py, line: 1118}
+      - {source: _2016/eola, file: chapter10.py, line: 1129}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedna zmienna steruje jednocześnie płaszczyzną, wektorami, napisami i obliczonym wskaźnikiem."
+
+  - id: warianty-przez-config
+    topic: ponowne-uzycie
+    rule: "Parametryzuj wspólną konstrukcję przez `CONFIG` i twórz warianty jako podklasy zamiast kopiować `construct`."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter3.py, line: 240}
+      - {source: _2016/eola, file: chapter3.py, line: 298}
+      - {source: _2016/eola, file: chapter5.py, line: 148}
+      - {source: _2016/eola, file: chapter5.py, line: 202}
+      - {source: _2016/eola, file: chapter10.py, line: 138}
+      - {source: _2016/eola, file: chapter10.py, line: 160}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ujęcia różnią się głównie macierzą, kolorami, flagą widoczności lub współrzędnymi."
+
+  - id: import-wspolnego-szkieletu
+    topic: ponowne-uzycie
+    rule: "Udostępniaj używane między rozdziałami klasy i funkcje przez import z wcześniejszego modułu."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter1.py, line: 2}
+      - {source: _2016/eola, file: chapter10.py, line: 2}
+      - {source: _2016/eola, file: chapter10.py, line: 5}
+      - {source: _2016/eola, file: chapter11.py, line: 2}
+      - {source: _2016/eola, file: chapter11.py, line: 6}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam typ sceny lub element pomocniczy jest potrzebny w kilku plikach materiału."
+
+  - id: etykieta-jako-czesc-obiektu
+    topic: ponowne-uzycie
+    rule: "Dołączaj etykietę i elementy zależne do obiektu geometrycznego jako jego atrybuty oraz grupuj je przed transformacją."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter9.py, line: 331}
+      - {source: _2016/eola, file: chapter9.py, line: 334}
+      - {source: _2016/eola, file: chapter9.py, line: 344}
+      - {source: _2016/eola, file: chapter7.py, line: 282}
+      - {source: _2016/eola, file: chapter7.py, line: 356}
+    confidence: high
+    applies_to: "Obowiązuje, gdy napis ma zachować relację przestrzenną z wektorem, wykresem lub inną geometrią."
+
+  - id: uklady-relacyjne
+    topic: kompozycja
+    rule: "Buduj układ z relacji między obiektami przez `arrange`, `next_to` i `to_edge`, a ręczne przesunięcia stosuj dopiero jako lokalną korektę."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter0.py, line: 70}
+      - {source: _2016/eola, file: chapter0.py, line: 73}
+      - {source: _2016/eola, file: chapter1.py, line: 52}
+      - {source: _2016/eola, file: chapter1.py, line: 55}
+      - {source: _2016/eola, file: chapter11.py, line: 1531}
+      - {source: _2016/eola, file: chapter11.py, line: 1532}
+    confidence: high
+    applies_to: "Obowiązuje przy blokach tekstu, wzorów i etykiet o zmiennych rozmiarach."
+
+  - id: tempo-lokalne
+    topic: czas-i-tempo
+    rule: "Ustalaj czas trwania i pauzy lokalnie przy konkretnym ujęciu lub fazie, zamiast opierać montaż na jednej globalnej stałej."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter1.py, line: 78}
+      - {source: _2016/eola, file: chapter1.py, line: 81}
+      - {source: _2016/eola, file: chapter1.py, line: 154}
+      - {source: _2016/eola, file: chapter1.py, line: 158}
+      - {source: _2016/eola, file: chapter11.py, line: 1536}
+      - {source: _2016/eola, file: chapter11.py, line: 1618}
+    confidence: high
+    applies_to: "Obowiązuje, gdy rytm narracji zmienia się między kolejnymi napisami, transformacjami i pauzami."
+
+  - id: obliczenie-przed-materializacja
+    topic: dane-a-obraz
+    rule: "Wyliczaj dane sterujące obrazem w metodzie pomocniczej lub fazie sceny i natychmiast materializuj je jako geometrię albo etykiety."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter10.py, line: 1078}
+      - {source: _2016/eola, file: chapter10.py, line: 1118}
+      - {source: _2016/eola, file: chapter11.py, line: 585}
+      - {source: _2016/eola, file: chapter11.py, line: 618}
+      - {source: _2016/eola, file: chapter5.py, line: 182}
+      - {source: _2016/eola, file: chapter5.py, line: 199}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wynik obliczenia numerycznego wyznacza położenie, kształt lub napis widoczny w ujęciu."
+
+  - id: niepozostawiaj-stubow
+    topic: anty-wzorce
+    rule: "Nie pozostawiaj pustych klas `Scene` jako części katalogu renderowalnych ujęć; usuwaj je albo implementuj przed publikacją materiału."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter1.py, line: 391}
+      - {source: _2016/eola, file: chapter1.py, line: 392}
+      - {source: _2016/eola, file: chapter8.py, line: 1270}
+      - {source: _2016/eola, file: chapter8.py, line: 1271}
+      - {source: _2016/eola, file: chapter10.py, line: 535}
+      - {source: _2016/eola, file: chapter10.py, line: 539}
+      - {source: _2016/eola, file: footnote2.py, line: 322}
+      - {source: _2016/eola, file: footnote2.py, line: 371}
+    confidence: high
+    applies_to: "Obowiązuje, gdy plik źródłowy jest jednocześnie listą scen używaną przez proces renderowania."
+
+  - id: usuwaj-zakomentowane-galezie
+    topic: anty-wzorce
+    rule: "Usuwaj zakomentowane alternatywne sekwencje animacji po zmianie koncepcji ujęcia."
+    falsifiable: true
+    evidence:
+      - {source: _2016/eola, file: chapter7.py, line: 647}
+      - {source: _2016/eola, file: chapter7.py, line: 654}
+      - {source: _2016/eola, file: chapter8.py, line: 372}
+      - {source: _2016/eola, file: chapter10.py, line: 1740}
+      - {source: _2016/eola, file: chapter10.py, line: 1751}
+    confidence: high
+    applies_to: "Obowiązuje, gdy komentarze zawierają kompletne, wcześniej wykonywane kroki sceny, a nie krótką dokumentację decyzji."

@@ -1,0 +1,252 @@
+techniques:
+  - id: "timeline-animacji"
+    nazwa: "play_timeline"
+    problem: "Ręczne koordynowanie animacji o różnych momentach startu i czasach trwania szybko staje się nieczytelne."
+    zamiast: "Wstawianie wielu wyliczonych waitów i ręczne składanie nakładających się AnimationGroup."
+    kiedy: "Gdy animacje mają rozpoczynać się w konkretnych chwilach i częściowo zachodzić na siebie."
+    dotyczy_bolaczki: "pokretla-czasowe"
+    zrodlo: {file: "edda4f8d-Play animations in given timeline/timeline_of_animations.py", line: 3}
+    przenosnosc: "wysoka"
+
+  - id: "rownolegle-sekwencje"
+    nazwa: "play_sequence_in_background"
+    problem: "Kilka niezależnych, sekwencyjnych torów animacji trudno uruchomić równolegle bez spłaszczania ich do jednej skomplikowanej kompozycji."
+    zamiast: "Ręczne obliczanie opóźnień i przeplatanie elementów wszystkich sekwencji w jednym self.play."
+    kiedy: "Gdy każdy obiekt ma własną kolejkę animacji, a kolejki powinny wykonywać się jednocześnie."
+    dotyczy_bolaczki: "pokretla-czasowe"
+    zrodlo: {file: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_/sequences.py", line: 1}
+    przenosnosc: "wysoka"
+
+  - id: "oczekiwanie-na-sekwencje"
+    nazwa: "join_all"
+    problem: "Scena potrzebuje zakończyć oczekiwanie dokładnie wtedy, gdy wszystkie animacje tła się skończą."
+    zamiast: "Podawanie zawyżonego, arbitralnego czasu do wait i zgadywanie długości najwolniejszej sekwencji."
+    kiedy: "Gdy scena uruchamia kilka updaterów reprezentujących skończone procesy i ma kontynuować po ich wspólnym zakończeniu."
+    dotyczy_bolaczki: "pokretla-czasowe"
+    zrodlo: {file: "ce6a2a54-Generic sequences of animations run in paralell _for Manim_/sequences.py", line: 20}
+    przenosnosc: "wysoka"
+
+  - id: "ortogonalne-polaczenia"
+    nazwa: "OrthogonalConnection"
+    problem: "Czytelne łączniki diagramów wymagają przewidywalnej trasy złożonej wyłącznie z odcinków poziomych i pionowych."
+    zamiast: "Ręczne wyliczanie każdego narożnika i składanie wielu osobnych Line."
+    kiedy: "Gdy elementy diagramu trzeba połączyć łamaną o jawnie zadanej kolejności kierunków."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "fc74f5d6-Orthogonal connections/00_Orthogonal connections.md", line: 3}
+    przenosnosc: "wysoka"
+
+  - id: "etykieta-segmentu-lamanej"
+    nazwa: "OrthogonalConnection.midpoint"
+    problem: "Etykietę trudno stabilnie umieścić na wybranym fragmencie wielosegmentowego łącznika."
+    zamiast: "Dobieranie współrzędnych etykiety na oko albo liczenie środka segmentu poza obiektem."
+    kiedy: "Gdy opis ma być związany z konkretnym odcinkiem łamanej, a nie ze środkiem całej trasy."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "fc74f5d6-Orthogonal connections/00_Orthogonal connections.md", line: 17}
+    przenosnosc: "srednia"
+
+  - id: "grot-bez-deformacji-trasy"
+    nazwa: "create_tip bez add_tip"
+    problem: "Standardowe dodanie grotu może skorygować krzywą i zepsuć ortogonalność ostatniego odcinka."
+    zamiast: "Wywołanie add_tip na gotowej łamanej i akceptowanie przekrzywionego zakończenia."
+    kiedy: "Gdy grot ma zostać dołączony do precyzyjnie wytrasowanej polilinii bez zmiany jej geometrii."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "fc74f5d6-Orthogonal connections/example.py", line: 28}
+    przenosnosc: "srednia"
+
+  - id: "staly-overlay-w-3d"
+    nazwa: "make_fixed"
+    problem: "Elementy interfejsu przypięte do kadru mogą podczas transformacji zostać potraktowane jak geometria świata 3D."
+    zamiast: "Używanie add_fixed_in_frame_mobjects mimo niepoprawnych transformacji albo ciągłe ręczne korygowanie położenia."
+    kiedy: "Gdy tekst lub HUD w ThreeDScene ma pozostać w układzie ekranu także podczas transformacji i ruchu kamery."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "1419b181-How to fix objects and transforms in a manim 3D scene/fixed_fixing.py", line: 3}
+    przenosnosc: "wysoka"
+
+  - id: "sekcje-pomijane"
+    nazwa: "skip_animations"
+    problem: "Sprawdzanie późnego fragmentu sceny wymaga ponownego renderowania i oglądania całej wcześniejszej animacji."
+    zamiast: "Komentowanie poprzednich fragmentów, renderowanie wszystkiego albo przewijanie pełnego filmu po każdej zmianie."
+    kiedy: "Gdy pracujesz nad jedną częścią długiej sceny, ale potrzebujesz stanu wytworzonego przez wcześniejsze części."
+    dotyczy_bolaczki: "iteracja-bez-renderu"
+    zrodlo: {file: "47a375c8-Working with sections in manim/00README.md", line: 3}
+    przenosnosc: "wysoka"
+
+  - id: "sekcje-kontekstowe"
+    nazwa: "new_section"
+    problem: "Płaska seria wywołań next_section słabo pokazuje granice fragmentów i utrudnia składanie oraz zwijanie kodu."
+    zamiast: "Rozrzucanie markerów sekcji pomiędzy instrukcjami construct bez strukturalnego zakresu."
+    kiedy: "Gdy sekcje mają pozostać we wspólnym construct, lecz powinny być wizualnie wydzielone i zwijalne."
+    dotyczy_bolaczki: "iteracja-bez-renderu"
+    zrodlo: {file: "47a375c8-Working with sections in manim/00README.md", line: 11}
+    przenosnosc: "wysoka"
+
+  - id: "sekcje-jako-metody"
+    nazwa: "SceneWithSubscenes"
+    problem: "Duży construct staje się trudny do nawigowania, a ręczne utrzymywanie kolejności i flag pomijania sekcji jest podatne na błędy."
+    zamiast: "Jedna długa metoda z markerami sekcji i lokalnym przełączaniem skip_animations."
+    kiedy: "Gdy scena naturalnie dzieli się na nazwane etapy, które powinny wykonywać się w kolejności zapisanej w pliku."
+    dotyczy_bolaczki: "iteracja-bez-renderu"
+    zrodlo: {file: "47a375c8-Working with sections in manim/example2.py", line: 3}
+    przenosnosc: "wysoka"
+
+  - id: "jawne-mapowanie-fragmentow-wzoru"
+    nazwa: "TransformMatchingSlices"
+    problem: "Automatyczne dopasowanie części wzorów nie zawsze wybiera semantycznie właściwe przejścia między symbolami i grupami."
+    zamiast: "Pozostawianie całej decyzji TransformMatchingTex albo budowanie wielu osobnych transformacji dla pojedynczych glifów."
+    kiedy: "Gdy konkretne fragmenty wzoru źródłowego muszą przejść w konkretnie wskazane fragmenty wzoru docelowego."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: "e3547d78-Generic formula transformation under control/example.py", line: 1}
+    przenosnosc: "wysoka"
+
+  - id: "mapowanie-wzorow-po-ksztalcie"
+    nazwa: "get_slice_map"
+    problem: "Ręczne ustalanie indeksów glifów dla kontrolowanej transformacji wzoru jest żmudne i kruche."
+    zamiast: "Odczytywanie struktury MathTex i wpisywanie na sztywno par indeksów oraz slice."
+    kiedy: "Gdy mapowanie fragmentów da się opisać symbolami, ale zwykłe dopasowanie tekstowe nie jest niezawodne."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: "e3547d78-Generic formula transformation under control/example2.py", line: 1}
+    przenosnosc: "wysoka"
+
+  - id: "wyszukiwanie-glifow-po-ksztalcie"
+    nazwa: "group_shapes_in_tex"
+    problem: "Struktura submobjectów Tex nie odpowiada stabilnie fragmentom tekstu, szczególnie we wzorach zawierających konstrukcje takie jak ułamki."
+    zamiast: "Zakładanie stałych indeksów glifów albo poleganie wyłącznie na łańcuchu źródłowym LaTeX."
+    kiedy: "Gdy wszystkie wizualne wystąpienia symbolu trzeba zaznaczyć, pokolorować lub animować niezależnie od struktury LaTeX."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: "3bbe8e0c-Finding sub-texts by shape in manim/00README.md", line: 3}
+    przenosnosc: "wysoka"
+
+  - id: "symbol-we-wszystkich-stylach"
+    nazwa: "all_sizes_symbol"
+    problem: "Ten sam symbol ma odmienne kontury w tekście głównym, indeksach, wykładnikach i granicach operatorów."
+    zamiast: "Szukanie jednego renderingu symbolu i pomijanie jego mniejszych wariantów typograficznych."
+    kiedy: "Gdy operacja ma objąć symbol bez względu na jego styl matematyczny i rozmiar."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: "3bbe8e0c-Finding sub-texts by shape in manim/00README.md", line: 28}
+    przenosnosc: "wysoka"
+
+  - id: "deklaratywne-kolorowanie-wzoru"
+    nazwa: "colorize_similar_tex"
+    problem: "Powtarzane ręczne wyszukiwanie i kolorowanie wielu symboli zaśmieca kod sceny."
+    zamiast: "Osobne selekcje indeksów i wywołania set_color dla każdego rodzaju symbolu."
+    kiedy: "Gdy wzór ma spójny słownik znaczeń wizualnych opisany mapą symbol–kolor."
+    dotyczy_bolaczki: "przeksztalcanie-wzorow"
+    zrodlo: {file: "3bbe8e0c-Finding sub-texts by shape in manim/00README.md", line: 33}
+    przenosnosc: "wysoka"
+
+  - id: "tekst-dopasowany-do-pudla"
+    nazwa: "create_textbox"
+    problem: "Tekst o zmiennej długości może przekroczyć wysokość ramki albo po przeskalowaniu łamać się w niewłaściwych miejscach."
+    zamiast: "Dobieranie font_size i szerokości minipage osobno dla każdej treści metodą prób i błędów."
+    kiedy: "Gdy wiele tekstów o nieznanej długości ma mieścić się w ramkach o zadanym rozmiarze."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: "3a349b2f-Text box for manim/manim_textbox.py", line: 13}
+    przenosnosc: "wysoka"
+
+  - id: "wspolny-padding-ramki"
+    nazwa: "buff w create_textbox"
+    problem: "Odstęp tekstu od ramki łatwo rozjeżdża się między obliczeniem dostępnego miejsca a końcowym pozycjonowaniem."
+    zamiast: "Używanie osobnych, ręcznie dobranych marginesów do zawijania, skalowania i ustawiania tekstu."
+    kiedy: "Gdy jeden parametr ma konsekwentnie sterować wewnętrznym marginesem całego komponentu tekstowego."
+    dotyczy_bolaczki: "buff"
+    zrodlo: {file: "3a349b2f-Text box for manim/manim_textbox.py", line: 1}
+    przenosnosc: "wysoka"
+
+  - id: "listy-skladane-przez-latex"
+    nazwa: "LatexItems"
+    problem: "BulletedList nie zapewnia pełnej typografii LaTeX, kontrolowanej szerokości akapitów ani łatwej zmiany rodzaju listy."
+    zamiast: "Ręczne ustawianie punktorów i osobnych obiektów Tex przy każdym elemencie."
+    kiedy: "Gdy slajd zawiera zawijane listy itemize, enumerate lub description o spójnej typografii."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: "475577ef-Latex items environment/latex_items.py", line: 1}
+    przenosnosc: "wysoka"
+
+  - id: "przekazywanie-opcji-wrappera"
+    nazwa: "kwargs forwarding"
+    problem: "Specjalizowany wrapper wokół obiektu Manima może wymagać ciągłego rozszerzania sygnatury przy każdej nowej opcji klasy bazowej."
+    zamiast: "Kopiowanie do wrappera wszystkich parametrów Tex i ręczne przekazywanie każdego z nich."
+    kiedy: "Gdy pomocnicza klasa ustala kilka własnych reguł, ale powinna zachować pozostałe możliwości konfiguracji klasy bazowej."
+    dotyczy_bolaczki: "przekazywanie-parametrow"
+    zrodlo: {file: "475577ef-Latex items environment/latex_items.py", line: 13}
+    przenosnosc: "wysoka"
+
+  - id: "wyszukiwanie-w-wyswietlanym-kodzie"
+    nazwa: "find_in_code"
+    problem: "Indeksy widocznych glifów Code nie wynikają wprost z indeksów tekstu z powodu niewidocznych znaków, wcięć i numeracji linii."
+    zamiast: "Ręczne wskazywanie zakresów code.code i poprawianie ich po każdej zmianie źródła."
+    kiedy: "Gdy fragmenty prezentowanego kodu mają być automatycznie podświetlane lub animowane według wyszukiwanego tekstu."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "b1e49ff6-Code utilities/00README.md", line: 7}
+    przenosnosc: "wysoka"
+
+  - id: "interpolacja-od-stanu-poczatkowego"
+    nazwa: "starting_mobject"
+    problem: "Animacja liczona przyrostowo od poprzedniej klatki psuje się, gdy rate_func cofa alpha albo wielokrotnie odwiedza ten sam stan."
+    zamiast: "Modyfikowanie bieżącego mobjectu na podstawie rezultatu poprzedniej klatki."
+    kiedy: "Gdy własna animacja ma obsługiwać rate functions typu there-and-back lub inny niemonotoniczny przebieg."
+    dotyczy_bolaczki: "reset"
+    zrodlo: {file: "4537d5f2-How Animation works _more or less_/Animations.md", line: 6}
+    przenosnosc: "wysoka"
+
+  - id: "niestandardowa-animacja-jako-transform"
+    nazwa: "Transform z create_target"
+    problem: "Pisanie pełnego cyklu własnej Animation jest niepotrzebnie trudne, gdy efekt da się opisać wyłącznie stanem docelowym."
+    zamiast: "Implementowanie od zera begin, interpolacji, finish i sprzątania sceny."
+    kiedy: "Gdy nowy efekt jest morfowaniem istniejącego obiektu do łatwego do skonstruowania celu."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "4537d5f2-How Animation works _more or less_/Animations.md", line: 29}
+    przenosnosc: "wysoka"
+
+  - id: "transformacja-wedlug-tozsamosci"
+    nazwa: "Transform versus ReplacementTransform versus TransformFromCopy"
+    problem: "Podobnie wyglądające transformacje pozostawiają po zakończeniu różne obiekty, co może zerwać późniejsze odwołania i animacje."
+    zamiast: "Wybieranie wariantu transformacji wyłącznie po wyglądzie przejścia i odkrywanie później, że w scenie pozostał niewłaściwy mobject."
+    kiedy: "Gdy po przemianie istotne jest, czy zachować obiekt źródłowy, zastąpić go docelowym, czy animować kopię."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "a18ee1f7-Manim_s transforms/Transforms.md", line: 1}
+    przenosnosc: "wysoka"
+
+  - id: "globalny-jasny-motyw"
+    nazwa: "Light theme for manim"
+    problem: "Zmiana tła na jasne pozostawia wiele domyślnie białych obiektów niewidocznych i wymaga konsekwentnej korekty całej sceny."
+    zamiast: "Ustawianie koloru każdego tekstu, kształtu, osi i dekoracji przy każdym utworzeniu obiektu."
+    kiedy: "Gdy cały film lub projekt ma używać jasnego tła i jednolitych kontrastowych domyślnych stylów."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "353b9a2c-Light theme for manim/ligth_theme.py", line: 8}
+    przenosnosc: "wysoka"
+
+  - id: "poziomy-wykres-slupkowy"
+    nazwa: "LandscapeBarChart"
+    problem: "Standardowy pionowy wykres słupkowy słabo mieści długie nazwy kategorii i nie daje gotowej obsługi słupków biegnących w lewo oraz w prawo."
+    zamiast: "Ręczne obracanie gotowego wykresu, a potem osobne prostowanie etykiet, liczb i położeń dla wartości ujemnych."
+    kiedy: "Gdy kategorie powinny leżeć na osi pionowej, a wartości rozwijać słupki poziomo."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: "e41aa1f1-Landscape barchart for manim/00Example.md", line: 9}
+    przenosnosc: "srednia"
+
+  - id: "geometria-w-ukladzie-osi"
+    nazwa: "phantom_axes"
+    problem: "Rozmiary słupków wyliczane w jednostkach ekranu przestają odpowiadać danym po zmianie długości lub zakresu osi."
+    zamiast: "Mnożenie wartości przez ręcznie dobrany współczynnik skali prostokątów."
+    kiedy: "Gdy geometria elementów wykresu ma automatycznie podążać za konfiguracją układu współrzędnych."
+    dotyczy_bolaczki: "relacje-wielkosci"
+    zrodlo: {file: "e41aa1f1-Landscape barchart for manim/landscapebarchart.py", line: 196}
+    przenosnosc: "wysoka"
+
+  - id: "skroty-valuetrackera"
+    nazwa: "VT"
+    problem: "Sceny intensywnie korzystające z ValueTracker są zaszumione powtarzalnymi wywołaniami odczytu i animowanej zmiany wartości."
+    zamiast: "Wielokrotne zapisywanie get_value oraz animate.set_value wewnątrz krótkich wyrażeń i updaterów."
+    kiedy: "Gdy zespół akceptuje mniej oczywistą składnię operatorową w zamian za bardzo zwięzły kod trackerów."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "5115dbb6-Concise syntax for manim_s ValueTrackers/00README.md", line: 1}
+    przenosnosc: "wysoka"
+
+  - id: "grot-w-stylu-latex"
+    nazwa: "LatexTip"
+    problem: "Wbudowane groty strzałek nie pasują wizualnie do strzałek składanych krojem Computer Modern we wzorach."
+    zamiast: "Akceptowanie niespójnego grotu trójkątnego lub rysowanie i skalowanie własnego SVG przy każdej strzałce."
+    kiedy: "Gdy diagram i zapis matematyczny powinny używać identycznego stylu grotów."
+    dotyczy_bolaczki: null
+    zrodlo: {file: "c096930d-New LatexTip for latex-style arrows/00README.md", line: 3}
+    przenosnosc: "wysoka"

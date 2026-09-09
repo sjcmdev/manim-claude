@@ -1,0 +1,179 @@
+observations:
+  - id: wspolne-centrum
+    topic: dekompozycja
+    rule: "Wydzielaj wspólne obliczenia, generatory zapisu i bazową scenę do modułu pomocniczego, a pliki filmu niech definiują konkretne ujęcia."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 6}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 258}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 2}
+      - {source: _2022/quintic, file: cubic.py, line: 2}
+    confidence: high
+    applies_to: "Gdy kilka scen korzysta z tych samych obliczeń, układów lub relacji między obiektami."
+
+  - id: warianty-przez-dziedziczenie
+    topic: dekompozycja
+    rule: "Twórz warianty ujęcia przez dziedziczenie i zmianę parametrów lub wybranych metod zamiast kopiować cały konstruktor."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 715}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 853}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1518}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1548}
+    confidence: high
+    applies_to: "Gdy sceny różnią się stopniem wielomianu, konfiguracją płaszczyzn albo pojedynczym etapem konstrukcji."
+
+  - id: parametryzowane-generatory-tex
+    topic: ponowne-uzycie
+    rule: "Parametryzuj generatory napisów przez dane, kolory i warianty układu zamiast powielać literalne wzory w scenach."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 97}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 111}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 147}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 182}
+    confidence: high
+    applies_to: "Gdy ten sam zapis matematyczny występuje dla różnych korzeni, współczynników lub stopni."
+
+  - id: jawne-przelaczanie-zaleznosci
+    topic: stan-i-updatery
+    rule: "Przełączaj kierunek zależności między obiektami przez jawne metody, które najpierw czyszczą stare updatery, a potem włączają tylko nowy kierunek."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 457}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 471}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 573}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 665}
+    confidence: high
+    applies_to: "Gdy użytkownik lub animacja może sterować naprzemiennie dwiema reprezentacjami tego samego stanu."
+
+  - id: stan-z-pozycji-obiektow
+    topic: stan-i-updatery
+    rule: "Trzymaj bieżący stan modelu w położeniach obiektów i odczytuj go przez gettery, zamiast utrzymywać drugą ręcznie synchronizowaną kopię."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 445}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 451}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 465}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 479}
+    confidence: high
+    applies_to: "Gdy obiekty sceny są jednocześnie wizualizacją i interaktywnym nośnikiem danych."
+
+  - id: value-tracker-dla-parametru
+    topic: stan-i-updatery
+    rule: "Przechowuj parametry zmieniane animacją w ValueTrackerze, a wykresy i punkty wyprowadzaj z jego bieżącej wartości w updaterach."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1044}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1047}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1052}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1087}
+    confidence: high
+    applies_to: "Gdy jeden wektor lub parametr steruje kilkoma zależnymi elementami kadru."
+
+  - id: stabilne-dopasowanie-wynikow
+    topic: stan-i-updatery
+    rule: "Przy wielowartościowym wyniku dopasowuj nowe punkty do poprzednich pozycji i udostępniaj przełącznik między ruchem ciągłym a przypisaniem indeksowym."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 62}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 78}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 482}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 792}
+    confidence: high
+    applies_to: "Gdy kolejność wyników numerycznych może zmieniać się podczas animacji."
+
+  - id: ukladaj-grupy-relacyjnie
+    topic: kompozycja
+    rule: "Buduj logiczne bloki jako grupy i układaj je metodami relacyjnymi, takimi jak arrange, next_to i to_edge, zamiast pozycjonować każdy element niezależnie."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 310}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 318}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 28}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 422}
+    confidence: high
+    applies_to: "Gdy kilka napisów, wykresów lub adnotacji tworzy jeden stabilny blok kadru."
+
+  - id: atrybuty-dla-etapow
+    topic: kompozycja
+    rule: "Zapisuj elementy, które będą później animowane, wygaszane lub aktualizowane, w nazwanych atrybutach sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 356}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 360}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 866}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 902}
+    confidence: high
+    applies_to: "Gdy konstrukcja sceny ma kilka następujących po sobie etapów korzystających z tych samych obiektów."
+
+  - id: czas-parametryzowany
+    topic: czas-i-tempo
+    rule: "Parametryzuj czas powtarzalnych operacji przez argumenty helperów lub wspólne słowniki ustawień, a dla list zależnych od rozmiaru skaluj run_time ich długością."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 600}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 611}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 916}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 439}
+    confidence: high
+    applies_to: "Gdy ten sam rodzaj animacji jest wykonywany dla różnej liczby elementów lub w kilku scenach."
+
+  - id: obliczenia-poza-konstrukcja-kadru
+    topic: dane-a-obraz
+    rule: "Trzymaj funkcje numeryczne poza sceną i przekazuj ich wyniki do wykresów, płaszczyzn oraz updaterów."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 6}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 36}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 54}
+      - {source: _2022/quintic, file: cubic.py, line: 164}
+    confidence: high
+    applies_to: "Gdy wynik obliczenia ma więcej niż jednego konsumenta wizualnego."
+
+  - id: obliczenia-w-updaterze
+    topic: dane-a-obraz
+    rule: "Dla danych zależnych od animowanego stanu licz wynik wewnątrz updatera lub always_redraw, a nie tylko przed rozpoczęciem animacji."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 853}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 879}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 1047}
+      - {source: _2022/quintic, file: cubic.py, line: 237}
+    confidence: high
+    applies_to: "Gdy parametr źródłowy zmienia się podczas jawnej animacji albo interakcji."
+
+  - id: nie-zostawiaj-stubow
+    topic: anty-wzorce
+    rule: "Nie zostawiaj pustych konstruktorów i niezaimplementowanych generatorów w module przeznaczonym do renderowania scen."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 7}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 12}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 992}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 251}
+    confidence: high
+    applies_to: "Gdy plik jest traktowany jako źródło finalnych scen, a nie jako jawnie oznaczony szkic eksperymentalny."
+
+  - id: unikaj-pustych-updaterow
+    topic: anty-wzorce
+    rule: "Nie utrzymuj zależności przez pusty updater będący obejściem; reprezentuj wymagany stan osobnym mechanizmem."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 825}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 827}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 829}
+    confidence: high
+    applies_to: "Gdy poprawność aktualizacji zależy od sztucznego utrzymywania obiektu na liście aktywnych updaterów."
+
+  - id: nie-uzalezniaj-logiki-od-indeksow-tex
+    topic: anty-wzorce
+    rule: "Nie opieraj logiki sceny na kruchych indeksach fragmentów TeX; izoluj mapowanie semantycznych części w helperach."
+    falsifiable: true
+    evidence:
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 116}
+      - {source: _2022/quintic, file: polynomial_baisics.py, line: 128}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 395}
+      - {source: _2022/quintic, file: roots_and_coefs.py, line: 398}
+    confidence: high
+    applies_to: "Gdy animacja musi wybierać symbole lub termy z wieloczęściowego napisu matematycznego."

@@ -1,0 +1,167 @@
+observations:
+  - id: baza-i-warianty
+    topic: dekompozycja
+    rule: 'Umieszczaj wspólny przebieg ujęcia w klasie bazowej, a warianty definiuj przez dziedziczenie oraz małe nadpisania parametrów, funkcji danych lub construct.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 1018}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1508}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 276}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 457}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy kilka scen używa tego samego układu obiektów i różni się funkcją, danymi lub tempem.'
+
+  - id: stan-w-setup
+    topic: stan-i-updatery
+    rule: 'Buduj współdzielony stan sceny w setup() i zapisuj go na self, aby construct() oraz klasy potomne operowały na tych samych obiektach.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 1043}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1050}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 283}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 288}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy kilka etapów sceny lub podklas potrzebuje tych samych osi, wykresów albo trackerów.'
+
+  - id: tracker-jako-zrodlo-stanu
+    topic: stan-i-updatery
+    rule: 'Trzymaj zmienny parametr ujęcia w ValueTracker, wyprowadzaj z niego zależne obiekty przez updatery lub always_redraw i animuj sam tracker.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 95}
+      - {source: _2023/convolutions2, file: continuous.py, line: 165}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1305}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 286}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 426}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy jedna wartość steruje jednocześnie położeniem, etykietą i geometrią.'
+
+  - id: odlaczanie-updaterow
+    topic: stan-i-updatery
+    rule: 'Przed zamianą obiektu sterowanego updaterem w niezależny snapshot skopiuj go i wyczyść jego updatery.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 1859}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1457}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 113}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 928}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy obiekt ma przestać reagować na bieżący parametr sceny i zostać użyty w zwykłej animacji.'
+
+  - id: fabryki-powtarzalnych-elementow
+    topic: ponowne-uzycie
+    rule: 'Wyodrębniaj parametryzowane fabryki dla powtarzalnych elementów i przekazuj do nich dane oraz warianty stylu zamiast powielać pętle budujące.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: dice.py, line: 11}
+      - {source: _2023/convolutions2, file: dice.py, line: 109}
+      - {source: _2023/convolutions2, file: dice.py, line: 722}
+      - {source: _2023/convolutions2, file: dice.py, line: 1273}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy ten sam typ obiektu występuje w kilku scenach z innymi danymi, kolorami lub etykietami.'
+
+  - id: osobne-haki-na-dane
+    topic: dane-a-obraz
+    rule: 'Oddziel algorytm animacji od danych wejściowych przez metody dostarczające osie, funkcje i próbki, które sceny potomne mogą wymieniać bez zmiany pętli animacji.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 375}
+      - {source: _2023/convolutions2, file: continuous.py, line: 504}
+      - {source: _2023/convolutions2, file: continuous.py, line: 741}
+      - {source: _2023/convolutions2, file: continuous.py, line: 859}
+      - {source: _2023/convolutions2, file: continuous.py, line: 928}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy ten sam sposób pokazywania próbek ma obsługiwać różne rozkłady lub funkcje.'
+
+  - id: stabilna-hierarchia-grup
+    topic: kompozycja
+    rule: 'Pakuj obiekt, jego etykiety i elementy pomocnicze w stabilną grupę oraz udostępniaj części funkcjonalne przez nazwane pola.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: dice.py, line: 33}
+      - {source: _2023/convolutions2, file: continuous.py, line: 402}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1050}
+      - {source: _2023/convolutions2, file: diagonal_slices.py, line: 386}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy elementy muszą być wspólnie przesuwane, kopiowane, wygaszane lub aktualizowane.'
+
+  - id: uklad-wzgledem-obiektow
+    topic: kompozycja
+    rule: 'Układaj rodzeństwo przez arrange lub arrange_in_grid, zakotwiczaj gotowe grupy przy krawędzi albo narożniku, a etykiety pozycjonuj przez next_to.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 266}
+      - {source: _2023/convolutions2, file: continuous.py, line: 375}
+      - {source: _2023/convolutions2, file: dice.py, line: 114}
+      - {source: _2023/convolutions2, file: gauss_example_supplements.py, line: 741}
+    confidence: high
+    applies_to: 'Obowiązuje dla standardowego układu osi, wykresów, etykiet i tabel, które mają zachować relacje przy zmianie rozmiaru.'
+
+  - id: czas-jako-parametr-klasy
+    topic: czas-i-tempo
+    rule: 'Centralizuj czasy powtarzalnych przejść w atrybutach klas albo sekwencjach par parametr-czas i odczytuj je w bazowej pętli animacji.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 1569}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1581}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1824}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1925}
+      - {source: _2023/convolutions2, file: continuous.py, line: 2109}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy kilka wariantów sceny wykonuje tę samą sekwencję ruchów z innym tempem.'
+
+  - id: obliczenia-przed-geometria
+    topic: dane-a-obraz
+    rule: 'Przygotuj siatkę próbek i obliczenia numeryczne przed budową ścieżki, a do obiektu graficznego przekazuj gotowe wartości.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 20}
+      - {source: _2023/convolutions2, file: continuous.py, line: 23}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1839}
+      - {source: _2023/convolutions2, file: continuous.py, line: 2036}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy wykres lub powierzchnia jest wynikiem próbkowania albo splotu numerycznego.'
+
+  - id: przekazywanie-wyniku-iteracji
+    topic: dane-a-obraz
+    rule: 'W iteracyjnej wizualizacji zachowuj wynik poprzedniej iteracji w tablicy i używaj go jako wejścia następnej.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 1896}
+      - {source: _2023/convolutions2, file: continuous.py, line: 1906}
+      - {source: _2023/convolutions2, file: continuous.py, line: 2032}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy scena pokazuje wielokrotne zastosowanie tej samej operacji numerycznej.'
+
+  - id: absolutne-sciezki-zasobow
+    topic: anty-wzorce
+    rule: 'Nie odwołuj się do zasobów przez absolutną ścieżkę lokalnego komputera; używaj ścieżki względnej albo konfigurowalnego korzenia.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 253}
+      - {source: _2023/convolutions2, file: gauss_example_supplements.py, line: 172}
+      - {source: _2023/convolutions2, file: gauss_example_supplements.py, line: 1170}
+    confidence: high
+    applies_to: 'Obowiązuje dla obrazów, SVG i innych zasobów ładowanych podczas renderowania.'
+
+  - id: usuwanie-pozostalosci-roboczych
+    topic: anty-wzorce
+    rule: 'Usuń niezamknięte znaczniki testowe, hacki, TODO oraz komentarze o skopiowanym kodzie przed udostępnieniem modułu jako wzorca.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: continuous.py, line: 27}
+      - {source: _2023/convolutions2, file: continuous.py, line: 886}
+      - {source: _2023/convolutions2, file: continuous.py, line: 2315}
+      - {source: _2023/convolutions2, file: dice.py, line: 1402}
+    confidence: high
+    applies_to: 'Obowiązuje, gdy katalog ma służyć jako przenośny materiał referencyjny, a nie jako prywatny szkic produkcyjny.'
+
+  - id: puste-sceny
+    topic: anty-wzorce
+    rule: 'Usuń puste klasy Scene z katalogu produkcyjnego albo uzupełnij ich construct.'
+    falsifiable: true
+    evidence:
+      - {source: _2023/convolutions2, file: supplements.py, line: 76}
+      - {source: _2023/convolutions2, file: supplements.py, line: 78}
+    confidence: high
+    applies_to: 'Obowiązuje dla klas, które nie dziedziczą zachowania realizującego scenę i nie zawierają żadnej konstrukcji.'

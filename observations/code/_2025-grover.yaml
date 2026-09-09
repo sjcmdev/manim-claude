@@ -1,0 +1,215 @@
+observations:
+  - id: sceny-na-ujecia
+    topic: dekompozycja
+    rule: "Wydzielaj każde samodzielne ujęcie jako osobną klasę sceny."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: qc_supplements.py, line: 152}
+      - {source: _2025/grover, file: runtime.py, line: 6}
+      - {source: _2025/grover, file: clarification.py, line: 164}
+      - {source: _2025/grover, file: state_vectors.py, line: 422}
+    confidence: high
+    applies_to: "Obowiązuje, gdy fragment ma być renderowany lub montowany niezależnie."
+
+  - id: fabryki-motywow
+    topic: ponowne-uzycie
+    rule: "Wyciągaj powtarzalne motywy wizualne do parametryzowanych fabryk."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: qc_supplements.py, line: 5}
+      - {source: _2025/grover, file: qc_supplements.py, line: 25}
+      - {source: _2025/grover, file: runtime.py, line: 76}
+      - {source: _2025/grover, file: state_vectors.py, line: 1367}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ten sam symbol lub obiekt pojawia się w więcej niż jednym ujęciu."
+
+  - id: warianty-przez-dziedziczenie
+    topic: ponowne-uzycie
+    rule: "Twórz warianty scen przez dziedziczenie i nadpisuj tylko parametry różnicujące przebieg."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: runtime.py, line: 411}
+      - {source: _2025/grover, file: runtime.py, line: 454}
+      - {source: _2025/grover, file: runtime.py, line: 466}
+      - {source: _2025/grover, file: state_vectors.py, line: 482}
+    confidence: high
+    applies_to: "Obowiązuje, gdy kilka ujęć ma identyczną konstrukcję, lecz inne wartości lub tempo."
+
+  - id: stan-grupy-superpozycji
+    topic: stan-i-updatery
+    rule: "Opakowuj rozproszone kopie w grupę przechowującą punkty odniesienia, tracker stanu i jeden updater."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: qc_supplements.py, line: 72}
+      - {source: _2025/grover, file: qc_supplements.py, line: 83}
+      - {source: _2025/grover, file: qc_supplements.py, line: 104}
+      - {source: _2025/grover, file: qc_supplements.py, line: 106}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wiele elementów ma wspólnie zmieniać położenie i wygląd."
+
+  - id: tracker-jako-zrodlo-prawdy
+    topic: stan-i-updatery
+    rule: "Trzymaj zmienną sterującą w ValueTrackerze i wyprowadzaj z niej wszystkie zależne obiekty."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: polarization.py, line: 15}
+      - {source: _2025/grover, file: polarization.py, line: 69}
+      - {source: _2025/grover, file: state_vectors.py, line: 1488}
+      - {source: _2025/grover, file: state_vectors.py, line: 2366}
+      - {source: _2025/grover, file: runtime.py, line: 582}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedna wartość steruje równocześnie geometrią, tekstem lub kolorem."
+
+  - id: kontrola-updaterow
+    topic: stan-i-updatery
+    rule: "Zawieszaj lub czyść updatery przed jawnym przekształceniem obiektu i wznawiaj je po zakończeniu."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: polarization.py, line: 114}
+      - {source: _2025/grover, file: polarization.py, line: 135}
+      - {source: _2025/grover, file: state_vectors.py, line: 1541}
+      - {source: _2025/grover, file: state_vectors.py, line: 1590}
+      - {source: _2025/grover, file: state_vectors.py, line: 1771}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt z aktywnym updaterem ma chwilowo podążać za ręczną animacją."
+
+  - id: zachowanie-stanu
+    topic: stan-i-updatery
+    rule: "Zapisuj stan przed tymczasowym przestawieniem obiektu i przywracaj go zamiast odtwarzać układ ręcznie."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: runtime.py, line: 28}
+      - {source: _2025/grover, file: qc_supplements.py, line: 849}
+      - {source: _2025/grover, file: state_vectors.py, line: 326}
+      - {source: _2025/grover, file: state_vectors.py, line: 1232}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt po przejściu objaśniającym ma wrócić do wcześniejszej kompozycji."
+
+  - id: kotwice-kompozycji
+    topic: kompozycja
+    rule: "Pozycjonuj napisy, znaczniki, strzałki i paski względem obiektów kotwiczących zamiast wpisywać ich współrzędne."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: runtime.py, line: 129}
+      - {source: _2025/grover, file: runtime.py, line: 134}
+      - {source: _2025/grover, file: state_vectors.py, line: 975}
+      - {source: _2025/grover, file: clarification.py, line: 293}
+    confidence: high
+    applies_to: "Obowiązuje dla etykiet i elementów zależnych od rozmiaru lub położenia głównego obiektu."
+
+  - id: hierarchia-kompozycji
+    topic: kompozycja
+    rule: "Grupuj logicznie połączone elementy przed animowaniem ich wspólnej transformacji."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 585}
+      - {source: _2025/grover, file: runtime.py, line: 481}
+      - {source: _2025/grover, file: state_vectors.py, line: 1773}
+    confidence: high
+    applies_to: "Obowiązuje, gdy obiekt, etykieta i oznaczenie mają zachować wzajemne położenie."
+
+  - id: hud-w-3d
+    topic: kompozycja
+    rule: "Unieruchamiaj tekst i panele objaśniające w kadrze podczas ruchu kamery 3D."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: polarization.py, line: 57}
+      - {source: _2025/grover, file: polarization.py, line: 138}
+      - {source: _2025/grover, file: state_vectors.py, line: 2081}
+      - {source: _2025/grover, file: state_vectors.py, line: 2094}
+    confidence: high
+    applies_to: "Obowiązuje dla elementów interfejsu i etykiet, które mają pozostać czytelne niezależnie od reorientacji kamery."
+
+  - id: parametryzowane-tempo
+    topic: czas-i-tempo
+    rule: "Parametryzuj tempo powtarzanej procedury jednym argumentem lub stałą klasową."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: polarization.py, line: 18}
+      - {source: _2025/grover, file: runtime.py, line: 411}
+      - {source: _2025/grover, file: runtime.py, line: 413}
+      - {source: _2025/grover, file: state_vectors.py, line: 2232}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ta sama operacja jest wykonywana wielokrotnie z różnym czasem trwania."
+
+  - id: dane-zrodlo-obrazu
+    topic: dane-a-obraz
+    rule: "Trzymaj źródłowe tablice liczbowe przy scenie i z nich wyprowadzaj jednocześnie geometrię oraz etykiety."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: runtime.py, line: 107}
+      - {source: _2025/grover, file: runtime.py, line: 117}
+      - {source: _2025/grover, file: state_vectors.py, line: 639}
+      - {source: _2025/grover, file: state_vectors.py, line: 945}
+    confidence: high
+    applies_to: "Obowiązuje, gdy jedna reprezentacja danych zasila kilka warstw obrazu."
+
+  - id: updater-danych-pochodnych
+    topic: dane-a-obraz
+    rule: "Podpinaj obiekty pochodne, takie jak tekst wynikowy lub paski, bezpośrednio do animowanej wartości przez updater."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: runtime.py, line: 1030}
+      - {source: _2025/grover, file: runtime.py, line: 1045}
+      - {source: _2025/grover, file: state_vectors.py, line: 1541}
+      - {source: _2025/grover, file: state_vectors.py, line: 1553}
+      - {source: _2025/grover, file: state_vectors.py, line: 3005}
+    confidence: high
+    applies_to: "Obowiązuje, gdy wynik wizualny musi zmieniać się płynnie wraz z obliczaną wartością."
+
+  - id: transformacja-reprezentacji
+    topic: ponowne-uzycie
+    rule: "Przenoś informację między reprezentacjami przez kopie źródłowych obiektów zamiast tworzyć niezależne elementy bez powiązania."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 328}
+      - {source: _2025/grover, file: runtime.py, line: 1143}
+      - {source: _2025/grover, file: state_vectors.py, line: 201}
+    confidence: high
+    applies_to: "Obowiązuje, gdy ta sama informacja przechodzi między zapisem symbolicznym, geometrycznym i tekstowym."
+
+  - id: usuwanie-kodu-martwego
+    topic: anty-wzorce
+    rule: "Usuwaj nieaktywne bloki warunkowe oraz kod znajdujący się po bezwarunkowym return."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: state_vectors.py, line: 680}
+      - {source: _2025/grover, file: state_vectors.py, line: 1132}
+      - {source: _2025/grover, file: state_vectors.py, line: 1661}
+      - {source: _2025/grover, file: state_vectors.py, line: 2660}
+      - {source: _2025/grover, file: qc_supplements.py, line: 1502}
+    confidence: high
+    applies_to: "Obowiązuje przed przekazaniem sceny do renderowania lub dalszego montażu."
+
+  - id: przenosnosc-zasobow
+    topic: anty-wzorce
+    rule: "Nie wiąż sceny z absolutną ścieżką do zasobów zewnętrznych."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: clarification.py, line: 128}
+      - {source: _2025/grover, file: clarification.py, line: 131}
+    confidence: high
+    applies_to: "Obowiązuje dla obrazów, komentarzy i innych plików używanych podczas renderu."
+
+  - id: zgodnosc-parametrow-fabryk
+    topic: anty-wzorce
+    rule: "Nie deklaruj parametrów wyglądu, których fabryka obiektu nie wykorzystuje."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: qc_supplements.py, line: 5}
+      - {source: _2025/grover, file: qc_supplements.py, line: 21}
+      - {source: _2025/grover, file: qc_supplements.py, line: 53}
+    confidence: high
+    applies_to: "Obowiązuje dla współdzielonych konstruktorów, których wywołania mają sterować stylem wyniku."
+
+  - id: acykliczne-zaleznosci
+    topic: anty-wzorce
+    rule: "Utrzymuj zależności między plikami pomocniczymi acykliczne."
+    falsifiable: true
+    evidence:
+      - {source: _2025/grover, file: qc_supplements.py, line: 2}
+      - {source: _2025/grover, file: state_vectors.py, line: 2}
+      - {source: _2025/grover, file: clarification.py, line: 2}
+      - {source: _2025/grover, file: runtime.py, line: 2}
+    confidence: medium
+    applies_to: "Obowiązuje, gdy pliki współdzielą obiekty i klasy bazowe używane przez wiele scen."

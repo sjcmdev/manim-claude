@@ -1,0 +1,152 @@
+observations:
+  - id: wspolna-warstwa-sceny
+    topic: dekompozycja
+    rule: "Wydzielaj wspólną geometrię, obliczenia i animacje do helperów modułowych lub metod klasy bazowej, a w scenach zostawiaj głównie sekwencję ujęć."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 17}
+      - {source: _2023/clt, file: main.py, line: 541}
+      - {source: _2023/clt, file: galton_board.py, line: 205}
+    confidence: high
+    applies_to: "Stosuj, gdy kilka scen używa tej samej geometrii lub transformacji."
+
+  - id: warianty-przez-dziedziczenie
+    topic: ponowne-uzycie
+    rule: "Twórz warianty scen przez dziedziczenie i nadpisywanie atrybutów konfiguracyjnych zamiast kopiowania całego construct."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: dice_sims.py, line: 225}
+      - {source: _2023/clt, file: galton_board.py, line: 422}
+      - {source: _2023/clt, file: main.py, line: 811}
+    confidence: high
+    applies_to: "Stosuj, gdy wariant różni się parametrami, rozkładem lub finałowym montażem."
+
+  - id: stan-w-setup
+    topic: stan-i-updatery
+    rule: "Inicjalizuj szablony i stan współdzielony między etapami w setup, a sekwencję animacji prowadź w construct."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: dice_sims.py, line: 21}
+      - {source: _2023/clt, file: galton_board.py, line: 25}
+    confidence: high
+    applies_to: "Stosuj, gdy obiekt lub kolekcja ma być używana przez wiele etapów sceny."
+
+  - id: tracker-dla-zaleznosci
+    topic: stan-i-updatery
+    rule: "Steruj zależnymi elementami przez wspólny ValueTracker i updatery, a animuj wartość trackera zamiast ręcznie synchronizować każdy element."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 1199}
+      - {source: _2023/clt, file: main.py, line: 1727}
+      - {source: _2023/clt, file: wordy_scenes.py, line: 880}
+    confidence: high
+    applies_to: "Stosuj, gdy położenie wykresu, etykiety i oznaczeń zależy od jednej zmiennej."
+
+  - id: granice-updaterow
+    topic: stan-i-updatery
+    rule: "Wyłączaj lub wstrzymuj updatery przed zmianą reprezentacji obiektu, a po zakończeniu transformacji uruchamiaj je ponownie."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 1280}
+      - {source: _2023/clt, file: main.py, line: 1677}
+      - {source: _2023/clt, file: main.py, line: 1712}
+    confidence: high
+    applies_to: "Stosuj, gdy obiekt przechodzi między trybem dynamicznym a jawną transformacją."
+
+  - id: pozycja-z-danych
+    topic: kompozycja
+    rule: "Wyliczaj pozycje elementów zależnych od danych przez układ współrzędnych osi i wymiary obiektów, zamiast wpisywać współrzędne kadru na sztywno."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 43}
+      - {source: _2023/clt, file: main.py, line: 628}
+      - {source: _2023/clt, file: galton_board.py, line: 334}
+    confidence: high
+    applies_to: "Stosuj, gdy położenie zależy od wartości rozkładu, długości ścieżki lub geometrii osi."
+
+  - id: relacyjne-ukladanie
+    topic: kompozycja
+    rule: "Buduj układ tekstów i powtarzalnych obiektów przez arrange, next_to i align_to względem istniejących kotwic."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 504}
+      - {source: _2023/clt, file: wordy_scenes.py, line: 960}
+      - {source: _2023/clt, file: dice_sims.py, line: 128}
+    confidence: high
+    applies_to: "Stosuj, gdy elementy mają zachować wzajemne odstępy po zmianie rozmiaru lub zawartości."
+
+  - id: dane-przez-fabryki-wykresow
+    topic: dane-a-obraz
+    rule: "Trzymaj rozkłady w strukturach numerycznych i przekazuj je do wspólnych fabryk wykresów zamiast budować słupki osobno w każdej scenie."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 590}
+      - {source: _2023/clt, file: main.py, line: 2669}
+      - {source: _2023/clt, file: main.py, line: 2708}
+    confidence: high
+    applies_to: "Stosuj, gdy kilka ujęć pokazuje różne rozmiary próby lub różne rozkłady."
+
+  - id: czas-z-dlugosci-sciezki
+    topic: czas-i-tempo
+    rule: "Wyprowadzaj czas ruchu po ścieżce z jej długości i jednego współczynnika sceny zamiast wpisywać osobny czas dla każdej trajektorii."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: galton_board.py, line: 378}
+      - {source: _2023/clt, file: galton_board.py, line: 392}
+    confidence: high
+    applies_to: "Stosuj, gdy animowane obiekty poruszają się po ścieżkach o różnej długości."
+
+  - id: fazowanie-tempa-symulacji
+    topic: czas-i-tempo
+    rule: "Parametryzuj tempo metod symulacyjnych i przechodź od wolnych próbek do szybkich przez jawne wartości run_time i transition_time."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: dice_sims.py, line: 29}
+      - {source: _2023/clt, file: dice_sims.py, line: 123}
+      - {source: _2023/clt, file: dice_sims.py, line: 181}
+    confidence: high
+    applies_to: "Stosuj, gdy to samo zdarzenie ma najpierw być objaśnione, a potem pokazane masowo."
+
+  - id: szybkie-odswiezanie-kadru
+    topic: czas-i-tempo
+    rule: "Dla setek lub tysięcy kroków odświeżaj stan bez pełnej animacji i używaj krótkiego wait jako zegara próbkowania."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: main.py, line: 3266}
+      - {source: _2023/clt, file: main.py, line: 3045}
+      - {source: _2023/clt, file: dice_sims.py, line: 174}
+    confidence: high
+    applies_to: "Stosuj, gdy liczba iteracji jest zbyt duża na osobną animację każdej zmiany."
+
+  - id: stan-na-obiekcie-wlascicielu
+    topic: stan-i-updatery
+    rule: "Przechowuj stan semantyczny przy obiekcie, którego dotyczy, i aktualizuj go razem z kolejnymi ujęciami."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: galton_board.py, line: 252}
+      - {source: _2023/clt, file: galton_board.py, line: 343}
+      - {source: _2023/clt, file: dice_sims.py, line: 201}
+    confidence: high
+    applies_to: "Stosuj, gdy obiekt musi pamiętać przynależność, licznik lub pozycję między kolejnymi animacjami."
+
+  - id: seed-dla-wariantow-losowych
+    topic: dane-a-obraz
+    rule: "Definiuj seed jako atrybut wariantu sceny, a lokalny seed ustawiaj tylko dla konkretnego deterministycznego batcha."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: dice_sims.py, line: 225}
+      - {source: _2023/clt, file: galton_board.py, line: 498}
+      - {source: _2023/clt, file: galton_board.py, line: 200}
+    confidence: medium
+    applies_to: "Stosuj, gdy losowe dane mają mieć różne wersje między scenami, ale powtarzalny wynik w wybranym ujęciu."
+
+  - id: usuwanie-szalu-testowego
+    topic: anty-wzorce
+    rule: "Przed uznaniem katalogu za finalny usuń zakomentowane warianty, oznaczenia Test i pozostawione TODO z kodu scen."
+    falsifiable: true
+    evidence:
+      - {source: _2023/clt, file: dice_sims.py, line: 88}
+      - {source: _2023/clt, file: wordy_scenes.py, line: 606}
+      - {source: _2023/clt, file: main.py, line: 2109}
+    confidence: high
+    applies_to: "Stosuj przed publikacją katalogu lub przeniesieniem jego wzorców do nowego filmu."
