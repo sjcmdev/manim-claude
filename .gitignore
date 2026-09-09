@@ -34,3 +34,6 @@ texts/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Pliki robocze, nietrackowane
+/local/

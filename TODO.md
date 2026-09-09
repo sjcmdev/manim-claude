@@ -50,9 +50,20 @@ Powstaje **przed** pobraniem czegokolwiek. Materiał na CC BY-NC-SA nigdy nie tr
 do drzewa projektu.
 
 - [ ] `no_3b1b_code.py` — blokada wprowadzenia materiału objętego ShareAlike
-- [ ] Katalog roboczy na materiał referencyjny poza repozytorium, wpis w `.gitignore`
+- [x] Katalog roboczy na materiał referencyjny poza repozytorium, wpis w `.gitignore`
 - [ ] Test hooka: próba zapisu fragmentu kodu źródłowego 3b1b jest odrzucana
 - [ ] Rejestracja hooka w konfiguracji Claude Code
+
+### task/25-porzadek-repo
+
+Numer poza kolejnością toru: zadanie porządkowe, wykonane po task/04, żeby repozytorium
+dało się pokazać osobie dołączającej do projektu.
+
+- [x] Katalog `research/` na analizy poboczne, ze spisem treści
+- [x] `README.md` opisujący stan faktyczny: co jest, czego nie ma, mapa repozytorium
+- [x] `observations/README.md` — pochodzenie korpusu, schemat YAML, numeracja syntez
+- [x] Odhaczenie w `TODO.md` tego, co faktycznie zrobione
+- [x] `/local/` w `.gitignore` — katalog na pliki robocze poza gitem
 
 ## Etap 1A — pierwsza biblioteka idiomów (tor A)
 
@@ -71,10 +82,14 @@ a `VERSION` wynosi 0.1.
 
 ### task/04-code-miner
 
-- [ ] Agent `code-miner` — analiza kodu scen w katalogu tymczasowym
-- [ ] Zakres: serie z roku 2022 i późniejsze
-- [ ] Warstwa wzorców projektowych i architektonicznych, nie tylko idiomy powierzchniowe
-- [ ] Wynik jako YAML obserwacji, zapisywany przez subagenta do pliku
+- [x] Agent `code-miner` — `mine_code.py`, analiza kodu w klonie poza repozytorium
+- [x] Zakres poszerzony poza plan: całość 2016–2026, bo starsze serie okazały się nośne
+- [x] Warstwa wzorców projektowych i architektonicznych, nie tylko idiomy powierzchniowe
+- [x] Wynik jako YAML obserwacji — `observations/code/`, 324 reguły z 21 serii
+- [x] Drugi przebieg tym samym skryptem, inny prompt — `observations/animation/`, 491 reguł
+- [x] Trzeci przebieg na bibliotekach społecznościowych — `observations/recipes/`, 85 technik
+- [x] Syntezy w dwóch niezależnych przebiegach plus porównania — `observations/synthesis/`
+- [ ] Domknięcie rozbieżności między syntezami; wymaga sesji z autorem
 
 ### task/05-analiza-narracji
 
