@@ -43,6 +43,9 @@ Musi być gotowe, zanim cokolwiek zostanie pobrane lub napisane.
 - [x] Zdalne repozytorium `sjcmdev/manim-claude`
 - [ ] Ochrona gałęzi `main` i `dev` na GitHubie: pull request plus zielone CI
 - [ ] `CONTRIBUTING.md` — środowisko, styl kodu, testy, ADR-y
+- [ ] Redakcja `research/` przed upublicznieniem repozytorium: transkrypty odsyłają
+      do prywatnych materiałów, a `research/peer-review/` linkuje do prywatnego
+      `AdamKrysztopa/informant-video`. Ustalić z autorem, czy odnośniki zostają
 
 ### task/02-hook-licencyjny
 
