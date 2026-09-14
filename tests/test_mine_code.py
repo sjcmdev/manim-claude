@@ -67,7 +67,8 @@ def test_miner_publishes_only_a_valid_pair(tmp_path: Path, monkeypatch) -> None:
     assert rel == "_2024/demo"
     assert status.startswith("gotowe")
     assert manifest["provenance_status"] == "generated"
-    assert manifest["data_sha256"] == hashlib.sha256(data_path.read_bytes()).hexdigest()
+    expected = hashlib.sha256(data_path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+    assert manifest["data_sha256"] == expected
     assert manifest["prompt_sha256"] == hashlib.sha256(prompt.read_bytes()).hexdigest()
     assert validator.validate_pair(data_path, manifest_path, "code") == []
 

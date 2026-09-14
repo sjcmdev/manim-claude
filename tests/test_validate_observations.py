@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 import sys
 from pathlib import Path
@@ -76,7 +75,7 @@ def write_manifest(
         "model": None,
         "effort": None,
         "generated_at": None,
-        "data_sha256": data_sha256 or hashlib.sha256(data_path.read_bytes()).hexdigest(),
+        "data_sha256": data_sha256 or sha256_file(data_path),
         "provenance_status": "legacy-unverified",
     }
     path = root / "manifests" / kind / data_path.with_suffix(".json").name
