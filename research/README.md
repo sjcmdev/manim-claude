@@ -22,6 +22,9 @@ się wiążące dopiero wtedy, gdy trafi do dokumentu projektowego albo do `deci
 | [`chat_history_learning_process_mining.md`](chat_history_learning_process_mining.md) | pomysł na wykorzystanie historii własnych rozmów jako zapisu procesu uczenia się; źródło danych o tym, gdzie powstaje nieporozumienie |
 | [`peer-review/comparison-with-informant-video.md`](peer-review/comparison-with-informant-video.md) | zestawienie z projektem `informant-video` (działający pipeline z artykułu do wideo): co każdy z projektów robi lepiej, z odnośnikami do konkretnych plików |
 | [`peer-review/peer-review-manim-claude.md`](peer-review/peer-review-manim-claude.md) | zewnętrzny przegląd repozytorium z listą działań do odhaczenia; każde działanie wskazuje działającą implementację w `informant-video` jako punkt odniesienia |
+| [`peer-review/ocena-peer-review.md`](peer-review/ocena-peer-review.md) | ocena obu dokumentów peer review: mocne i słabe strony, zalecenia przyjęte, odłożone i odrzucone |
+| [`analiza_konstrukcji_filmow_gpu.md`](analiza_konstrukcji_filmow_gpu.md) | pomysł: lokalna analiza na GPU filmów dostarczonych przez autorów — tempo, struktura wyjaśnienia, sprzężenie słowa z obrazem |
+| [`wielopoziomowa_analiza_3b1b.md`](wielopoziomowa_analiza_3b1b.md) | pomysł: pięć poziomów analizy filmu 3b1b, od narracji po powiązanie kodu animacji z samą animacją |
 
 Nowy plik w tym katalogu dopisujemy do tabeli powyżej. Katalog bez spisu treści
 w ciągu miesiąca staje się śmietnikiem.
