@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2022-puzzles.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "299804c3980565a594d7cd1a37cf6b0f64ea5b799032e71d37217e0e7e656c6d",
+  "provenance_status": "legacy-unverified"
+}

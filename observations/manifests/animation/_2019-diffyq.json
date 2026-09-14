@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2019-diffyq.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "9b68cf09016c06cabffe9d698dee1ba8638d28f62ba46b2114ef7efc72ec8dcd",
+  "provenance_status": "legacy-unverified"
+}

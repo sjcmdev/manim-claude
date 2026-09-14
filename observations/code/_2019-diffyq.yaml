@@ -27,7 +27,7 @@ observations:
     confidence: high
     applies_to: Obowiązuje dla scen zawierających kilka kolejnych etapów budowy lub animacji kadru.
 
-  - id: wspolne-konstrukcje
+  - id: code-2019-diffyq-wspolne-konstrukcje
     topic: ponowne-uzycie
     rule: Umieszczaj współdzielone obiekty, formuły i funkcje obliczeniowe w `shared_constructs.py` i importuj je do modułów scen.
     falsifiable: true
@@ -42,7 +42,7 @@ observations:
     confidence: high
     applies_to: Obowiązuje dla konstrukcji używanych przez co najmniej dwie sceny tego samego rozdziału.
 
-  - id: warianty-przez-dziedziczenie
+  - id: code-2019-diffyq-warianty-przez-dziedziczenie
     topic: ponowne-uzycie
     rule: Parametryzuj różnice wariantów przez `CONFIG` i dziedzicz gotowy przebieg sceny zamiast kopiować `construct`.
     falsifiable: true
@@ -145,7 +145,7 @@ observations:
     confidence: high
     applies_to: Obowiązuje, gdy późniejsza faza modyfikuje lub ponownie wykorzystuje obiekty z wcześniejszej fazy.
 
-  - id: layout-relacyjny
+  - id: code-2019-diffyq-layout-relacyjny
     topic: kompozycja
     rule: Ustalaj układ kadru relacyjnie przez `next_to`, `arrange` i `to_edge`, a ruchome etykiety dowiązuj updaterem.
     falsifiable: true

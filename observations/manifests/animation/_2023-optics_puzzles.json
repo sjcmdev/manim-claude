@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2023-optics_puzzles.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "74e887a97e15d9e2e51b9ae86b991de5278de56fc616203f71c086f6c2a86832",
+  "provenance_status": "legacy-unverified"
+}

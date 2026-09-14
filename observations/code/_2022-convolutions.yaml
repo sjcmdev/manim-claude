@@ -80,7 +80,7 @@ observations:
     confidence: high
     applies_to: "Gdy ten sam układ ma być pokazany w kilku różnych konfiguracjach w obrębie jednej sceny."
 
-  - id: layout-relacyjny
+  - id: code-2022-convolutions-layout-relacyjny
     topic: kompozycja
     rule: "Ustalaj pozycje przede wszystkim przez relacje między grupami i sąsiadami, a ręczne współrzędne rezerwuj dla zamierzonego podziału kadru."
     falsifiable: true

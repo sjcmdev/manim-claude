@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2023-clt_proof.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "105ee49d3afd0e6fe3767da65260bbf908c12dfbef34643fa8e65610c6d4e08d",
+  "provenance_status": "legacy-unverified"
+}

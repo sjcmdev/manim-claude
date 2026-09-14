@@ -1,6 +1,6 @@
 observations:
   - id: czasowy-updater-czyta-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: "W updaterze zależnym od czasu przyjmuj `dt` i wyliczaj z niego przyrost ruchu."
     falsifiable: true
     evidence:
@@ -8,8 +8,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla ruchu kamery lub obiektu wynikającego z upływu czasu."
 
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2022-convolutions-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "W updaterze sterowanym trackerem odczytuj wartość trackera przez zamknięcie i nie dodawaj parametru `dt`."
     falsifiable: true
     evidence:
@@ -19,7 +19,7 @@ observations:
     applies_to: "Obowiązuje, gdy pozycja lub widoczność obiektu zależy od `ValueTracker`."
 
   - id: updater-relacyjny-bez-stanu
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla zależności geometrycznej zapisuj w updaterze wyłącznie bieżący stan obiektu docelowego wyliczony z obiektu źródłowego."
     falsifiable: true
     evidence:
@@ -29,7 +29,7 @@ observations:
     applies_to: "Obowiązuje dla ramek, etykiet, powierzchni i innych elementów podążających za geometrią."
 
   - id: wyczysc-updatery-przed-reuzyciem
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przed użyciem obiektu jako statycznego elementu wyczyść jego aktywne updatery."
     falsifiable: true
     evidence:
@@ -144,7 +144,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje na granicy faz, gdy scena ma od razu osiągnąć gotowy stan roboczy."
 
-  - id: vgroup-z-nazwanymi-czesciami
+  - id: animation-2022-convolutions-vgroup-z-nazwanymi-czesciami
     topic: custom-mobject
     rule: "Buduj obiekt złożony jako grupę podmobjectów i wystaw jego semantyczne części przez nazwane atrybuty."
     falsifiable: true

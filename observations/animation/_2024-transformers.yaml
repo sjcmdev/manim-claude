@@ -1,6 +1,6 @@
 observations:
   - id: zegar-w-updaterze
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Trzymaj parametry per element na obiekcie i wyliczaj wygląd z `self.time`, zamiast kumulować zmianę w każdej klatce."
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: "Updatery okresowych zmian koloru, krycia lub intensywności."
 
   - id: dt-dla-przyrostu
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przyjmuj `dt` wtedy, gdy updater wykonuje przyrost kąta lub innej wielkości."
     falsifiable: true
     evidence:
@@ -19,8 +19,8 @@ observations:
     confidence: high
     applies_to: "Updatery ciągłego obrotu kamery lub obiektu."
 
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2024-transformers-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Dla zależności od trackera odczytuj bieżącą wartość źródła i ustawiaj obiekt zależny bez argumentu `dt`."
     falsifiable: true
     evidence:
@@ -30,7 +30,7 @@ observations:
     applies_to: "Updatery obliczające geometrię lub liczby z `ValueTracker` albo innych mobjectów."
 
   - id: warstwowe-updatery
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Rozdzielaj updater wartości od updatera geometrii i podpinaj je jako zależność źródło–wizualizacja."
     falsifiable: true
     evidence:
@@ -39,8 +39,8 @@ observations:
     confidence: high
     applies_to: "Wizualizacje, w których najpierw zmieniają się dane, a dopiero potem ich reprezentacja."
 
-  - id: stan-poprzedniej-klatki
-    topic: updatery
+  - id: animation-2024-transformers-stan-poprzedniej-klatki
+    topic: stan-i-updatery
     rule: "Dla iteracyjnego ruchu przechowuj stan i optymalizator poza mobjectem, aktualizuj je, a następnie przepisuj wynik do obiektu."
     falsifiable: true
     evidence:
@@ -51,7 +51,7 @@ observations:
     applies_to: "Updatery wykonujące optymalizację lub symulację zależną od poprzedniego kroku."
 
   - id: referencja-na-zrodlo
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przechowuj referencję do źródłowego mobjectu jako atrybut obiektu śledzącego."
     falsifiable: true
     evidence:
@@ -62,7 +62,7 @@ observations:
     applies_to: "Etykiety, liczby i oznaczenia, które mają podążać za innym obiektem."
 
   - id: przebudowa-always-redraw
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Używaj fabryki `always_redraw`, gdy zależny kształt ma być każdorazowo zbudowany z aktualnej geometrii źródeł."
     falsifiable: true
     evidence:
@@ -73,7 +73,7 @@ observations:
     applies_to: "Bąble, linie projekcji i inne obiekty zależne od zmiennej geometrii."
 
   - id: zawieszaj-na-transformacje
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zawieszaj updater zależnego obiektu na czas ręcznej transformacji i wznawiaj go dopiero po ustawieniu nowego stanu."
     falsifiable: true
     evidence:
@@ -202,7 +202,7 @@ observations:
     confidence: high
     applies_to: "Własnych grup złożonych z części o różnych rolach wizualnych."
 
-  - id: parametry-w-init
+  - id: animation-2024-transformers-parametry-w-init
     topic: custom-mobject
     rule: "Umieszczaj w `__init__` parametry geometrii, zakresów wartości i stylu, a konstruktor niech od razu buduje kompletny obiekt."
     falsifiable: true

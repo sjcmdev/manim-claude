@@ -1,0 +1,3 @@
+# Manifesty korpusu trzymają SHA-256 bajtów YAML; konwersja CRLF przy checkout
+# na Windowsie zmieniłaby hash i wywróciła walidację.
+observations/** text eol=lf

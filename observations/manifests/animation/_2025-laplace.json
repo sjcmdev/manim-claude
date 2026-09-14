@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2025-laplace.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "46d9488096a425d1f905ebd41cda9041ff3669d9541d055af1fc1a31ee853018",
+  "provenance_status": "legacy-unverified"
+}

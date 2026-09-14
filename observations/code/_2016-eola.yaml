@@ -1,5 +1,5 @@
 observations:
-  - id: osobna-scena-na-ujecie
+  - id: code-2016-eola-osobna-scena-na-ujecie
     topic: dekompozycja
     rule: "Dziel kolejne niezależne ujęcia na osobne klasy `Scene`, zamiast łączyć je w jeden długi przebieg."
     falsifiable: true
@@ -11,7 +11,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy materiał składa się z krótkich ujęć o osobnych stanach początkowych i końcowych."
 
-  - id: fazy-w-construct
+  - id: code-2016-eola-fazy-w-construct
     topic: dekompozycja
     rule: "Rozbij wieloetapowe ujęcie na nazwane metody fazowe wywoływane sekwencyjnie z `construct`."
     falsifiable: true
@@ -101,7 +101,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy napis ma zachować relację przestrzenną z wektorem, wykresem lub inną geometrią."
 
-  - id: uklady-relacyjne
+  - id: code-2016-eola-uklady-relacyjne
     topic: kompozycja
     rule: "Buduj układ z relacji między obiektami przez `arrange`, `next_to` i `to_edge`, a ręczne przesunięcia stosuj dopiero jako lokalną korektę."
     falsifiable: true

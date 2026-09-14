@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2026-cross_entropy.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "da6387c71b8c542a4022fd99ebdec7a7fbf71068c9abfa5bd2b18c46e61302c8",
+  "provenance_status": "legacy-unverified"
+}

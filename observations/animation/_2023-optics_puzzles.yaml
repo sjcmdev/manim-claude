@@ -1,6 +1,6 @@
 observations:
   - id: czas-w-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: Prowadź czasowy ruch w updaterze przyjmującym `dt` i zapisuj narastający czas w stanie obiektu.
     falsifiable: true
     evidence:
@@ -9,8 +9,8 @@ observations:
     confidence: high
     applies_to: Obowiązuje dla fal, pierścieni i innych obiektów poruszających się niezależnie od trackerów.
 
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2023-optics-puzzles-tracker-bez-dt
+    topic: stan-i-updatery
     rule: Dla geometrii sterowanej trackerem odczytuj jego wartość bez przyjmowania `dt` i przeliczaj obiekt bez akumulowania czasu.
     falsifiable: true
     evidence:
@@ -21,7 +21,7 @@ observations:
     applies_to: Obowiązuje dla etykiet, wektorów i elementów zależnych od ValueTrackerów.
 
   - id: jawny-stan-poprzedniej-klatki
-    topic: updatery
+    topic: stan-i-updatery
     rule: Trzymaj stan wymagany między klatkami jawnie na mobjectcie i aktualizuj go przed obliczeniem bieżącej geometrii.
     falsifiable: true
     evidence:
@@ -32,7 +32,7 @@ observations:
     applies_to: Obowiązuje, gdy updater potrzebuje historii położeń, czasu albo bufora śladów.
 
   - id: male-kroki-integracji
-    topic: updatery
+    topic: stan-i-updatery
     rule: Dziel większe `dt` na mniejsze kroki przed integracją ruchu fizycznego.
     falsifiable: true
     evidence:
@@ -41,7 +41,7 @@ observations:
     applies_to: Obowiązuje dla updaterów rozwiązujących równania ruchu.
 
   - id: odtwarzaj-bazowe-punkty
-    topic: updatery
+    topic: stan-i-updatery
     rule: Przed każdą aktualizacją punktów odtwarzaj bazowy kształt, aby rozciąganie i obrót nie kumulowały się z poprzedniej klatki.
     falsifiable: true
     evidence:
@@ -52,7 +52,7 @@ observations:
     applies_to: Obowiązuje dla obiektów wielokrotnie deformowanych przez updater.
 
   - id: uporzadkuj-zalezne-updatery
-    topic: updatery
+    topic: stan-i-updatery
     rule: Uruchamiaj updater przygotowujący dane wejściowe przed updaterem, który konsumuje te dane.
     falsifiable: true
     evidence:
@@ -62,7 +62,7 @@ observations:
     applies_to: Obowiązuje dla pól wektorowych i innych obiektów z wieloetapowym przeliczaniem.
 
   - id: zatrzymuj-updatery-przed-przejściem
-    topic: updatery
+    topic: stan-i-updatery
     rule: Zatrzymaj albo wyczyść updatery przed ręcznym przekształceniem obiektu, a następnie jawnie wznoẃ je lub usuń.
     falsifiable: true
     evidence:

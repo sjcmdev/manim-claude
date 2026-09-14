@@ -1,6 +1,6 @@
 observations:
   - id: updater-metoda-dynamiki
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Podpinaj updater jako metodę obiektu, gdy opisuje jego własną dynamikę."
     falsifiable: true
     evidence:
@@ -11,7 +11,7 @@ observations:
     applies_to: "Obowiązuje dla updaterów używanych jako część modelu lub wielokrotnie."
 
   - id: tracker-jako-zegar
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Oddziel updater zwiększający tracker czasu od updaterów, które tylko odczytują jego wartość."
     falsifiable: true
     evidence:
@@ -22,7 +22,7 @@ observations:
     applies_to: "Obowiązuje przy animowaniu czasu, pozycji lub parametru przez ValueTracker."
 
   - id: dt-tylko-dla-calkowania
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Pomijaj dt w updaterze wyliczającym stan bezwzględnie z trackera lub referencji, a używaj go wyłącznie do całkowania ruchu."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Obowiązuje, gdy updater może odtworzyć bieżącą geometrię z aktualnego stanu."
 
   - id: stan-na-mobcie
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przechowuj stan wymagający pamięci między klatkami jako atrybut mobjectu i zamykaj parametry lokalne w fabryce updatera."
     falsifiable: true
     evidence:
@@ -44,7 +44,7 @@ observations:
     applies_to: "Obowiązuje dla trajektorii, symulacji i updaterów z własnym czasem lub parametrami."
 
   - id: absolutne-ustawianie-geometrii
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Wyznaczaj geometrię absolutnie względem źródła przez move_to, put_start_and_end_on albo become zamiast kumulować przesunięcia."
     falsifiable: true
     evidence:
@@ -120,7 +120,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy element główny i jego opis pojawiają się w tej samej fazie."
 
-  - id: transformuj-ciaglosc
+  - id: animation-2019-diffyq-transformuj-ciaglosc
     topic: wejscie-i-sprzatanie
     rule: "Transformuj obiekt w kolejną reprezentację przez TransformFromCopy albo ReplacementTransform, gdy zachowuje on ciągłość znaczeniową."
     falsifiable: true
@@ -164,7 +164,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla obiektów używanych w wielu scenach z różnymi parametrami."
 
-  - id: czesci-jako-atrybuty
+  - id: animation-2019-diffyq-czesci-jako-atrybuty
     topic: custom-mobject
     rule: "Buduj złożony obiekt w __init__ przez osobne metody create_* i zapisuj jego części jako nazwane atrybuty."
     falsifiable: true

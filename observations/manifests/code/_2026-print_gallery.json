@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2026-print_gallery.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "d6f91c07b5903fae5a65d81fd6b59494db85f586be62f71a643e8eb8039149be",
+  "provenance_status": "legacy-unverified"
+}

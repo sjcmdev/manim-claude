@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2025-grover.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "662c61ecae1507a13319df27a8c7772334057547abb72c3b3ef32b3755716e44",
+  "provenance_status": "legacy-unverified"
+}

@@ -1,6 +1,6 @@
 observations:
   - id: dt-dla-ruchu-stanowego
-    topic: updatery
+    topic: stan-i-updatery
     rule: "W updaterze ruchu ciągłego przyjmuj `dt` i inkrementuj stan przechowywany przy obiekcie, a tracker odczytuj tylko jako parametr prędkości lub promienia."
     falsifiable: true
     evidence:
@@ -10,8 +10,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla obiektów obracających się, przesuwających lub zachowujących stan między klatkami."
 
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2025-grover-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Dla geometrii będącej funkcją trackera używaj updatera bez `dt` i przeliczaj kształt z bieżącej wartości trackera w każdej klatce."
     falsifiable: true
     evidence:
@@ -22,7 +22,7 @@ observations:
     applies_to: "Obowiązuje, gdy położenie lub wymiar obiektu wynika bezpośrednio z aktualnego parametru."
 
   - id: referencja-zrodla-w-updaterze
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przechowuj źródłowy obiekt na mobjectcie zależnym i aktualizuj z niego jednocześnie wartość oraz pozycję etykiety."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Obowiązuje dla etykiet i liczników opisujących zmienną geometrię."
 
   - id: always-redraw-zawieszane
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Buduj czystą geometrię pochodną przez `always_redraw`, a przed ręcznym przejściem zawieszaj jej automatyczne aktualizowanie."
     falsifiable: true
     evidence:
@@ -77,7 +77,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla animacji, w których źródło ma ustąpić miejsca wynikowi z kontrolowanym nakładaniem."
 
-  - id: rate-func-wedlug-roli
+  - id: animation-2025-grover-rate-func-wedlug-roli
     topic: klasy-animacji
     rule: "Ustawiaj `linear` dla numerycznej zmiany śledzonej w czasie, `there_and_back` dla chwilowego podkreślenia, a `rush_into` dla zmiany nabierającej tempa."
     falsifiable: true
@@ -120,7 +120,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla wyróżniania wierszy, kolumn, komponentów lub wejść."
 
-  - id: przygaszanie-kontekstu
+  - id: animation-2025-grover-przygaszanie-kontekstu
     topic: wejscie-i-sprzatanie
     rule: "Gdy obiekt nadal objaśnia porównanie, przesuwaj go i przygaszaj zamiast usuwać, a pełną widoczność przywracaj dopiero przy ponownym skupieniu uwagi."
     falsifiable: true
@@ -130,7 +130,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla elementów pomocniczych, które pozostają znaczeniowo przydatne po głównym przejściu."
 
-  - id: transformacja-reprezentacji
+  - id: animation-2025-grover-transformacja-reprezentacji
     topic: wejscie-i-sprzatanie
     rule: "Zmianę reprezentacji buduj przez transformowanie kopii lub części starego obiektu do nowego i dopiero potem przywracaj albo wygaszaj warstwę źródłową."
     falsifiable: true

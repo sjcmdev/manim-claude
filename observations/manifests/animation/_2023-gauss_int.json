@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2023-gauss_int.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "17de73995b4e8537de3ccc5084ff88d0e0d7a1181df51761bc97f76c5477d1e3",
+  "provenance_status": "legacy-unverified"
+}

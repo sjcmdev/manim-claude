@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "recipes/uwezi.yaml",
+  "document_type": "recipes",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "bccd70909381368401071f8be95455fa5e57d0ac0c32114b8915a6e99c8b65bb",
+  "provenance_status": "legacy-unverified"
+}

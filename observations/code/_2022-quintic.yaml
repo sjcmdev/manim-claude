@@ -11,7 +11,7 @@ observations:
     confidence: high
     applies_to: "Gdy kilka scen korzysta z tych samych obliczeń, układów lub relacji między obiektami."
 
-  - id: warianty-przez-dziedziczenie
+  - id: code-2022-quintic-warianty-przez-dziedziczenie
     topic: dekompozycja
     rule: "Twórz warianty ujęcia przez dziedziczenie i zmianę parametrów lub wybranych metod zamiast kopiować cały konstruktor."
     falsifiable: true

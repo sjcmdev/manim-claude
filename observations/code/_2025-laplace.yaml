@@ -12,7 +12,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy materiał zawiera wiele niezależnych ujęć, przejść lub wstawek."
 
-  - id: wspolne-konstrukcje
+  - id: code-2025-laplace-wspolne-konstrukcje
     topic: ponowne-uzycie
     rule: "Wydzielaj geometrię używaną przez wiele scen do helperów lub klas bazowych i importuj ją między modułami."
     falsifiable: true
@@ -54,7 +54,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy scena łączy autonomiczną symulację z kontrolowanymi przez autora przejściami."
 
-  - id: tracker-jako-zrodlo-stanu
+  - id: code-2025-laplace-tracker-jako-zrodlo-stanu
     topic: stan-i-updatery
     rule: "Używaj trackerów jako jedynego źródła zmiennego parametru i podpinaj do nich wszystkie zależne obiekty, etykiety oraz ślady."
     falsifiable: true
@@ -131,9 +131,9 @@ observations:
     evidence:
       - {source: "_2025/laplace", file: "integration.py", line: 35}
       - {source: "_2025/laplace", file: "integration.py", line: 38}
-      - {source: "_2025/laplace", file: 1333}
-      - {source: "_2025/laplace", file: 1360}
-      - {source: "_2025/laplace", file: 1365}
+      - {source: "_2025/laplace", file: "integration.py", line: 1333}
+      - {source: "_2025/laplace", file: "integration.py", line: 1360}
+      - {source: "_2025/laplace", file: "integration.py", line: 1365}
       - {source: "_2025/laplace", file: "main_equations.py", line: 128}
       - {source: "_2025/laplace", file: "main_equations.py", line: 191}
     confidence: high
@@ -178,7 +178,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy dwa pliki zawierają alternatywne implementacje tych samych ujęć."
 
-  - id: lokalne-sciezki-zasobow
+  - id: code-2025-laplace-lokalne-sciezki-zasobow
     topic: anty-wzorce
     rule: "Nie zaszywaj w scenach absolutnych ścieżek z prywatnego środowiska ani bezpośrednich URL-i do zasobów zewnętrznych."
     falsifiable: true

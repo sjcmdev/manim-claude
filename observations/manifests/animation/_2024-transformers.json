@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2024-transformers.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "0fa099c373ecf7294cf62b0ad2a9f7eafb7d6f0e6f4fa8fa872742573afcadac",
+  "provenance_status": "legacy-unverified"
+}

@@ -21,7 +21,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy kilka scen korzysta z tej samej geometrii początkowej."
 
-  - id: warianty-przez-dziedziczenie
+  - id: code-2024-puzzles-warianty-przez-dziedziczenie
     topic: ponowne-uzycie
     rule: "Twórz warianty scen przez dziedziczenie po klasie bazowej z getterami geometrii, zamiast kopiować jej konfigurację i obliczenia."
     falsifiable: true
@@ -33,7 +33,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy ujęcia różnią się głównie parametrami lub kolejnymi etapami tej samej konstrukcji."
 
-  - id: tracker-jako-zrodlo-stanu
+  - id: code-2024-puzzles-tracker-jako-zrodlo-stanu
     topic: stan-i-updatery
     rule: "Trzymaj zmienną sterującą w ValueTracker, obiekty zależne aktualizuj z jego wartości i animuj sam tracker."
     falsifiable: true

@@ -1,5 +1,5 @@
 observations:
-  - id: fazy-w-construct
+  - id: code-2018-div-curl-fazy-w-construct
     topic: dekompozycja
     rule: "Dziel scenę wieloetapową na nazwane fazy i wywołuj je sekwencyjnie z construct()."
     falsifiable: true
@@ -21,7 +21,7 @@ observations:
     confidence: high
     applies_to: "Gdy obiekt utworzony w jednej metodzie jest animowany lub modyfikowany w kolejnej."
 
-  - id: warianty-przez-dziedziczenie
+  - id: code-2018-div-curl-warianty-przez-dziedziczenie
     topic: ponowne-uzycie
     rule: "Buduj warianty scen przez dziedziczenie i nadpisywanie wąskich punktów rozszerzeń zamiast kopiowania całego przebiegu."
     falsifiable: true

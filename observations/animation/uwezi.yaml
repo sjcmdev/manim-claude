@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-uwezi-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Oddzielaj updater zależny od trackera od integratora czasu: odczytuj tracker, ale nie przyjmuj `dt`."
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: "Obowiązuje, gdy bieżąca wartość trackera jednoznacznie wyznacza położenie lub kształt."
 
   - id: stan-integratora
-    topic: updatery
+    topic: stan-i-updatery
     rule: "W updaterze ruchu opartego na czasie przyjmuj `dt` i zapisuj postęp w polu stanu, zanim zaktualizujesz geometrię."
     falsifiable: true
     evidence:
@@ -22,7 +22,7 @@ observations:
     applies_to: "Obowiązuje dla ruchu, zegara, odtwarzania mediów i efektów zależnych od wieku elementu."
 
   - id: formy-updaterow
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Umieszczaj logikę współdzieloną w metodzie obiektu, logikę lokalną sceny w nazwanej funkcji, a krótkie przeliczenia zapisuj jako lambdy."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Obowiązuje przy wyborze formy updatera dla zależności wewnątrz klasy i dla prostych zależności sceny."
 
   - id: natychmiastowa-inicjalizacja
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Wymuś pierwsze wykonanie updatera przy podpinaniu, gdy obiekt musi być poprawny przed pierwszą klatką animacji."
     falsifiable: true
     evidence:
@@ -44,7 +44,7 @@ observations:
     applies_to: "Obowiązuje, gdy wartość początkowa ma od razu ustawić zależną geometrię lub tekst."
 
   - id: become-dla-geometrii
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Odświeżaj zależną geometrię przez `become(...)`, gdy zmienia się jej kształt, zamiast ograniczać updater do przesunięcia."
     falsifiable: true
     evidence:
@@ -55,7 +55,7 @@ observations:
     applies_to: "Obowiązuje dla wykresów, linii pomocniczych i obiektów zmieniających punkty."
 
   - id: osobna-fizyka-kolizje
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Rozdzielaj updater integrujący położenie pojedynczego obiektu od updatera grupowego obsługującego kolizje lub interakcje."
     falsifiable: true
     evidence:
@@ -144,7 +144,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy wejście lub wyjście ma wskazywać źródło, cel albo kierunek ruchu."
 
-  - id: transformuj-ciaglosc
+  - id: animation-uwezi-transformuj-ciaglosc
     topic: wejscie-i-sprzatanie
     rule: "Przekształcaj obiekt w następny, gdy oba reprezentują tę samą ciągłość pojęciową, zamiast wygaszać pierwszy i tworzyć drugi osobno."
     falsifiable: true
@@ -177,7 +177,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy wizualna forma obiektu ma zostać rozłożona na niezależne fragmenty."
 
-  - id: parametry-w-init
+  - id: animation-uwezi-parametry-w-init
     topic: custom-mobject
     rule: "Przyjmuj w `__init__` parametry geometrii, wyglądu i zachowania, a wartości potrzebne później zachowuj jako pola obiektu."
     falsifiable: true

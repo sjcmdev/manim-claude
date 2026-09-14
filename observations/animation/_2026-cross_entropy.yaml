@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2026-cross-entropy-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Updater sterowany przez ValueTracker nie przyjmuj `dt`, tylko odczytuj bieżącą wartość trackera."
     falsifiable: true
     evidence:
@@ -11,7 +11,7 @@ observations:
     applies_to: "Obowiązuje, gdy położenie, wygląd lub liczba są bezpośrednią funkcją trackera."
 
   - id: ruch-przez-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Updater realizujący ruch w czasie przyjmuj `dt` i skaluj przesunięcie przez `dt`."
     falsifiable: true
     evidence:
@@ -22,7 +22,7 @@ observations:
     applies_to: "Obowiązuje dla ciągłego przepływu lub ruchu o zadanej prędkości."
 
   - id: stan-w-mobject
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Stan potrzebny między klatkami przechowuj jako atrybut mobjectu i aktualizuj go przed zmianą jego położenia."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Obowiązuje dla integracji fizycznej, akumulacji prędkości lub innego ruchu zależnego od poprzedniej klatki."
 
   - id: domkniecie-petli
-    topic: updatery
+    topic: stan-i-updatery
     rule: "W updaterze tworzonym w pętli przechwytuj wartości iteracji przez argumenty domyślne domknięcia."
     falsifiable: true
     evidence:
@@ -44,7 +44,7 @@ observations:
     applies_to: "Obowiązuje, gdy każdy updater w pętli ma pamiętać inny indeks, obiekt lub parametr."
 
   - id: geometria-zawsze-redraw
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Geometrię zależną od innych obiektów buduj przez `always_redraw`, jeśli jej kształt musi być tworzony ponownie po każdej zmianie."
     falsifiable: true
     evidence:
@@ -148,7 +148,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje przy zmianie podpisu, układu, wzoru lub reprezentacji tego samego pojęcia."
 
-  - id: przygaszanie-kontekstu
+  - id: animation-2026-cross-entropy-przygaszanie-kontekstu
     topic: wejscie-i-sprzatanie
     rule: "Kontekst nadal potrzebny do orientacji przygaszaj przez zmianę opacity, zamiast usuwać go ze sceny."
     falsifiable: true
@@ -171,7 +171,7 @@ observations:
     applies_to: "Obowiązuje, gdy scena ma po przejściu zachować podstawowy obiekt w stanie gotowym do następnej operacji."
 
   - id: cykl-zycia-updatera
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zawieszaj lub czyść updater tymczasowego obiektu przed transformacją albo usunięciem jego kotwicy."
     falsifiable: true
     evidence:
@@ -182,7 +182,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla ramek, etykiet i linii zależnych od elementu, który właśnie znika lub zmienia układ."
 
-  - id: czesci-jako-atrybuty
+  - id: animation-2026-cross-entropy-czesci-jako-atrybuty
     topic: custom-mobject
     rule: "Części własnego obiektu zapisuj jako nazwane atrybuty, dodawaj je w stabilnej hierarchii i udostępniaj metody dostępu do istotnych podelementów."
     falsifiable: true

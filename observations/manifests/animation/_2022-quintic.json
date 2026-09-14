@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2022-quintic.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "0020e7f9f3e481af0e26eace52c4255e354cbab11bee9b3f10a75b1d3e192f4a",
+  "provenance_status": "legacy-unverified"
+}

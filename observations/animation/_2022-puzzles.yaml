@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2022-puzzles-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "W updaterze sterowanym trackerem odczytuj bieżącą wartość trackera lub geometrię źródła i nie przyjmuj `dt`."
     falsifiable: true
     evidence:
@@ -11,7 +11,7 @@ observations:
     applies_to: "Obowiązuje, gdy położenie obiektu wynika z zewnętrznego stanu, a nie z upływu czasu."
 
   - id: dt-tylko-akumulacja
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Używaj `dt` tylko do integrowania przyrostu ruchu zależnego od czasu, takiego jak ciągły obrót ramki."
     falsifiable: true
     evidence:
@@ -20,7 +20,7 @@ observations:
     applies_to: "Obowiązuje dla updaterów, które mają kontynuować ruch bez trackera."
 
   - id: geometry-from-source
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przeliczaj geometrię wynikową z bieżącego stanu obiektów źródłowych zamiast opierać ją na poprzednim położeniu wynikowego obiektu."
     falsifiable: true
     evidence:
@@ -31,7 +31,7 @@ observations:
     applies_to: "Obowiązuje dla linii, ścieżek i innych obiektów zależnych od ruchomych punktów."
 
   - id: tracker-przebudowuje-stan
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przechowuj stan dyskretny w trackerze, a w jednym updaterze aktualizuj liczby, listy submobjects i znaczniki zależne od tego stanu."
     falsifiable: true
     evidence:
@@ -105,7 +105,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje przy przejściu z rozwinięcia krokowego do zwartego układu."
 
-  - id: wejscie-z-punktu-zrodla
+  - id: animation-2022-puzzles-wejscie-z-punktu-zrodla
     topic: wejscie-i-sprzatanie
     rule: "Wprowadzaj adnotacje z punktu istniejącego obiektu albo zgodnie z kierunkiem od obiektu, do którego się odnoszą."
     falsifiable: true
@@ -139,7 +139,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy ciągłość wizualna między kolejnymi reprezentacjami ma znaczenie."
 
-  - id: przygaszaj-kontekst
+  - id: animation-2022-puzzles-przygaszaj-kontekst
     topic: wejscie-i-sprzatanie
     rule: "Przygaszaj elementy pozostające w kontekście, lecz chwilowo nieistotne, zamiast usuwać je ze sceny."
     falsifiable: true
@@ -174,7 +174,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje przy zwalnianiu miejsca po zakończeniu lokalnego wyjaśnienia."
 
-  - id: fabryka-vgroup
+  - id: animation-2022-puzzles-fabryka-vgroup
     topic: custom-mobject
     rule: "Buduj parametryzowane obiekty złożone jako fabryki zwracające `VGroup`, gdy potrzebujesz głównie geometrii i semantycznego składu."
     falsifiable: true

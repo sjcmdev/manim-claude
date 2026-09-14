@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-mf-tools-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Definiuj updater odczytujący tracker lub callable jako funkcję przyjmującą tylko obiekt aktualizowany i pobieraj źródłową wartość ponownie w każdej klatce."
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: "Stosuj, gdy tekst liczbowy ma odzwierciedlać ValueTracker albo funkcję zależną od geometrii."
 
   - id: layout-updatery
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Rozdziel w updaterach niezależne niezmienniki złożonego oznaczenia: układ dzieci, dopasowanie wysokości i opcjonalne położenie względem śledzonego obiektu."
     falsifiable: true
     evidence:
@@ -21,7 +21,7 @@ observations:
     applies_to: "Stosuj dla grup złożonych z elementów o zmiennej szerokości lub pozycji."
 
   - id: orientation-marker
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Do kompensacji orientacji dołącz niewidoczny znacznik linii jako ostatnią część obiektu i obracaj pozostałe części przeciwnie do jego kąta w updaterze sceny."
     falsifiable: true
     evidence:
@@ -32,7 +32,7 @@ observations:
     applies_to: "Stosuj, gdy obiekt ma zachować własną orientację podczas obrotu grupy nadrzędnej."
 
   - id: camera-style
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zamykaj w updaterze początkową szerokość obrysu i kadru, a bieżącą szerokość obrysu wyliczaj z ich aktualnego stosunku."
     falsifiable: true
     evidence:
@@ -139,7 +139,7 @@ observations:
     confidence: high
     applies_to: "Stosuj, gdy złożona transformacja tymczasowo rozdziela obiekt nadrzędny na submobjects."
 
-  - id: geometria-w-init
+  - id: animation-mf-tools-geometria-w-init
     topic: custom-mobject
     rule: "Przyjmuj parametry geometrii w __init__, buduj tam pełny zestaw punktów obiektu i wystawiaj scenie gotowy obiekt do ustawiania oraz animowania."
     falsifiable: true

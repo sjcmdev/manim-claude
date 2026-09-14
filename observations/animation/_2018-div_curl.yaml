@@ -1,6 +1,6 @@
 observations:
   - id: pozycyjny-updater-bez-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Buduj updater zależności pozycyjnej bez parametru dt i wyprowadzaj położenie z aktualnego stanu obiektu źródłowego."
     falsifiable: true
     evidence:
@@ -11,7 +11,7 @@ observations:
     applies_to: "Gdy obiekt ma jedynie podążać za punktem, okręgiem albo innym obiektem zależnym."
 
   - id: dt-do-ruchu-stanowego
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przy ruchu stanowym przyjmuj dt, przechowuj stan poprzedniej klatki na mobject i aktualizuj go przyrostowo."
     falsifiable: true
     evidence:
@@ -22,7 +22,7 @@ observations:
     applies_to: "Gdy pozycja zależy od prędkości, fazy albo skumulowanego czasu."
 
   - id: dynamiczna-geometria-z-bieznego-stanu
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Odtwarzaj geometrię zależną od zmiennych obiektów z ich bieżącego stanu i stosuj natychmiastowy Transform zamiast kumulować ręczne przesunięcia."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Gdy kształt pola, wektora albo pierścienia zależy od aktualnych punktów lub funkcji."
 
   - id: fabryka-updatera
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zamykaj wspólny algorytm aktualizacji w fabryce closure, przekazując jej tylko getter źródłowej wartości."
     falsifiable: true
     evidence:
@@ -42,8 +42,8 @@ observations:
     confidence: high
     applies_to: "Gdy identyczny updater ma obsługiwać kilka grup z różnymi źródłami danych."
 
-  - id: tracker-jako-zrodlo-prawdy
-    topic: updatery
+  - id: animation-2018-div-curl-tracker-jako-zrodlo-prawdy
+    topic: stan-i-updatery
     rule: "Aktualizuj odczyty liczbowe przez bieżący getter trackera lub obiektu źródłowego i nie integruj ich osobnym dt."
     falsifiable: true
     evidence:
@@ -54,7 +54,7 @@ observations:
     applies_to: "Gdy liczba na ekranie ma odzwierciedlać tracker albo wartość wyliczaną z położenia."
 
   - id: referencja-do-wylaczenia-updatera
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zachowuj referencję do updatera, jeśli późniejsza faza ma go usunąć przed zmianą roli obiektu."
     falsifiable: true
     evidence:

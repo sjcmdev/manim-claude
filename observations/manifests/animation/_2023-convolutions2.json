@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2023-convolutions2.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "3accc49f57924d6dc2572c82ff5e8cd22eba7dc2f0f89cb6604f8bcdec215f39",
+  "provenance_status": "legacy-unverified"
+}

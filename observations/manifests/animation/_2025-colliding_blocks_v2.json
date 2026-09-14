@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2025-colliding_blocks_v2.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "57d017625448522b888b3b9d7898b4c8ec35e463522cdcd018a79c926caf2463",
+  "provenance_status": "legacy-unverified"
+}

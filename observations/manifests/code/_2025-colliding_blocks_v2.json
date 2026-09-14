@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2025-colliding_blocks_v2.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "1c4d9f6e45d040d37a1ffa374f8516f8c432c34fe7ee5397aba2e5135b72e7a2",
+  "provenance_status": "legacy-unverified"
+}

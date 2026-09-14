@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2024-holograms.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "2112e4b272cf4dfc49cdf6bbc3a456e9b6f6ff930c0e10fe3032396ff8490365",
+  "provenance_status": "legacy-unverified"
+}

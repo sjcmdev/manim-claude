@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2023-optics_puzzles.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "c9f9323460ce521bdfcfc6d63aa140c7054f4a7fb793077a0077fd1e6312145c",
+  "provenance_status": "legacy-unverified"
+}

@@ -1,6 +1,6 @@
 observations:
   - id: ruch-z-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: "W updaterze odpowiedzialnym za ciągły ruch przyjmuj `dt` i przesuwaj obiekt o prędkość pomnożoną przez `dt`."
     falsifiable: true
     evidence:
@@ -12,7 +12,7 @@ observations:
     applies_to: "Obowiązuje dla przewijania obiektów lub kamery, które ma być niezależne od liczby klatek."
 
   - id: updater-geometria-styl
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Czytaj aktualne położenie obiektu i na jego podstawie synchronizuj geometrię części oraz styl, zamiast utrzymywać osobny tracker pozycji."
     falsifiable: true
     evidence:
@@ -26,7 +26,7 @@ observations:
     applies_to: "Obowiązuje, gdy wygląd adnotacji ma zależeć od bieżącego położenia animowanego obiektu."
 
   - id: usuwanie-poza-kadrem
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Usuwaj element z grupy w updaterze po przekroczeniu granicy kadru i natychmiast pomijaj dalszą aktualizację tego elementu."
     falsifiable: true
     evidence:
@@ -37,7 +37,7 @@ observations:
     applies_to: "Obowiązuje dla długich strumieni obiektów przesuwających się poza widoczny obszar."
 
   - id: lambda-dla-prostego-ruchu
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zapisuj jednowierszowy ruch jako lambdę, a synchronizację wielu części i zmianę stylu zamykaj w nazwanej funkcji updatera."
     falsifiable: true
     evidence:
@@ -129,7 +129,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy scena ma stałą warstwę danych i nakładane na nią objaśnienia."
 
-  - id: transformacja-zamiast-resetu
+  - id: animation-2024-antp-transformacja-zamiast-resetu
     topic: wejscie-i-sprzatanie
     rule: "Przy przejściu do kolejnego stanu przekształcaj obiekty niosące znaczenie, a wygaszaj tylko pomocnicze ramki, strzałki i etykiety."
     falsifiable: true
@@ -181,7 +181,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla wizualizacji filtrowania, w których odrzucenie ma być czytelne jako osobny etap."
 
-  - id: fabryka-vgroup
+  - id: animation-2024-antp-fabryka-vgroup
     topic: custom-mobject
     rule: "Parametryzuj konstrukcję wieloczęściowego obiektu w metodzie-fabryce i zwracaj z niej `VGroup`, oddzielając budowę od odtwarzania animacji."
     falsifiable: true

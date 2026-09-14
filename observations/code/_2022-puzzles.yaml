@@ -1,7 +1,7 @@
 observations:
   - id: rozdziel-typy-ujec
     topic: dekompozycja
-    rule: Dobieraj klasę bazową sceny do odpowiedzialności ujęcia: dialogi umieszczaj w `TeacherStudentsScene`, plansze w `InteractiveScene`, a wstawki wideo w `VideoWrapper`.
+    rule: "Dobieraj klasę bazową sceny do odpowiedzialności ujęcia: dialogi umieszczaj w `TeacherStudentsScene`, plansze w `InteractiveScene`, a wstawki wideo w `VideoWrapper`."
     falsifiable: true
     evidence:
       - {source: _2022/puzzles, file: subsets.py, line: 209}
@@ -57,7 +57,7 @@ observations:
     confidence: high
     applies_to: Obowiązuje, gdy animowany napis lub diagram jest wielokrotnie przebudowywany z różnymi danymi.
 
-  - id: tracker-jako-zrodlo-stanu
+  - id: code-2022-puzzles-tracker-jako-zrodlo-stanu
     topic: stan-i-updatery
     rule: Steruj ciągłą zmianą parametru przez `ValueTracker`, wyliczaj stan zależnych obiektów w updaterze, dodaj tracker do sceny i animuj jego wartość.
     falsifiable: true

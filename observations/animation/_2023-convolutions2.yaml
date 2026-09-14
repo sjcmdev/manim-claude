@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2023-convolutions2-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Czytaj bieżący stan z trackera przez domknięty getter i nie dodawaj do takiego updatera parametru `dt`."
     falsifiable: true
     evidence:
@@ -11,7 +11,7 @@ observations:
     applies_to: "Obowiązuje dla markerów, etykiet i linii sterowanych wartością trackera."
 
   - id: osobne-updatery
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Rozdzielaj aktualizację treści i geometrii na osobne updatery zamiast łączyć je w jeden."
     falsifiable: true
     evidence:
@@ -21,8 +21,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla obiektów, których wartość, położenie lub rozmiar zależą od różnych źródeł stanu."
 
-  - id: nazwany-updater-dla-logiki
-    topic: updatery
+  - id: animation-2023-convolutions2-nazwany-updater-dla-logiki
+    topic: stan-i-updatery
     rule: "Wydzielaj nazwany updater, gdy aktualizacja iteruje po podelementach albo buduje tablicę próbek, a proste zależności zapisuj jako lambdy."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Obowiązuje, gdy updater zawiera więcej niż pojedyncze przeliczenie własności obiektu."
 
   - id: bezstanowa-rekonstrukcja
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Odtwarzaj geometrię zależną od trackera przez `always_redraw` albo przeliczenie punktów w updaterze zamiast przechowywać stan poprzedniej klatki."
     falsifiable: true
     evidence:
@@ -44,7 +44,7 @@ observations:
     applies_to: "Obowiązuje dla linii, wykresów i pól powierzchni wyznaczanych całkowicie z bieżących wartości trackerów."
 
   - id: kopiuj-i-przesuwaj
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Synchronizuj kopię dynamicznego wskaźnika najpierw przez odtworzenie źródła, a potem przez przesunięcie jej do drugiego układu współrzędnych."
     falsifiable: true
     evidence:
@@ -86,7 +86,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla grup, które jednocześnie zmieniają położenie, skalę, krycie lub układ podelementów."
 
-  - id: rate-func-dla-powrotu
+  - id: animation-2023-convolutions2-rate-func-dla-powrotu
     topic: klasy-animacji
     rule: "Ustawiaj `rate_func=there_and_back`, gdy animacja ma pokazać cykliczny ruch bez pozostawiania obiektu w nowym stanie."
     falsifiable: true
@@ -129,7 +129,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla kolejnych wersji wzoru, etykiety lub wykresu, które mają wspólną strukturę."
 
-  - id: przygaszanie-kontekstu
+  - id: animation-2023-convolutions2-przygaszanie-kontekstu
     topic: wejscie-i-sprzatanie
     rule: "Przy lokalnym zaznaczeniu przygaszaj nieaktywne elementy do częściowego krycia i przywracaj pełne krycie po zakończeniu przejścia."
     falsifiable: true

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2024-puzzles.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "15b315f41d2c2995fc1e69cfac7e5cacea194d8f7698e2b443b03c71e36fa773",
+  "provenance_status": "legacy-unverified"
+}

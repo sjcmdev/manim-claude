@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2023-gauss_int.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "257a1d2906c5702ce9d1798a920a42347b2df0450891f456483619925a6fb485",
+  "provenance_status": "legacy-unverified"
+}

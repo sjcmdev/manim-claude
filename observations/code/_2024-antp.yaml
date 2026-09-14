@@ -1,5 +1,5 @@
 observations:
-  - id: osobna-scena-na-ujecie
+  - id: code-2024-antp-osobna-scena-na-ujecie
     topic: dekompozycja
     rule: "Wydziel każdą niezależną planszę lub ujęcie do osobnej klasy InteractiveScene, także krótkie przerywniki."
     falsifiable: true

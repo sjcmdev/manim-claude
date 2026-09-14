@@ -1,6 +1,6 @@
 observations:
   - id: dt-dla-czasu
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Używaj sygnatury z `dt` tylko do przesuwania czasu lub całkowania stanu, a zależności od trackerów aktualizuj bez `dt`."
     falsifiable: true
     evidence:
@@ -11,7 +11,7 @@ observations:
     applies_to: "Updater powinien rozróżniać upływ czasu od odczytu aktualnego parametru."
 
   - id: getter-do-geometrii
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Buduj updater obiektu zależnego na getterach trackerów i zapisuj wynik bezpośrednio w geometrii albo wartości obiektu."
     falsifiable: true
     evidence:
@@ -22,7 +22,7 @@ observations:
     applies_to: "Obiekt jest pochodną aktualnego położenia, wartości lub parametrów innego obiektu."
 
   - id: nazwany-updater-grupy
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Nazywaj updater, gdy w jednej klatce przeliczasz kilka części grupy."
     falsifiable: true
     evidence:
@@ -32,8 +32,8 @@ observations:
     confidence: high
     applies_to: "Jedna funkcja aktualizuje równolegle kilka elementów zależnych od wspólnego parametru."
 
-  - id: odbudowa-geometrii
-    topic: updatery
+  - id: animation-2025-laplace-odbudowa-geometrii
+    topic: stan-i-updatery
     rule: "Używaj `always_redraw`, gdy każda klatka może odtworzyć kompletny kształt z aktualnego stanu."
     falsifiable: true
     evidence:
@@ -43,8 +43,8 @@ observations:
     confidence: high
     applies_to: "Geometria nie wymaga zachowania własnego stanu między klatkami."
 
-  - id: stan-poprzedniej-klatki
-    topic: updatery
+  - id: animation-2025-laplace-stan-poprzedniej-klatki
+    topic: stan-i-updatery
     rule: "Dla śladu zależnego od poprzedniej klatki przesuwaj istniejącą geometrię przez `dt` i dopisuj nowy punkt na podstawie aktualnego końca."
     falsifiable: true
     evidence:
@@ -53,7 +53,7 @@ observations:
     applies_to: "Updater buduje historię ruchu zamiast tylko wyznaczać bieżący kształt."
 
   - id: czyszczenie-przed-kopia
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Czyść updatery przed użyciem kopii jako statycznego śladu lub przed przekazaniem obiektu do niezależnej transformacji."
     falsifiable: true
     evidence:
@@ -106,7 +106,7 @@ observations:
     confidence: high
     applies_to: "Animacja ma chwilowo narysować lub przekształcić obiekt niezależnie od jego źródła danych."
 
-  - id: wejscie-z-punktu-zrodla
+  - id: animation-2025-laplace-wejscie-z-punktu-zrodla
     topic: wejscie-i-sprzatanie
     rule: "Wprowadzaj główny obiekt z punktu lub kierunku jego źródła i rozdzielaj wejście części niewielkim lagiem."
     falsifiable: true
@@ -158,7 +158,7 @@ observations:
     confidence: high
     applies_to: "Obiekt kończy funkcję narracyjną, a jego następca ma przejąć uwagę i stan sceny."
 
-  - id: parametry-w-init
+  - id: animation-2025-laplace-parametry-w-init
     topic: custom-mobject
     rule: "Umieszczaj parametry geometrii, fizyki i wyglądu w `__init__`, a części składowe twórz tam przez metody pomocnicze."
     falsifiable: true

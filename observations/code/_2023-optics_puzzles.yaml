@@ -1,5 +1,5 @@
 observations:
-  - id: warianty-przez-dziedziczenie
+  - id: code-2023-optics-puzzles-warianty-przez-dziedziczenie
     topic: dekompozycja
     rule: "Organizuj warianty tego samego ujęcia jako klasy potomne zmieniające parametry klasy bazowej zamiast kopiować cały przebieg sceny."
     falsifiable: true
@@ -81,7 +81,7 @@ observations:
     confidence: high
     applies_to: "Stosuj, gdy każda warstwa, cząstka lub linia ma własną fazę, amplitudę albo tłumienie."
 
-  - id: tracker-jako-zrodlo-prawdy
+  - id: code-2023-optics-puzzles-tracker-jako-zrodlo-prawdy
     topic: stan-i-updatery
     rule: "Steruj wartością wpływającą jednocześnie na geometrię i tekst jednym ValueTrackerem."
     falsifiable: true
@@ -164,7 +164,7 @@ observations:
     confidence: high
     applies_to: "Stosuj dla scen, w których warianty mają różną liczbę warstw, linii lub cząstek."
 
-  - id: absolutne-sciezki-zasobow
+  - id: code-2023-optics-puzzles-absolutne-sciezki-zasobow
     topic: anty-wzorce
     rule: "Nie zapisuj absolutnych ścieżek autora w scenach; rozwiązuj zasoby przez nazwę logiczną lub ścieżkę repozytorium."
     falsifiable: true

@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2023-clt-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "W updaterach zależnych od trackera czytaj wartość przez domknięty getter i nie przyjmuj dt."
     falsifiable: true
     evidence:
@@ -11,7 +11,7 @@ observations:
     applies_to: "Obowiązuje, gdy źródłem zmiany jest ValueTracker albo stan domknięty przez updater."
 
   - id: referencja-zaleznosci
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zapisuj obiekt, za którym podąża updater, jako atrybut obiektu aktualizowanego."
     falsifiable: true
     evidence:
@@ -21,7 +21,7 @@ observations:
     applies_to: "Obowiązuje dla etykiet i oznaczeń zależnych od konkretnego kwadratu, strzałki lub linii."
 
   - id: pelna-rekonstrukcja-geometrii
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przy zmianie geometrii VMobjectu przeliczaj punkty od bieżących parametrów i obsługuj pusty zakres przed ich zapisaniem."
     falsifiable: true
     evidence:
@@ -30,8 +30,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla obszarów i innych obiektów, których kształt zależy od zmiennego przedziału."
 
-  - id: kontrola-cyklu-updatera
-    topic: updatery
+  - id: animation-2023-clt-kontrola-cyklu-updatera
+    topic: stan-i-updatery
     rule: "Zawieszaj albo usuwaj updater przed statyczną zmianą roli obiektu i wznawiaj go dopiero po zakończeniu przejścia."
     falsifiable: true
     evidence:
@@ -42,7 +42,7 @@ observations:
     applies_to: "Obowiązuje, gdy obiekt przechodzi z trybu dynamicznego do transformacji lub ekspozycji statycznej."
 
   - id: updater-tylko-na-czas-animacji
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla jednorazowej animacji zależnej od stanu używaj UpdateFromFunc w play zamiast instalować updater na stałe."
     falsifiable: true
     evidence:
@@ -53,7 +53,7 @@ observations:
     applies_to: "Obowiązuje, gdy wartość ma być śledzona wyłącznie podczas jednego przejścia."
 
   - id: odtwarzanie-zuzywalnej-geometrii
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Używaj odtwarzania obiektu z bieżących danych, gdy jego geometria ma być wymieniana w każdej klatce."
     falsifiable: true
     evidence:
@@ -134,7 +134,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla zbliżeń i komentarzy do fragmentu wykresu, gdy reszta sceny ma pozostać rozpoznawalna."
 
-  - id: transformacja-zamiast-resetu
+  - id: animation-2023-clt-transformacja-zamiast-resetu
     topic: wejscie-i-sprzatanie
     rule: "Zamieniaj podobne obiekty transformacją zachowującą ich ciągłość zamiast niezależnego wyjścia i wejścia."
     falsifiable: true
@@ -167,7 +167,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla kilku etykiet, strzałek lub komentarzy pojawiających się wokół jednego zdarzenia."
 
-  - id: geometria-w-init
+  - id: animation-2023-clt-geometria-w-init
     topic: custom-mobject
     rule: "Buduj składowe obiektu w __init__, zachowuj osie i xs jako stan, a aktualizację danych ogranicz do zmiany wysokości istniejących części."
     falsifiable: true

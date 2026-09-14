@@ -1,6 +1,6 @@
 observations:
   - id: czytaj-geometrie-zrodla
-    topic: updatery
+    topic: stan-i-updatery
     rule: Odczytuj bieżącą geometrię obiektu źródłowego przy każdej aktualizacji zamiast sterować zależnością przez dt.
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: Gdy jeden obiekt ma podążać za aktualnym położeniem lub końcem innego obiektu.
 
   - id: zwracaj-animacje-zaleznosci
-    topic: updatery
+    topic: stan-i-updatery
     rule: Zależności krótkotrwałe zwracaj z metod pomocniczych jako osobne animacje i dołączaj je do wspólnego play.
     falsifiable: true
     evidence:
@@ -21,7 +21,7 @@ observations:
     applies_to: Gdy synchronizacja obowiązuje tylko podczas konkretnego ruchu.
 
   - id: trzymaj-poprzedni-stan
-    topic: updatery
+    topic: stan-i-updatery
     rule: Przechowuj poprzedni stan w jawnym atrybucie i aktualizuj go dopiero po zakończeniu odcinka animacji.
     falsifiable: true
     evidence:
@@ -145,7 +145,7 @@ observations:
     confidence: high
     applies_to: Siatek, zbiorów wektorów, kwadratów i innych serii podobnych obiektów.
 
-  - id: przygaszaj-kontekst
+  - id: animation-2016-eola-przygaszaj-kontekst
     topic: wejscie-i-sprzatanie
     rule: Przygaszaj tło i nieaktywne elementy, a aktywne obiekty przenoś do warstwy pierwszoplanowej.
     falsifiable: true

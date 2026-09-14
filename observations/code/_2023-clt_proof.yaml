@@ -27,7 +27,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy klasa jest częścią źródeł filmu, a nie świadomie utrzymywanym szkicem."
 
-  - id: tracker-jako-zrodlo-stanu
+  - id: code-2023-clt-proof-tracker-jako-zrodlo-stanu
     topic: stan-i-updatery
     rule: "Trzymaj wspólny parametr animacji w jednym `ValueTracker` i pobieraj jego wartość przez getter używany przez wszystkie zależne obiekty."
     falsifiable: true

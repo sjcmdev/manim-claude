@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/mf_tools.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "3c2bf359db6c03f0cadf559d66e225c6628252db5166255ed1b398e7de6ffd94",
+  "provenance_status": "legacy-unverified"
+}

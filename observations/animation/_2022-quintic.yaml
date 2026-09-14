@@ -1,6 +1,6 @@
 observations:
   - id: automatyczne-wiazanie-zaleznosci
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Rozpoznawaj w nadpisanym `play`, która rodzina punktów jest animowana, i automatycznie przypinaj updater rodziny zależnej."
     falsifiable: true
     evidence:
@@ -9,7 +9,7 @@ observations:
     applies_to: "Obowiązuje przy animowaniu samych korzeni albo samych współczynników."
 
   - id: updatery-bez-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Definiuj updater zależnościowy z argumentem mobject, odczytuj bieżący stan sceny lub trackera i ustawiaj wynik bez całkowania `dt`."
     falsifiable: true
     evidence:
@@ -20,7 +20,7 @@ observations:
     applies_to: "Obowiązuje dla pozycji i wartości wyliczanych z aktualnych współczynników."
 
   - id: nazwane-updatery-grup
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Wydzielaj nazwany updater, gdy jedna zmiana ma przeliczać całą grupę zależnych elementów."
     falsifiable: true
     evidence:
@@ -31,7 +31,7 @@ observations:
     applies_to: "Obowiązuje dla grup punktów, wykresów i struktur pochodnych."
 
   - id: lambdy-dla-prostych-zaleznosci
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Podpinaj lambdę w miejscu tylko dla krótkiej zależności jednego obiektu od jednego źródła."
     falsifiable: true
     evidence:
@@ -41,8 +41,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla etykiet, liczb i prostego śledzenia pozycji."
 
-  - id: stan-poprzedniej-klatki
-    topic: updatery
+  - id: animation-2022-quintic-stan-poprzedniej-klatki
+    topic: stan-i-updatery
     rule: "Przechowuj stan między klatkami i aktualizuj go przez różnicę względem poprzedniej wartości, gdy wynik ma zachować ciągłość."
     falsifiable: true
     evidence:
@@ -51,7 +51,7 @@ observations:
     applies_to: "Obowiązuje dla kąta przechodzącego przez gałąź funkcji wielowartościowej."
 
   - id: stan-interakcji-na-obiekcie
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zapisuj offset i ograniczenia interakcji jako atrybuty obiektu przed podpięciem updatera."
     falsifiable: true
     evidence:
@@ -60,7 +60,7 @@ observations:
     applies_to: "Obowiązuje dla obiektów przeciąganych myszą lub ograniczanych do osi albo promienia."
 
   - id: always-redraw-dla-geometrii
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Buduj geometrię całkowicie zależną od bieżącego stanu przez fabrykę `always_redraw`."
     falsifiable: true
     evidence:
@@ -71,7 +71,7 @@ observations:
     applies_to: "Obowiązuje dla wykresów i krzywych, których skład zmienia się razem z danymi."
 
   - id: odwrotna-kolejnosc-aktualizacji
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Aktualizuj mobjects w odwrotnej kolejności, jeśli obiekty są ponownie dodawane podczas interakcji."
     falsifiable: true
     evidence:
@@ -80,7 +80,7 @@ observations:
     applies_to: "Obowiązuje, gdy kolejność na scenie wpływa na kolejność propagowania zależności."
 
   - id: transport-dla-ciaglosci
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dopasowuj nowe pozycje punktów przez minimalizację odległości zamiast ufać kolejności wyników funkcji wielowartościowej."
     falsifiable: true
     evidence:
@@ -196,7 +196,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy kolejna forma ma być odczytana jako ta sama treść."
 
-  - id: przygaszanie-kontekstu
+  - id: animation-2022-quintic-przygaszanie-kontekstu
     topic: wejscie-i-sprzatanie
     rule: "Przygaszaj kontekst przez zmianę opacity, gdy ma pozostać punktem odniesienia dla aktualnego objaśnienia."
     falsifiable: true
@@ -250,7 +250,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla obiektów złożonych z punktów, linii, etykiet i krzywych."
 
-  - id: referencje-do-czesci
+  - id: animation-2022-quintic-referencje-do-czesci
     topic: custom-mobject
     rule: "Zapisuj części potrzebne później jako atrybuty sceny lub mniejszych obiektów."
     falsifiable: true

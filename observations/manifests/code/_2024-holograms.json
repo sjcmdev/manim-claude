@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2024-holograms.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "20ac660b43b8a0b332f0bb3d023f503d0cfd5f4988194ea1baaec2a12ca151a0",
+  "provenance_status": "legacy-unverified"
+}

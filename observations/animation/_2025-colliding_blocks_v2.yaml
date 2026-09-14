@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2025-colliding-blocks-v2-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Updater zależny wyłącznie od trackera pisz bez argumentu `dt` i odczytuj tracker przy każdej klatce."
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: "Obowiązuje, gdy położenie lub wartość wynika bezpośrednio z aktualnego stanu trackera."
 
   - id: czas-przez-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Upływ czasu modeluj updaterem przyjmującym `dt`, a skalowanie tempa trzymaj w osobnym trackerze."
     falsifiable: true
     evidence:
@@ -20,8 +20,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla trackerów sterujących czasem symulacji lub jej spowolnieniem."
 
-  - id: nazwany-updater-dla-logiki
-    topic: updatery
+  - id: animation-2025-colliding-blocks-v2-nazwany-updater-dla-logiki
+    topic: stan-i-updatery
     rule: "Dla updatera wykonującego kilka obliczeń używaj nazwanej funkcji lokalnej, a lambdę zostaw dla pojedynczej mutacji."
     falsifiable: true
     evidence:
@@ -31,8 +31,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy updater wyznacza pozycję, rozmiar i więcej niż jedną zależną wartość."
 
-  - id: odbudowa-geometrii
-    topic: updatery
+  - id: animation-2025-colliding-blocks-v2-odbudowa-geometrii
+    topic: stan-i-updatery
     rule: "Geometrię zależną od trackera generuj przez funkcję odbudowującą obiekt, a proste właściwości spinaj krótkim updaterem lub `f_always`."
     falsifiable: true
     evidence:
@@ -43,7 +43,7 @@ observations:
     applies_to: "Obowiązuje, gdy zmiana trackera wpływa na kształt całego obiektu albo tylko na jego pojedynczą właściwość."
 
   - id: zawieszanie-updaterow
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zawieszaj updater przed ręczną animacją obiektu i wznawiaj go dopiero po jej zakończeniu."
     falsifiable: true
     evidence:
@@ -55,7 +55,7 @@ observations:
     applies_to: "Obowiązuje, gdy obiekt jest zwykle sterowany stanem, ale chwilowo ma zostać przesunięty lub obrócony niezależnie."
 
   - id: efekt-zdarzeniowy-jako-updater
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Efekt wywołany zdarzeniem trzymaj jako updater z zapisanym czasem rozpoczęcia i usuwaj go po upływie jego krótkiego życia."
     falsifiable: true
     evidence:
@@ -142,7 +142,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy obiekt na scenie nadal ma być aktualizowany, ale jego chwilowa kopia ma wejść do wzoru lub równania."
 
-  - id: przygaszanie-kontekstu
+  - id: animation-2025-colliding-blocks-v2-przygaszanie-kontekstu
     topic: wejscie-i-sprzatanie
     rule: "Elementy pozostawiane jako ślad argumentu przygaszaj przez zmianę krycia, a usuwaj dopiero po zakończeniu ich roli."
     falsifiable: true

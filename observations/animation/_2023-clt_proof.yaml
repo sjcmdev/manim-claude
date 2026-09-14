@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2023-clt-proof-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Odczytuj wartość z ValueTracker przez zamknięty getter i nie przyjmuj argumentu dt."
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: "Stosuj, gdy updater zależy od jawnie sterowanego trackera."
 
   - id: proste-updatery-lambda
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla prostego przeliczenia pojedynczego obiektu podpinaj updater jako lambdę bezpośrednio przy obiekcie."
     falsifiable: true
     evidence:
@@ -21,7 +21,7 @@ observations:
     applies_to: "Stosuj, gdy updater aktualizuje jedną wartość lub relację przestrzenną."
 
   - id: geometria-przez-become
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Oddziel funkcję generującą nową geometrię od updatera, który wstawia jej wynik przez become."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Stosuj, gdy zmiana parametru wymaga ponownego zbudowania wykresu lub grupy."
 
   - id: czas-w-trackerze
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla ruchu autonomicznego zapisuj funkcję czasu w trackerze i pozwól zależnym updaterom odczytywać jego wartość."
     falsifiable: true
     evidence:
@@ -43,7 +43,7 @@ observations:
     applies_to: "Stosuj, gdy scena ma samoczynnie zmieniać parametr przez określony czas."
 
   - id: updater-z-kotwica
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Wyznaczaj pozycję elementu wtórnego z aktualnej pozycji elementu kotwiczącego."
     falsifiable: true
     evidence:

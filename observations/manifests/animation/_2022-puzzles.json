@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2022-puzzles.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "f3f2fd7fd21cf778aa9a740721b6d22e28d0ff05fc0cba546d463fdc78ecec76",
+  "provenance_status": "legacy-unverified"
+}

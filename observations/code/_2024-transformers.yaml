@@ -50,7 +50,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy kolejne animacje operują na tej samej warstwie, tekście, odpowiedzi lub maszynie."
 
-  - id: tracker-jako-zrodlo-prawdy
+  - id: code-2024-transformers-tracker-jako-zrodlo-prawdy
     topic: stan-i-updatery
     rule: "Dla interaktywnego parametru przechowuj jedną wartość w `ValueTracker`, a obiekty pochodne aktualizuj updaterami i animuj tracker."
     falsifiable: true
@@ -119,7 +119,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy wiele scen korzysta z tego samego modelu numerycznego lub kosztownego źródła danych."
 
-  - id: uklady-relacyjne
+  - id: code-2024-transformers-uklady-relacyjne
     topic: kompozycja
     rule: "Pozycjonuj elementy względem kotwic przez `next_to()`, `arrange()` i `to_edge()`, a ręczne współrzędne zostaw dla punktów danych i ustawień kamery."
     falsifiable: true

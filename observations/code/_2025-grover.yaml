@@ -23,7 +23,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy ten sam symbol lub obiekt pojawia się w więcej niż jednym ujęciu."
 
-  - id: warianty-przez-dziedziczenie
+  - id: code-2025-grover-warianty-przez-dziedziczenie
     topic: ponowne-uzycie
     rule: "Twórz warianty scen przez dziedziczenie i nadpisuj tylko parametry różnicujące przebieg."
     falsifiable: true
@@ -47,7 +47,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy wiele elementów ma wspólnie zmieniać położenie i wygląd."
 
-  - id: tracker-jako-zrodlo-prawdy
+  - id: code-2025-grover-tracker-jako-zrodlo-prawdy
     topic: stan-i-updatery
     rule: "Trzymaj zmienną sterującą w ValueTrackerze i wyprowadzaj z niej wszystkie zależne obiekty."
     falsifiable: true
@@ -60,7 +60,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy jedna wartość steruje równocześnie geometrią, tekstem lub kolorem."
 
-  - id: kontrola-updaterow
+  - id: code-2025-grover-kontrola-updaterow
     topic: stan-i-updatery
     rule: "Zawieszaj lub czyść updatery przed jawnym przekształceniem obiektu i wznawiaj je po zakończeniu."
     falsifiable: true
@@ -157,7 +157,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy wynik wizualny musi zmieniać się płynnie wraz z obliczaną wartością."
 
-  - id: transformacja-reprezentacji
+  - id: code-2025-grover-transformacja-reprezentacji
     topic: ponowne-uzycie
     rule: "Przenoś informację między reprezentacjami przez kopie źródłowych obiektów zamiast tworzyć niezależne elementy bez powiązania."
     falsifiable: true
@@ -168,7 +168,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy ta sama informacja przechodzi między zapisem symbolicznym, geometrycznym i tekstowym."
 
-  - id: usuwanie-kodu-martwego
+  - id: code-2025-grover-usuwanie-kodu-martwego
     topic: anty-wzorce
     rule: "Usuwaj nieaktywne bloki warunkowe oraz kod znajdujący się po bezwarunkowym return."
     falsifiable: true

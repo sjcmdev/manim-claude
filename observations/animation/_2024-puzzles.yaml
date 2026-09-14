@@ -1,6 +1,6 @@
 observations:
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2024-puzzles-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Czytaj tracker wprost w updaterach zależnych od jego bieżącej wartości i nie przyjmuj tam `dt`; używaj `dt` wyłącznie do ruchu kumulowanego klatka po klatce."
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: "Obowiązuje, gdy updater wylicza stan z trackera albo steruje ciągłą prędkością."
 
   - id: nazwane-zaleznosci
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Wydzielaj nazwany updater dla zależności obejmującej kilka obiektów i zapisuj w nim wyłącznie stan obiektu zależnego."
     falsifiable: true
     evidence:
@@ -21,7 +21,7 @@ observations:
     applies_to: "Obowiązuje, gdy jeden updater musi zsynchronizować kilka części z innymi obiektami."
 
   - id: odbudowa-geometrii-zrodlowej
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Odbudowuj zależną geometrię przez `always_redraw` albo `become`, gdy zmienia się jej układ lub liczba elementów."
     falsifiable: true
     evidence:
@@ -32,7 +32,7 @@ observations:
     applies_to: "Obowiązuje dla linii, grup i wykresów wyliczanych ponownie ze stanu źródeł."
 
   - id: kontrola-cyklu-updaterow
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Zawieszaj updatery przed ręcznym ujawnieniem lub transformacją zależnych obiektów, wznawiaj je na czas ruchu źródła i czyść po ustabilizowaniu stanu."
     falsifiable: true
     evidence:
@@ -86,7 +86,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy cała niestandardowa logika mieści się w aktualizacji stanu podczas interpolacji."
 
-  - id: skladanie-ruchow
+  - id: animation-2024-puzzles-skladanie-ruchow
     topic: klasy-animacji
     rule: "Łącz ruchy równoległe w `AnimationGroup` albo pojedynczym `play`, a kolejne etapy układaj w `LaggedStart` lub `LaggedStartMap`."
     falsifiable: true
@@ -97,7 +97,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy kilka części ma wejść razem, ale z kontrolowanym opóźnieniem między nimi."
 
-  - id: rate-func-dla-powrotu
+  - id: animation-2024-puzzles-rate-func-dla-powrotu
     topic: klasy-animacji
     rule: "Ustawiaj `there_and_back` albo `there_and_back_with_pause` na ruchach, które mają chwilowo podkreślić stan i wrócić do położenia bazowego."
     falsifiable: true
@@ -166,7 +166,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy obiekt składa się z istniejących mobjectów i nie potrzebuje własnego cyklu życia."
 
-  - id: referencje-do-czesci
+  - id: animation-2024-puzzles-referencje-do-czesci
     topic: custom-mobject
     rule: "Eksponuj semantycznie ważne części jako atrybuty grupy, aby późniejsze animacje mogły zmieniać je niezależnie."
     falsifiable: true

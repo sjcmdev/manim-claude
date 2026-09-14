@@ -1,6 +1,6 @@
 observations:
   - id: tracker-updater-without-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Podpinaj updater zależny od trackera bez parametru dt i odczytuj w nim aktualną wartość trackera."
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: "Obowiązuje, gdy położenie, etykieta lub wartość liczbowa wynika bezpośrednio z ValueTracker."
 
   - id: dt-driven-tracker
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla ruchu zależnego od upływu czasu aktualizuj tracker przyrostowo przez dt."
     falsifiable: true
     evidence:
@@ -19,7 +19,7 @@ observations:
     applies_to: "Obowiązuje, gdy obiekt ma poruszać się samoczynnie podczas oczekiwania sceny."
 
   - id: restore-before-deformation
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przed każdym przeliczeniem deformowanego obiektu przywracaj jego zapisany stan bazowy."
     falsifiable: true
     evidence:
@@ -29,7 +29,7 @@ observations:
     applies_to: "Obowiązuje, gdy updater wielokrotnie nakłada transformację geometryczną na ten sam obiekt."
 
   - id: bind-loop-index
-    topic: updatery
+    topic: stan-i-updatery
     rule: "W updaterach tworzonych w pętli wiąż indeks jako argument domknięcia."
     falsifiable: true
     evidence:
@@ -39,7 +39,7 @@ observations:
     applies_to: "Obowiązuje, gdy wiele podobnych obiektów otrzymuje updatery wewnątrz pętli."
 
   - id: rebuild-derived-geometry
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla geometrii pochodnej buduj nowy wynik w funkcji obliczającej i podmieniaj nim mobject przez become."
     falsifiable: true
     evidence:
@@ -49,7 +49,7 @@ observations:
     applies_to: "Obowiązuje, gdy wygląd obiektu zależy od kilku zmiennych parametrów i łatwiej go odtworzyć niż modyfikować punkt po punkcie."
 
   - id: explicit-updater-lifecycle
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Czyść, wstrzymuj i wznawiaj updatery jawnie na granicach transformacji."
     falsifiable: true
     evidence:

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2026-cross_entropy.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "b00d9cb37c15e782ce167c7ebfa8babb0491cc6258c12ee52d303e7c3ac32577",
+  "provenance_status": "legacy-unverified"
+}

@@ -1,6 +1,6 @@
 observations:
   - id: named-vs-lambda-updater
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Używaj nazwanej funkcji updatera do wieloetapowej przebudowy geometrii, a lambdy ograniczaj do pojedynczego powiązania właściwości."
     falsifiable: true
     evidence:
@@ -11,7 +11,7 @@ observations:
     applies_to: "Gdy updater albo odtwarza kształt, albo wykonuje więcej niż jedną operację zależną od stanu."
 
   - id: tracker-without-dt
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Steruj zależnością od trackera updaterem, który odczytuje jego wartość w każdej klatce i nie przyjmuje dt."
     falsifiable: true
     evidence:
@@ -22,7 +22,7 @@ observations:
     applies_to: "Gdy animacja ustawia parametr przez ValueTracker.animate."
 
   - id: dt-and-external-state
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przy symulacji ruchu przyjmuj dt i przechowuj stan poprzednich kroków poza mobjectem, odwracając go przy przekroczeniu granicy."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Gdy ruch zależy od prędkości, czasu i reakcji na granice."
 
   - id: rebuild-vs-mutate
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Używaj always_redraw do obiektu tworzonego od nowa z bieżących zależności, a zwykłego updatera do zachowania tożsamości istniejącego obiektu."
     falsifiable: true
     evidence:
@@ -43,7 +43,7 @@ observations:
     applies_to: "Gdy obiekt zależy od trackera, ale czasem wymaga pełnej rekonstrukcji, a czasem tylko mutacji."
 
   - id: time-based-ambient-motion
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla ciągłego ruchu ambientowego zapisz czas początkowy tuż przed podpięciem updatera i wyznaczaj pozycję z self.time."
     falsifiable: true
     evidence:
@@ -54,7 +54,7 @@ observations:
     applies_to: "Gdy kamera ma poruszać się niezależnie od głównej animacji sceny."
 
   - id: separate-dependent-properties
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Rozdziel aktualizację niezależnych właściwości jednego obiektu na osobne updatery."
     falsifiable: true
     evidence:

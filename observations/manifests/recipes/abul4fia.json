@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "recipes/abul4fia.yaml",
+  "document_type": "recipes",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "0a13bbdb19b2fc287244d405013bdd7115f28ace8aaf6a36a6d7a5bc09de62aa",
+  "provenance_status": "legacy-unverified"
+}

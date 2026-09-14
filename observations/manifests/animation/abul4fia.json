@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/abul4fia.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "1bba33aed013f88be64d6a46919b04df5ba4829c9e46b8765d143d04a66a2673",
+  "provenance_status": "legacy-unverified"
+}

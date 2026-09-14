@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2024-transformers.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "7b208223be3d48a8b409f9ba87854ccb597ce964e37e00eb8c3fb654e443a6d3",
+  "provenance_status": "legacy-unverified"
+}

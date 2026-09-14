@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/_2018-div_curl.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "b8007a76522d35a7121bec5eee8083b244a6eb909ef95ac194ba290e454463b0",
+  "provenance_status": "legacy-unverified"
+}

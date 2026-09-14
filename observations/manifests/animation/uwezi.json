@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "animation/uwezi.yaml",
+  "document_type": "animation",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "d8381213ad948320febcb974bdec068b9da82639b44aefa5c227d579f4971f7b",
+  "provenance_status": "legacy-unverified"
+}

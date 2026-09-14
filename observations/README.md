@@ -35,7 +35,7 @@ z `_2023/clt/` w klonie, `mf_tools.yaml` z biblioteki o tej nazwie.
 każdy wpis:
 
 ```yaml
-- id: stan-w-setup            # slug, unikalny w obrębie pliku
+- id: stan-w-setup            # slug, unikalny w całym korpusie
   topic: stan-i-updatery      # kategoria tematyczna
   rule: "..."                 # reguła w trybie rozkazującym, jedno zdanie
   falsifiable: true           # czy da się wskazać kod, który ją łamie
@@ -49,6 +49,37 @@ każdy wpis:
 `techniques:`, pola: `nazwa`, `problem` (co boli bez tej techniki), `zamiast`
 (co ta technika wypiera), `kiedy` (warunek sięgnięcia po nią), `dotyczy_bolaczki`
 (kategoria problemu), `zrodlo` (plik i linia), `przenosnosc` (wysoka, średnia, niska).
+
+Kanoniczne tematy obserwacji kodu to: `dekompozycja`, `ponowne-uzycie`,
+`stan-i-updatery`, `kompozycja`, `dane-a-obraz`, `czas-i-tempo` i `anty-wzorce`.
+Obserwacje animacji używają: `stan-i-updatery`, `klasy-animacji`,
+`wejscie-i-sprzatanie` i `custom-mobject`. Dla recipes kanoniczne bolączki to:
+`ponowne-uzycie`, `pokretla-czasowe`, `iteracja-bez-renderu`,
+`przeksztalcanie-wzorow`, `relacje-wielkosci`, `przekazywanie-parametrow`,
+`reset`, `buff` i `szybkosc-vs-dlugosc`; `null` oznacza brak przypisanej kategorii.
+
+Dowód wskazuje pojedynczą linię przez `line` albo jawny zakres przez
+`line_start` i `line_end`. Każdy identyfikator musi być niepusty i globalnie
+unikalny, również pomiędzy podkatalogami korpusu.
+
+## Manifesty i walidacja
+
+Każdy YAML ma odpowiadający mu manifest JSON pod `manifests/`, z odwzorowaniem
+podkatalogu danych, na przykład `code/_2023-clt.yaml` ma manifest
+`manifests/code/_2023-clt.json`. Manifest zapisuje typ dokumentu, pochodzenie,
+parametry przebiegu oraz SHA-256 YAML-a i promptu. Historyczne dane mają status
+`legacy-unverified`, a nieznane metadane są zapisane jako `null` zamiast
+odgadywane.
+
+Pełny korpus sprawdza komenda:
+
+```console
+uv run --with pyyaml python tooling/reference/validate_observations.py
+```
+
+Walidator agreguje błędy składni, schematu, taksonomii, identyfikatorów i
+manifestów. Miner najpierw tworzy YAML i manifest w katalogu tymczasowym,
+waliduje parę, a dopiero potem publikuje oba pliki w katalogu wynikowym.
 
 Warunkiem awansu obserwacji do biblioteki idiomów jest `falsifiable: true`.
 Reguła, której nie da się złamać, nie niesie informacji.

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2017-eoc.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "aed09b483fabb8a2007bc1066e1fe72c3306e97e3313449573a99aa872114eeb",
+  "provenance_status": "legacy-unverified"
+}

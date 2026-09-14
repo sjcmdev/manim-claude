@@ -1,6 +1,6 @@
 observations:
   - id: dt-dla-zegara
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla ruchu o stałej prędkości przyjmuj `dt` i aktualizuj stan jako `prędkość * dt`."
     falsifiable: true
     evidence:
@@ -10,19 +10,19 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla fal, płaszczyzn i innych obiektów poruszających się niezależnie od animacji."
 
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-2024-holograms-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Updater odczytujący `ValueTracker` nie powinien przyjmować `dt`; `dt` powinien obsługiwać osobny updater samego trackera."
     falsifiable: true
     evidence:
       - {source: "_2024/holograms", file: "diffraction.py", line: 3882}
       - {source: "_2024/holograms", file: "diffraction.py", line: 3893}
-      - {source: "_2024/holograms", file: "diffraction.py", line: 420-422}
+      - {source: "_2024/holograms", file: "diffraction.py", line_start: 420, line_end: 422}
     confidence: high
     applies_to: "Obowiązuje, gdy obiekt tylko odczytuje bieżącą wartość trackera."
 
   - id: nazwany-przelicznik-geometrii
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla wieloetapowego przeliczania geometrii nazwij updater i ogranicz jego zapis do obiektu zależnego."
     falsifiable: true
     evidence:
@@ -33,7 +33,7 @@ observations:
     applies_to: "Obowiązuje, gdy updater iteruje po wielu elementach albo wykonuje kilka operacji geometrycznych."
 
   - id: bezposrednie-zaleznosci
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Dla pojedynczej bezpośredniej zależności końcówki, pozycji lub etykiety używaj `always` albo `f_always`."
     falsifiable: true
     evidence:
@@ -44,7 +44,7 @@ observations:
     applies_to: "Obowiązuje, gdy wynik można wyrazić jednym wywołaniem metody zależnym od getterów."
 
   - id: fabryka-dla-redraw
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Gdy zależność wymaga zbudowania nowego obiektu, zamknij konstrukcję w fabryce przekazanej do `always_redraw`."
     falsifiable: true
     evidence:
@@ -54,8 +54,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla dynamicznych etykiet, łuków i grup, których kształt zmienia się całościowo."
 
-  - id: stan-poprzedniej-klatki
-    topic: updatery
+  - id: animation-2024-holograms-stan-poprzedniej-klatki
+    topic: stan-i-updatery
     rule: "Dla kolejki poruszających się elementów odczytuj stan z bieżącego mobjecta, przesuwaj go przez `dt`, a po przekroczeniu progu przepinaj i sortuj elementy."
     falsifiable: true
     evidence:
@@ -65,8 +65,8 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla powtarzalnych frontów fal i innych obiektów zawijanych po dojściu do granicy."
 
-  - id: kontrola-cyklu-updatera
-    topic: updatery
+  - id: animation-2024-holograms-kontrola-cyklu-updatera
+    topic: stan-i-updatery
     rule: "Czyść, zawieszaj i wznawiaj updatery dokładnie przy zmianie trybu pracy obiektu."
     falsifiable: true
     evidence:
@@ -77,7 +77,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje przed ręcznym przestawianiem obiektu, transformacją lub jego ponownym użyciem."
 
-  - id: skladanie-ruchow
+  - id: animation-2024-holograms-skladanie-ruchow
     topic: klasy-animacji
     rule: "Składaj ruch kilku obiektów z `AnimationGroup`, `LaggedStart` lub równoległych argumentów `play`, zamiast tworzyć podklasę `Animation`."
     falsifiable: true
@@ -99,7 +99,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy animowany mobject ma stan czasu aktualizowany niezależnie od animacji."
 
-  - id: rate-func-wedlug-roli
+  - id: animation-2024-holograms-rate-func-wedlug-roli
     topic: klasy-animacji
     rule: "Ustawiaj `linear` dla przebiegów o stałej prędkości, a `there_and_back` lub jego odmianę dla chwilowego podkreślenia albo testowego wychylenia."
     falsifiable: true
@@ -132,7 +132,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy obiekt ma wizualny anchor oraz jedną lub więcej etykiet objaśniających."
 
-  - id: transformuj-ciaglosc
+  - id: animation-2024-holograms-transformuj-ciaglosc
     topic: wejscie-i-sprzatanie
     rule: "Jeśli kolejny stan przedstawia ten sam element, przechodź do niego przez `Transform`, `ReplacementTransform` albo `TransformFromCopy`."
     falsifiable: true
@@ -143,7 +143,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy obiekt zmienia reprezentację, nazwę lub konfigurację, ale zachowuje ciągłość znaczeniową."
 
-  - id: przygaszaj-kontekst
+  - id: animation-2024-holograms-przygaszaj-kontekst
     topic: wejscie-i-sprzatanie
     rule: "Kontekst potrzebny później przygaszaj zmianą opacity zamiast usuwać go ze sceny."
     falsifiable: true
@@ -165,7 +165,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy pomocnicze elementy przestają być potrzebne razem, a główny obiekt ma pozostać."
 
-  - id: parametry-w-init
+  - id: animation-2024-holograms-parametry-w-init
     topic: custom-mobject
     rule: "W `__init__` zapisuj źródła geometrii, kształt i domyślne parametry renderowania, a późniejsze zmiany kieruj przez metody mutujące."
     falsifiable: true

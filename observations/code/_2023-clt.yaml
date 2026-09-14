@@ -10,7 +10,7 @@ observations:
     confidence: high
     applies_to: "Stosuj, gdy kilka scen używa tej samej geometrii lub transformacji."
 
-  - id: warianty-przez-dziedziczenie
+  - id: code-2023-clt-warianty-przez-dziedziczenie
     topic: ponowne-uzycie
     rule: "Twórz warianty scen przez dziedziczenie i nadpisywanie atrybutów konfiguracyjnych zamiast kopiowania całego construct."
     falsifiable: true
@@ -21,7 +21,7 @@ observations:
     confidence: high
     applies_to: "Stosuj, gdy wariant różni się parametrami, rozkładem lub finałowym montażem."
 
-  - id: stan-w-setup
+  - id: code-2023-clt-stan-w-setup
     topic: stan-i-updatery
     rule: "Inicjalizuj szablony i stan współdzielony między etapami w setup, a sekwencję animacji prowadź w construct."
     falsifiable: true

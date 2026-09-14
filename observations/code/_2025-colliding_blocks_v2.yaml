@@ -11,7 +11,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy ujęcie ma własny cykl tworzenia, animowania i wygaszania."
 
-  - id: warianty-przez-dziedziczenie
+  - id: code-2025-colliding-blocks-v2-warianty-przez-dziedziczenie
     topic: dekompozycja
     rule: "Buduj serię wariantów tego samego ujęcia przez dziedziczenie i atrybuty klasowe zamiast kopiowania konstrukcji sceny."
     falsifiable: true
@@ -46,7 +46,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy kolejne części jednego ujęcia przedstawiają tę samą scenę od innego stanu początkowego."
 
-  - id: kontrola-updaterow
+  - id: code-2025-colliding-blocks-v2-kontrola-updaterow
     topic: stan-i-updatery
     rule: "Zawieszaj updatery przed ręcznym przestawieniem obiektu i wznawiaj je dopiero po zakończeniu animacji wyjaśniającej."
     falsifiable: true

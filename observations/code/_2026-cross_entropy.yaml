@@ -10,7 +10,7 @@ observations:
     confidence: high
     applies_to: Gdy materiał zawiera główną narrację, wstawki, testy lub alternatywne wersje ujęć.
 
-  - id: warianty-przez-dziedziczenie
+  - id: code-2026-cross-entropy-warianty-przez-dziedziczenie
     topic: dekompozycja
     rule: Buduj warianty scen przez dziedziczenie i nadpisuj konfigurację atrybutami klasy, gdy logika ujęcia pozostaje ta sama.
     falsifiable: true
@@ -44,7 +44,7 @@ observations:
     confidence: high
     applies_to: Gdy wizualny komponent pojawia się w kilku plikach scen.
 
-  - id: tracker-jako-zrodlo-stanu
+  - id: code-2026-cross-entropy-tracker-jako-zrodlo-stanu
     topic: stan-i-updatery
     rule: Trzymaj liczbowy stan ujęcia w ValueTrackerze i aktualizuj z niego wszystkie zależne obiekty przez updatery.
     falsifiable: true

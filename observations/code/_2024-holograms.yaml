@@ -167,7 +167,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy scena korzysta z klatek generowanych z zewnętrznego nagrania."
 
-  - id: usuwanie-kodu-martwego
+  - id: code-2024-holograms-usuwanie-kodu-martwego
     topic: anty-wzorce
     rule: "Usuwaj wyłączone gałęzie, stare sekcje, puste sceny i instrukcje umieszczone po return przed uznaniem pliku za wzorzec do ponownego użycia."
     falsifiable: true

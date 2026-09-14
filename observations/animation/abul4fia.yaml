@@ -1,6 +1,6 @@
 observations:
   - id: stan-sekwencji-w-domknieciu
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Przechowuj bieżącą animację i jej updater w stanie domknięcia, a po zakończeniu przełączaj je na następny element listy."
     falsifiable: true
     evidence:
@@ -9,8 +9,8 @@ observations:
     confidence: high
     applies_to: "Updatery realizujące sekwencję animacji działającą poza self.play."
 
-  - id: tracker-bez-dt
-    topic: updatery
+  - id: animation-abul4fia-tracker-bez-dt
+    topic: stan-i-updatery
     rule: "Updater oparty na ValueTrackerze definiuj bez parametru dt i odczytuj wartość trackera bezpośrednio podczas każdej rekonstrukcji."
     falsifiable: true
     evidence:
@@ -20,7 +20,7 @@ observations:
     applies_to: "Updatery, których pozycja wynika ze stanu ValueTrackera, a nie z całkowania czasu."
 
   - id: domknij-animacje-sekwencji
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Po wykryciu końca animacji wywołuj finish i clean_up_from_scene, a po opróżnieniu kolejki usuń updater sceny."
     falsifiable: true
     evidence:

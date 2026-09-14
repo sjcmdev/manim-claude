@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2023-convolutions2.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "4140eeafecc69cd85f8bd2cee41d739374e7829eea62435fae184992331541d4",
+  "provenance_status": "legacy-unverified"
+}

@@ -11,7 +11,7 @@ observations:
     confidence: high
     applies_to: 'Obowiązuje, gdy kilka scen używa tego samego układu obiektów i różni się funkcją, danymi lub tempem.'
 
-  - id: stan-w-setup
+  - id: code-2023-convolutions2-stan-w-setup
     topic: stan-i-updatery
     rule: 'Buduj współdzielony stan sceny w setup() i zapisuj go na self, aby construct() oraz klasy potomne operowały na tych samych obiektach.'
     falsifiable: true
@@ -23,7 +23,7 @@ observations:
     confidence: high
     applies_to: 'Obowiązuje, gdy kilka etapów sceny lub podklas potrzebuje tych samych osi, wykresów albo trackerów.'
 
-  - id: tracker-jako-zrodlo-stanu
+  - id: code-2023-convolutions2-tracker-jako-zrodlo-stanu
     topic: stan-i-updatery
     rule: 'Trzymaj zmienny parametr ujęcia w ValueTracker, wyprowadzaj z niego zależne obiekty przez updatery lub always_redraw i animuj sam tracker.'
     falsifiable: true
@@ -133,7 +133,7 @@ observations:
     confidence: high
     applies_to: 'Obowiązuje, gdy scena pokazuje wielokrotne zastosowanie tej samej operacji numerycznej.'
 
-  - id: absolutne-sciezki-zasobow
+  - id: code-2023-convolutions2-absolutne-sciezki-zasobow
     topic: anty-wzorce
     rule: 'Nie odwołuj się do zasobów przez absolutną ścieżkę lokalnego komputera; używaj ścieżki względnej albo konfigurowalnego korzenia.'
     falsifiable: true

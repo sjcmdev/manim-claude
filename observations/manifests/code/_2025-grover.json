@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2025-grover.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "76690d7ff5655755d5dadc562a27ec7bf2c83b22566c4ae96a4806d7b03f297f",
+  "provenance_status": "legacy-unverified"
+}

@@ -1,6 +1,6 @@
 observations:
   - id: alpha-interpolacja
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Steruj ruchem zależnym od parametru przez callback z `alpha`, interpolując wartość początkową i docelową oraz zapisując wynik w istniejącym mobjectcie."
     falsifiable: true
     evidence:
@@ -10,7 +10,7 @@ observations:
     applies_to: "Obowiązuje dla animacji zmieniających położenie lub geometrię według parametru sceny."
 
   - id: geometria-zrodla
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Synchronizuj obiekt zależny przez odczyt bieżącej geometrii obiektu źródłowego w każdej klatce callbacku, bez wprowadzania `dt` jako mechanizmu synchronizacji."
     falsifiable: true
     evidence:
@@ -20,7 +20,7 @@ observations:
     applies_to: "Obowiązuje dla linii, etykiet i punktów śledzących poruszający się wykres lub mobject."
 
   - id: jawny-stan-updatera
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Trzymaj stan logiczny grupy na mobjectcie i ustawiaj jego wartość końcową po zakończeniu animacji."
     falsifiable: true
     evidence:
@@ -30,7 +30,7 @@ observations:
     applies_to: "Obowiązuje, gdy kolejny updater wyznacza wartość początkową z własności grupy, takiej jak `x_val`."
 
   - id: rownolegle-zaleznosci
-    topic: updatery
+    topic: stan-i-updatery
     rule: "Uruchamiaj zależne od siebie callbacki w jednym `play`, przekazując osobny updater dla każdej części współdzielącej ruch głównego obiektu."
     falsifiable: true
     evidence:
@@ -104,7 +104,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje, gdy kolejny krok ma być wizualną kontynuacją poprzedniego obiektu."
 
-  - id: przygaszaj-kontekst
+  - id: animation-2017-eoc-przygaszaj-kontekst
     topic: wejscie-i-sprzatanie
     rule: "Gdy potrzebujesz zachować kontekst jako tło, przygaś istniejące mobjecty i pozostaw nietkniętą kopię aktualnie omawianego elementu."
     falsifiable: true
@@ -123,7 +123,7 @@ observations:
     confidence: high
     applies_to: "Obowiązuje dla obiektu, którego struktura wynika bezpośrednio z kilku parametrów geometrycznych."
 
-  - id: vgroup-z-nazwanymi-czesciami
+  - id: animation-2017-eoc-vgroup-z-nazwanymi-czesciami
     topic: custom-mobject
     rule: "Zwracaj obiekt złożony jako `VGroup` i przypinaj do niego nazwane części oraz grupy podrzędne, zanim oddasz go scenie."
     falsifiable: true

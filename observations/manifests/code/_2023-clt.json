@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "data_path": "code/_2023-clt.yaml",
+  "document_type": "code",
+  "source_path": null,
+  "source_revision": null,
+  "prompt_path": null,
+  "prompt_sha256": null,
+  "model": null,
+  "effort": null,
+  "generated_at": null,
+  "data_sha256": "e252ac80e268273c3ec547cb4b07ef0346bfde299f2a9c9dba0a4d494113d88d",
+  "provenance_status": "legacy-unverified"
+}
