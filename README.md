@@ -92,7 +92,13 @@ Do mielenia materiału referencyjnego dodatkowo `yt-dlp` oraz `codex`.
 
 Kod i filmy 3b1b są na CC BY-NC-SA 4.0. Nic z tego materiału nie trafia do drzewa projektu:
 klon i wyniki pośrednie leżą w katalogu roboczym poza repozytorium, a do repozytorium wracają
-wyłącznie reguły wraz z odwołaniami do plików i linii. Wymusza to `tooling/reference/common.py`.
+wyłącznie reguły wraz z odwołaniami do plików i linii. Wymusza to `tooling/reference/common.py`
+oraz hook `tooling/hooks/no_3b1b_code.py` (opis w [`tooling/hooks/README.md`](tooling/hooks/README.md)).
+
+## Licencja
+
+Kod: MIT, [`LICENSE`](LICENSE). Dokumentacja, `research/`, `observations/` i przyszłe
+`idioms/`: CC BY-NC-SA 4.0, [`LICENSE-CONTENT.md`](LICENSE-CONTENT.md).
 
 ## Najbliższe kroki
 
