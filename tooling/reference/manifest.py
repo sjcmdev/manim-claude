@@ -11,12 +11,12 @@ from typing import Any
 
 
 def sha256_file(path: Path) -> str:
-    """SHA-256 zawartości pliku, liczony strumieniowo."""
-    digest = hashlib.sha256()
-    with path.open("rb") as source:
-        for chunk in iter(lambda: source.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    """SHA-256 treści z końcami linii sprowadzonymi do LF.
+
+    Git na Windowsie przy checkout zamienia LF na CRLF, więc hash surowych bajtów
+    zależałby od maszyny i konfiguracji klonu.
+    """
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def build_manifest(

@@ -12,6 +12,17 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tooling" / "reference"))
 
 import validate_observations as validator  # noqa: E402
+from manifest import sha256_file  # noqa: E402
+
+
+def test_data_hash_ignores_line_endings(tmp_path: Path) -> None:
+    lf = tmp_path / "lf.yaml"
+    crlf = tmp_path / "crlf.yaml"
+    lf.write_bytes(b"observations:\n  - id: a\n")
+    crlf.write_bytes(b"observations:\r\n  - id: a\r\n")
+
+    assert sha256_file(lf) == sha256_file(crlf)
+
 
 OBSERVATION = """\
 observations:
