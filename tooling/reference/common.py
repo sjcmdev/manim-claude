@@ -21,9 +21,7 @@ def reference_root(arg: str | None = None) -> Path:
     raw = arg or os.environ.get("MANIM_CLAUDE_REFERENCE") or DEFAULT_ROOT
     root = Path(raw).expanduser().resolve()
     if root == REPO_ROOT or REPO_ROOT in root.parents:
-        sys.exit(
-            f"odmowa: {root} leży w repozytorium; materiał referencyjny musi być poza nim"
-        )
+        sys.exit(f"odmowa: {root} leży w repozytorium; materiał referencyjny musi być poza nim")
     root.mkdir(parents=True, exist_ok=True)
     return root
 
