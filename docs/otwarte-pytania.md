@@ -189,3 +189,69 @@ rzutu obiektów przed oceną wizualną.
   zasadą „próg w konfiguracji, reguła mówi o niezmienniku”?
 - Czy korpus 3b1b ma sceny 3D wystarczające do wydobycia idiomów kamery?
 - Jak często próbkować klatki ruchu (stała liczba vs co zmianę kierunku)?
+
+---
+
+## 6. Role agentów i pakiety umiejętności z przeglądu Blendera — przyjąć?
+
+**Źródło.** `research/manim_blender_agent_system_review.md`, rozdziały 8–9. Propozycja:
+3–4 role agentowe plus dużo deterministycznych skilli i narzędzi, zamiast wielu agentów
+przekazujących sobie streszczenia.
+
+### 6a. Role — zestawienie z obecnym projektem (`design-spec.md` 8, `docs/pipeline-komponenty.md`)
+
+| propozycja z przeglądu | odpowiednik u nas | ocena |
+|---|---|---|
+| `Research/Pedagogy Director` — źródła, poprawność fizyczna, tok wyjaśnienia | skill `plan` | **skill, nie agent**: prowadzi bramkę 1 z użytkownikiem, więc musi działać w głównym kontekście. Poprawność fizyczna należy do użytkownika (fizyka to prawda użytkownika); director może ją sprawdzać, nie ustanawiać |
+| `Visual Director` — problem poznawczy → visual beats, wzorce z Pattern Atlas | **brak**; dziś ukryte między `plan` a `storyboard.py` | **luka warta nazwania.** Kandydat: osobny krok skilla `plan` albo agent czytający `idioms/` i atlas; wynik = sekcje storyboardu z intencją wizualną |
+| `Compiler Agent` — IR → Manim/Blender, dwa skille | agent `scene-coder` (później `manimgl-coder`, backend Blender) | zgodne; „dwa skille” = osobne pakiety wiedzy per backend, jeden kontrakt wejścia |
+| `Critic / QA` — preview vs specyfikacja | agent `visual-judge` | zgodne, pod warunkiem że dostaje wynik sprawdzeń mechanicznych (`layout_checks.py`, kamera z pyt. 5) |
+
+### 6b. Pakiety wiedzy (`*-skills`)
+
+| pakiet | ocena |
+|---|---|
+| `manim-*` (API, styl, recipes, atlas 3b1b) | zgodne z torem A: `idioms/` + `observations/recipes` jako materiał skilla |
+| `blender-*` (bpy, Geometry Nodes, receptury domenowe) | zgodne z rekomendacją z pyt. 4 |
+| `physics-*` (QM, teoria grup, przestrzenie wektorowe) | **ostrożnie**: jako retrieval/instrukcje tak, jako autorytet merytoryczny nie; nowy zakres poza MVP1 |
+| `export-*` (slides, PDF, wideo, miniatury) | **raczej skrypty, nie skille** (pyt. 3d): eksport jest deterministyczny; skill tylko tam, gdzie jest decyzja (np. wybór klatek do PDF) |
+
+### 6c. Hooki — co z listy przeglądu naprawdę może być hookiem
+
+D7: hooki wyłącznie tanie i deterministyczne, żaden hook nie renderuje.
+
+| pozycja z przeglądu | rodzaj u nas |
+|---|---|
+| schema validation | **hook** (`storyboard_integrity.py`, walidator korpusu) |
+| lint | **hook** (`check_scene_contract.py` + `lint-rules.yaml`) |
+| SymPy / numeric checks | **hook**, jeśli < 1 s; inaczej skrypt w `build` |
+| git snapshot | **hook** (tani) — do decyzji, czy potrzebny |
+| render smoke test | **skrypt**, nie hook (render) |
+| vision QA | **agent `visual-judge`**, nie hook (model + obraz) |
+
+### 6d. Podział Blendera na capabilities
+
+```text
+przekrojowe (każdy projekt 3D):   blender/core   blender/camera   blender/material   blender/compositor
+domenowe (włączane per projekt):  blender/math-geometry     → Blender_math_anim, Geometry Nodes, ew. Sverchok
+                                  blender/scientific-fields → SciBlend
+                                  blender/volume            → SciBlend (VDB), Geometry Nodes
+                                  blender/crystal           → beautiful-atoms
+                                  blender/molecule          → MolecularNodes
+```
+
+`blender/camera` realizuje kontrakt kamery z pytania 5 (słownik ruchów + sprawdzenia
+widoczności).
+
+**Rekomendacja.** Przyjąć ideę „mało agentów, dużo deterministycznych pakietów” — jest
+zgodna z D7 i z przydziałem w `docs/pipeline-komponenty.md`. Nie przyjmować dosłownie:
+director pedagogiczny to skill, eksport to skrypty, render i vision QA nie są hookami.
+Jedyna nowość do decyzji to **Visual Director**.
+
+**Do ustalenia.**
+- Czy Visual Director wchodzi do MVP1, czy intencja wizualna zostaje polem wypełnianym
+  przez `plan`?
+- Czy „Pattern Atlas” (wzorce: problem poznawczy → strategia wizualna → implementacja)
+  to przyszły format `idioms/`, czy osobny artefakt?
+- Czy nazwy pakietów `manim-*` / `blender-*` / `physics-*` przyjmujemy jako konwencję
+  katalogów w `package/skills/`?
